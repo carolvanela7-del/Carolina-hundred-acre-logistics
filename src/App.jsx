@@ -1,5 +1,84 @@
 import { useState, useEffect, useRef } from "react";
 
+// ─── DATOS UBICACIONES EL SALVADOR ──────────────────────────────────────────
+const SV_DATA = {
+  "San Salvador": {
+    "San Salvador": ["Colonia Escalón","Colonia San Benito","Colonia Miramonte","Colonia Flor Blanca","Colonia Médica","Centro de San Salvador","Mercado Central","Boulevard de los Héroes","Zona Rosa","Colonia Centroamérica","Colonia Santa Marta","Colonia Cucumacayán","Residencial Los Héroes","Colonia Utila"],
+    "Mejicanos": ["Colonia Zacamil","Colonia Amatepec","Colonia Satélite","Colonia Santa Lucía","Centro de Mejicanos"],
+    "Soyapango": ["Colonia Miralvalle","Colonia San Jacinto","Colonia Las Brisas","Centro de Soyapango"],
+    "Ilopango": ["Colonia Santa María","Colonia Las Delicias","Centro de Ilopango"],
+    "Apopa": ["Colonia Guadalupe","Colonia El Carmen","Centro de Apopa"],
+    "Santa Tecla": ["Colonia Buena Vista","Colonia Las Victorias","Centro de Santa Tecla"],
+    "Antiguo Cuscatlán": ["Colonia Maquilishuat","Jardines de Guadalupe","Centro Antiguo Cuscatlán"],
+    "San Marcos": ["Colonia Las Margaritas","Centro de San Marcos"],
+    "Delgado": ["Colonia Cinco de Noviembre","Centro de Delgado"],
+    "Panchimalco": ["Centro de Panchimalco"],
+    "Aguilares": ["Centro de Aguilares"],
+    "Quezaltepeque": ["Centro de Quezaltepeque"],
+    "San Juan Opico": ["Centro de San Juan Opico"]
+  },
+  "Santa Ana": {
+    "Santa Ana": ["Centro de Santa Ana","Colonia Sinaí","Colonia Santa Bárbara","Colonia El Palmar","Colonia Las Vegas"],
+    "Coatepeque": ["Centro de Coatepeque","Colonia San Francisco"],
+    "Chalchuapa": ["Centro de Chalchuapa","Barrio El Calvario"],
+    "Metapán": ["Centro de Metapán"],
+    "Nahuizalco": ["Centro de Nahuizalco"]
+  },
+  "San Miguel": {
+    "San Miguel": ["Centro de San Miguel","Colonia Ciudad Jardín","Colonia Chaparral","Barrio El Calvario","Colonia El Molino"],
+    "Ciudad Barrios": ["Centro de Ciudad Barrios"],
+    "San Francisco Gotera": ["Centro de San Francisco Gotera"]
+  },
+  "Sonsonate": {
+    "Sonsonate": ["Centro de Sonsonate","Colonia Las Palmas","Colonia El Progreso"],
+    "Acajutla": ["Centro de Acajutla"],
+    "Armenia": ["Centro de Armenia"]
+  },
+  "La Libertad": {
+    "La Libertad": ["Puerto de La Libertad","Colonia El Delfín"],
+    "Santa Tecla": ["Colonia Las Victorias","Centro Santa Tecla"],
+    "Antiguo Cuscatlán": ["Jardines de Guadalupe"],
+    "San Juan Opico": ["Centro de San Juan Opico"]
+  },
+  "Usulután": {
+    "Usulután": ["Centro de Usulután","Colonia 15 de Septiembre"],
+    "Jiquilisco": ["Centro de Jiquilisco"],
+    "Santiago de María": ["Centro de Santiago de María"]
+  },
+  "La Unión": {
+    "La Unión": ["Centro de La Unión","Puerto Cutuco"],
+    "Santa Rosa de Lima": ["Centro de Santa Rosa de Lima"]
+  },
+  "Chalatenango": {
+    "Chalatenango": ["Centro de Chalatenango","Colonia El Rosario"],
+    "Aguilares": ["Centro de Aguilares"]
+  },
+  "Cuscatlán": {
+    "Cojutepeque": ["Centro de Cojutepeque","Colonia San Rafael"],
+    "San Pedro Nonualco": ["Centro de San Pedro Nonualco"]
+  },
+  "Ahuachapán": {
+    "Ahuachapán": ["Centro de Ahuachapán","Colonia Las Flores"]
+  },
+  "Cabañas": {
+    "Sensuntepeque": ["Centro de Sensuntepeque"],
+    "Ilobasco": ["Centro de Ilobasco"]
+  },
+  "La Paz": {
+    "Zacatecoluca": ["Centro de Zacatecoluca","Colonia El Carmen"],
+    "San Luis Talpa": ["Centro de San Luis Talpa"],
+    "Santiago Nonualco": ["Centro de Santiago Nonualco"]
+  },
+  "Morazán": {
+    "San Francisco Gotera": ["Centro de San Francisco Gotera"]
+  },
+  "San Vicente": {
+    "San Vicente": ["Centro de San Vicente"],
+    "Ilobasco": ["Centro de Ilobasco"],
+    "San Sebastián": ["Centro de San Sebastián"]
+  }
+};
+
 // ─── COORDENADAS hardcodeadas El Salvador ───────────────────────────────────
 const SV_COORDS = {
   "Bodega central":              [13.7034, -89.2182],
@@ -121,8 +200,7 @@ const C = {
   red:        "#DC2626",
   redLight:   "#FEF2F2",
   white:      "#FFFFFF",
-  // ── Sidebar BLANCO ──
-  sidebarBg:      "#FFFFFF",       // <-- CAMBIADO a blanco
+  sidebarBg:      "#FFFFFF",
   sidebarText:    "#412402",
   sidebarMuted:   "#855010",
   sidebarActive:  "#633806",
@@ -339,6 +417,67 @@ function Stepper({ estado }) {
   );
 }
 
+// ─── SELECTOR UBICACIÓN EN CASCADA ──────────────────────────────────────────
+const selStyle = (disabled) => ({
+  width: "100%", padding: "8px 28px 8px 10px",
+  borderRadius: 8, border: `1px solid ${C.border}`,
+  background: disabled ? C.grayLight : C.white,
+  color: disabled ? "#9CA3AF" : C.text,
+  fontSize: 13, cursor: disabled ? "not-allowed" : "pointer",
+  appearance: "none", outline: "none",
+  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+  backgroundRepeat: "no-repeat", backgroundPosition: "right 10px center",
+  opacity: disabled ? 0.5 : 1,
+});
+
+function UbicacionSelector({ label, accentColor, value, onChange }) {
+  const { departamento, municipio, colonia } = value;
+  const departamentos = Object.keys(SV_DATA);
+  const municipios    = departamento ? Object.keys(SV_DATA[departamento] || {}) : [];
+  const colonias      = departamento && municipio ? (SV_DATA[departamento]?.[municipio] || []) : [];
+
+  const handleDep = (e) => onChange({ departamento: e.target.value, municipio: "", colonia: "" });
+  const handleMun = (e) => onChange({ departamento, municipio: e.target.value, colonia: "" });
+  const handleCol = (e) => onChange({ departamento, municipio, colonia: e.target.value });
+
+  return (
+    <div>
+      <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8 }}>
+        <div style={{ width:8, height:8, borderRadius:"50%", background:accentColor }} />
+        <span style={{ fontSize:12, fontWeight:600, color:C.gray }}>{label}</span>
+        {(departamento) && (
+          <span style={{ marginLeft:"auto", fontSize:11, fontWeight:600, background:accentColor+"22", color:accentColor, border:`1px solid ${accentColor}44`, borderRadius:99, padding:"1px 8px" }}>
+            {colonia || municipio || departamento}
+          </span>
+        )}
+      </div>
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:8 }}>
+        <div>
+          <label style={{ fontSize:11, fontWeight:600, color:C.gray, display:"block", marginBottom:3 }}>Departamento</label>
+          <select value={departamento} onChange={handleDep} style={selStyle(false)}>
+            <option value="">Seleccionar…</option>
+            {departamentos.map(d => <option key={d} value={d}>{d}</option>)}
+          </select>
+        </div>
+        <div>
+          <label style={{ fontSize:11, fontWeight:600, color:C.gray, display:"block", marginBottom:3 }}>Municipio</label>
+          <select value={municipio} onChange={handleMun} disabled={!departamento} style={selStyle(!departamento)}>
+            <option value="">Seleccionar…</option>
+            {municipios.map(m => <option key={m} value={m}>{m}</option>)}
+          </select>
+        </div>
+        <div>
+          <label style={{ fontSize:11, fontWeight:600, color:C.gray, display:"block", marginBottom:3 }}>Colonia / zona</label>
+          <select value={colonia} onChange={handleCol} disabled={!municipio} style={selStyle(!municipio)}>
+            <option value="">Seleccionar…</option>
+            {colonias.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ══════════════════════════════════════════════════════════════════════════════
 // VISTA: LOGIN
 // ══════════════════════════════════════════════════════════════════════════════
@@ -367,30 +506,24 @@ function LoginView({ onLogin }) {
           <p style={{ margin:"10px 0 3px", fontSize:19, color:"#412402", fontWeight:300, letterSpacing:"0.3px" }}>Hundred Acre Logistics</p>
           <p style={{ color:"#aaa", fontSize:12, margin:0, fontWeight:300 }}>Ingresa al sistema del bosque</p>
         </div>
-
         <label style={{ fontSize:11, color:"#aaa", fontWeight:300, display:"block", marginBottom:5 }}>Email</label>
         <input value={email} onChange={e=>setEmail(e.target.value)} placeholder="rabbit@hundredacre.com"
           onKeyDown={e=>e.key==="Enter"&&login()}
           style={{ width:"100%", padding:"10px 12px", border:"1px solid #e8e8e8", borderRadius:8, fontSize:13, fontWeight:300, marginBottom:14, boxSizing:"border-box", outline:"none", background:"#f9fbff", color:"#333" }}/>
-
         <label style={{ fontSize:11, color:"#aaa", fontWeight:300, display:"block", marginBottom:5 }}>Contraseña</label>
         <input type="password" value={pass} onChange={e=>setPass(e.target.value)} placeholder="••••••••"
           onKeyDown={e=>e.key==="Enter"&&login()}
           style={{ width:"100%", padding:"10px 12px", border:"1px solid #e8e8e8", borderRadius:8, fontSize:13, fontWeight:300, marginBottom:16, boxSizing:"border-box", outline:"none", background:"#f9fbff", color:"#333" }}/>
-
         {err && <div style={{ background:"#FEF2F2", color:"#DC2626", borderRadius:8, padding:"8px 12px", fontSize:12, fontWeight:300, marginBottom:12 }}>{err}</div>}
-
         <button onClick={login}
           style={{ width:"100%", padding:"12px", background:"#EF9F27", color:"#fff", border:"none", borderRadius:8, fontWeight:300, fontSize:14, letterSpacing:"0.3px", cursor:"pointer" }}>
           Entrar al bosque 🌳
         </button>
-
         <div style={{ marginTop:16, padding:"12px", background:"#FAEEDA", borderRadius:8, fontSize:11, color:"#633806", fontWeight:300, lineHeight:2, textAlign:"center" }}>
           <span style={{ fontWeight:400 }}>Demo:</span><br/>
           🐰 rabbit@hundredacre.com / honey123<br/>
           🐯 tigger@hundredacre.com / honey123
         </div>
-
         <p style={{ textAlign:"center", marginTop:14, fontSize:11, color:"#aaa", fontWeight:300 }}>
           ¿Eres cliente?{" "}
           <span style={{ color:"#EF9F27", cursor:"pointer" }} onClick={()=>onLogin("piglet","")}>
@@ -403,7 +536,7 @@ function LoginView({ onLogin }) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// VISTA: PIGLET  — fondo ahora igual al sidebar del admin (#FFF5E6)
+// VISTA: PIGLET
 // ══════════════════════════════════════════════════════════════════════════════
 function PigletView({ envios, onLogout }) {
   const [code,   setCode]   = useState("");
@@ -426,7 +559,6 @@ function PigletView({ envios, onLogout }) {
   const curIdx = result && result!=="notfound" && result!=="invisible" ? STEPS.indexOf(result.estado) : -1;
 
   return (
-    // ── ÚNICO CAMBIO: background cambiado de C.grayLight a C.sidebarBg (#FFF5E6) ──
     <div style={{ minHeight:"100vh", background:C.sidebarBg }}>
       <div style={{ background:"#FFF5E6", padding:"20px 24px 18px", position:"relative", borderBottom:`1px solid #F5E6B4` }}>
         <div style={{ textAlign:"center" }}>
@@ -438,7 +570,6 @@ function PigletView({ envios, onLogout }) {
           ← Salir
         </button>
       </div>
-
       <div style={{ maxWidth:480, margin:"0 auto", padding:"28px 16px" }}>
         <div style={{ background:C.white, borderRadius:14, padding:"20px", boxShadow:"0 2px 12px rgba(0,0,0,0.07)", marginBottom:20 }}>
           <div style={{ fontSize:12, fontWeight:600, color:C.gray, marginBottom:8 }}>Número de guía</div>
@@ -451,7 +582,6 @@ function PigletView({ envios, onLogout }) {
             </button>
           </div>
         </div>
-
         {result==="notfound" && (
           <div style={{ background:C.redLight, color:C.red, borderRadius:10, padding:"12px 16px", fontSize:13 }}>
             No se encontró el envío. Verificá el código.
@@ -462,7 +592,6 @@ function PigletView({ envios, onLogout }) {
             ⏳ Tu paquete aún no ingresó a bodega. En breve podrás rastrearlo.
           </div>
         )}
-
         {result && result!=="notfound" && result!=="invisible" && (
           <>
             <div style={{ background:C.white, borderRadius:14, padding:"20px", boxShadow:"0 2px 12px rgba(0,0,0,0.07)", marginBottom:14 }}>
@@ -481,7 +610,6 @@ function PigletView({ envios, onLogout }) {
                 </a>
               )}
             </div>
-
             <div style={{ background:C.white, borderRadius:14, overflow:"hidden", boxShadow:"0 2px 12px rgba(0,0,0,0.07)", marginBottom:14 }}>
               <div style={{ padding:"14px 18px 10px", borderBottom:`1px solid ${C.border}` }}>
                 <div style={{ fontWeight:600, fontSize:14, marginBottom:6 }}>📍 Ruta de tu paquete — El Salvador</div>
@@ -501,7 +629,6 @@ function PigletView({ envios, onLogout }) {
                 <MapaAB origen={result.origen} destino={result.destino} />
               </div>
             </div>
-
             <div style={{ background:C.white, borderRadius:14, padding:"20px", boxShadow:"0 2px 12px rgba(0,0,0,0.07)", marginBottom:14 }}>
               <div style={{ fontWeight:600, fontSize:14, marginBottom:14 }}>Historial del paquete</div>
               {STEPS.map((st, i) => {
@@ -527,14 +654,12 @@ function PigletView({ envios, onLogout }) {
                 );
               })}
             </div>
-
             <div style={{ background:C.honeyLight, border:`1px solid ${C.honey}55`, borderRadius:10, padding:"12px 14px", fontSize:12, color:C.honeyDark }}>
               <div style={{ fontWeight:600, marginBottom:2 }}>🔒 Tu privacidad</div>
               No necesitás crear cuenta. Solo ves el estado de TU paquete.
             </div>
           </>
         )}
-
         <p style={{ textAlign:"center", fontSize:11, color:"#9CA3AF", marginTop:20 }}>
           Demo: HAW001 (en ruta) · HAW002 (bodega) · HAW003 (invisible) · HAW004 (entregado)
         </p>
@@ -550,34 +675,53 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
   const [section,     setSection]     = useState("paquetes");
   const [driverSel,   setDriverSel]   = useState({});
   const [mostrarForm, setMostrarForm] = useState(false);
-  const [form,        setForm]        = useState({ cliente:"", telefono:"", producto:"", origen:"", destino:"" });
+  const [form,        setForm]        = useState({ cliente:"", telefono:"", producto:"" });
+  const [origenLoc,   setOrigenLoc]   = useState({ departamento:"", municipio:"", colonia:"" });
+  const [destinoLoc,  setDestinoLoc]  = useState({ departamento:"", municipio:"", colonia:"" });
   const [formErr,     setFormErr]     = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleSection = (id) => { setSection(id); setSidebarOpen(false); };
 
   const crearPaquete = () => {
-    if (!form.cliente.trim()||!form.producto.trim()||!form.origen.trim()||!form.destino.trim())
-      return setFormErr("Completá todos los campos.");
-    const num   = String(envios.length+1).padStart(3,"0");
-    const nuevo = { id:`HAW${num}`, ...form, estado:"CREADO", driver:"", hora:{ CREADO:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"}) } };
-    setEnvios(p=>[...p,nuevo]);
-    setForm({ cliente:"", telefono:"", producto:"", origen:"", destino:"" });
-    setFormErr(""); setMostrarForm(false);
+    const origenStr  = origenLoc.colonia  || origenLoc.municipio  || origenLoc.departamento;
+    const destinoStr = destinoLoc.colonia || destinoLoc.municipio || destinoLoc.departamento;
+
+    if (!form.cliente.trim() || !form.producto.trim() || !origenStr || !destinoStr)
+      return setFormErr("Completá todos los campos, incluyendo origen y destino.");
+
+    const num   = String(envios.length + 1).padStart(3, "0");
+    const nuevo = {
+      id: `HAW${num}`,
+      cliente: form.cliente,
+      telefono: form.telefono,
+      producto: form.producto,
+      origen: origenStr,
+      destino: destinoStr,
+      estado: "CREADO",
+      driver: "",
+      hora: { CREADO: new Date().toLocaleTimeString("es", { hour:"2-digit", minute:"2-digit" }) }
+    };
+    setEnvios(p => [...p, nuevo]);
+    setForm({ cliente:"", telefono:"", producto:"" });
+    setOrigenLoc({ departamento:"", municipio:"", colonia:"" });
+    setDestinoLoc({ departamento:"", municipio:"", colonia:"" });
+    setFormErr("");
+    setMostrarForm(false);
   };
 
-  const recibirBodega = id => setEnvios(p=>p.map(e=>
-    e.id===id&&e.estado==="CREADO"
-      ? {...e, estado:"EN_ALMACEN", hora:{...e.hora, EN_ALMACEN:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
+  const recibirBodega = id => setEnvios(p => p.map(e =>
+    e.id===id && e.estado==="CREADO"
+      ? { ...e, estado:"EN_ALMACEN", hora:{ ...e.hora, EN_ALMACEN:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"}) } }
       : e
   ));
 
   const despachar = id => {
     const dr = driverSel[id];
     if (!dr) return alert("Seleccioná un driver primero.");
-    setEnvios(p=>p.map(e=>
-      e.id===id&&e.estado==="EN_ALMACEN"
-        ? {...e, estado:"EN_RUTA", driver:dr, hora:{...e.hora, EN_RUTA:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
+    setEnvios(p => p.map(e =>
+      e.id===id && e.estado==="EN_ALMACEN"
+        ? { ...e, estado:"EN_RUTA", driver:dr, hora:{ ...e.hora, EN_RUTA:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"}) } }
         : e
     ));
   };
@@ -602,37 +746,19 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
     { id:"config",      icon:"⚙️",  label:"Configuración" },
   ];
 
-  const activeEnvios   = envios.filter(e=>e.estado!=="ENTREGADO");
-  const tiggersActivos = DRIVERS.filter(d=>envios.some(e=>e.driver===d&&e.estado==="EN_RUTA")).length;
-  const enRutaCount    = envios.filter(e=>e.estado==="EN_RUTA").length;
+  const activeEnvios   = envios.filter(e => e.estado !== "ENTREGADO");
+  const tiggersActivos = DRIVERS.filter(d => envios.some(e => e.driver===d && e.estado==="EN_RUTA")).length;
+  const enRutaCount    = envios.filter(e => e.estado === "EN_RUTA").length;
+  const isDesktop      = typeof window !== "undefined" && window.innerWidth >= 768;
 
-  const isDesktop = typeof window !== "undefined" && window.innerWidth >= 768;
-
-  // ── Sidebar BLANCO ───────────────────────────────
   const sidebarStyle = isDesktop
-    ? {
-        width:220,
-        background: C.sidebarBg,
-        borderRight: `1px solid ${C.sidebarBorder}`,
-        display:"flex", flexDirection:"column", flexShrink:0
-      }
-    : {
-        width:220,
-        background: C.sidebarBg,
-        borderRight: `1px solid ${C.sidebarBorder}`,
-        display:"flex", flexDirection:"column", flexShrink:0,
-        position:"fixed", top:0, left:0, height:"100%", zIndex:300,
-        transform:sidebarOpen?"translateX(0)":"translateX(-100%)",
-        transition:"transform 0.25s cubic-bezier(0.4,0,0.2,1)",
-        boxShadow:sidebarOpen?"4px 0 24px rgba(0,0,0,0.15)":"none"
-      };
+    ? { width:220, background:C.sidebarBg, borderRight:`1px solid ${C.sidebarBorder}`, display:"flex", flexDirection:"column", flexShrink:0 }
+    : { width:220, background:C.sidebarBg, borderRight:`1px solid ${C.sidebarBorder}`, display:"flex", flexDirection:"column", flexShrink:0, position:"fixed", top:0, left:0, height:"100%", zIndex:300, transform:sidebarOpen?"translateX(0)":"translateX(-100%)", transition:"transform 0.25s cubic-bezier(0.4,0,0.2,1)", boxShadow:sidebarOpen?"4px 0 24px rgba(0,0,0,0.15)":"none" };
 
   const FORM_FIELDS = [
-    ["cliente",  "Cliente / destinatario",         "Ej: Piglet"],
-    ["telefono", "Teléfono",                       "Ej: 7755-1234"],
-    ["producto", "Producto",                       "Ej: Tarro de miel × 3"],
-    ["origen",   "Origen (depto, municipio, col)", "Ej: Colonia Escalón"],
-    ["destino",  "Destino (depto, municipio, col)","Ej: San Miguel"],
+    ["cliente",  "Cliente / destinatario", "Ej: Piglet"],
+    ["telefono", "Teléfono",               "Ej: 7755-1234"],
+    ["producto", "Producto",               "Ej: Tarro de miel × 3"],
   ];
 
   return (
@@ -643,45 +769,30 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
           style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.30)", zIndex:250, backdropFilter:"blur(2px)" }}/>
       )}
 
-      {/* ── SIDEBAR BLANCO ── */}
       <aside style={sidebarStyle}>
         <div style={{ padding:"20px 18px 14px", borderBottom:`1px solid ${C.sidebarBorder}` }}>
           <HoneyBearAnim />
           <div style={{ fontSize:13, fontWeight:700, color:C.sidebarText, marginTop:4, letterSpacing:"0.2px" }}>Hundred Acre Wood</div>
           <div style={{ fontSize:11, color:C.sidebarMuted, marginTop:2 }}>Panel de despacho — Owl Admin</div>
         </div>
-
         <div style={{ padding:"10px 0", flex:1 }}>
           <div style={{ fontSize:10, fontWeight:700, color:C.sidebarMuted, letterSpacing:1.2, padding:"8px 18px 4px", textTransform:"uppercase" }}>MENÚ</div>
           {MENU.map(m => {
             const active = section === m.id;
             return (
               <button key={m.id} onClick={()=>handleSection(m.id)}
-                style={{
-                  display:"flex", alignItems:"center", gap:10,
-                  width:"100%", padding:"11px 18px",
-                  border:"none",
-                  background: active ? C.sidebarActiveBg : "transparent",
-                  color: active ? C.sidebarActive : C.sidebarText,
-                  fontWeight: active ? 700 : 400,
-                  fontSize:13.5, cursor:"pointer",
-                  borderLeft: active ? `3px solid ${C.sidebarActive}` : "3px solid transparent",
-                  textAlign:"left",
-                  transition:"background 0.12s, color 0.12s",
-                }}>
+                style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"11px 18px", border:"none", background:active?C.sidebarActiveBg:"transparent", color:active?C.sidebarActive:C.sidebarText, fontWeight:active?700:400, fontSize:13.5, cursor:"pointer", borderLeft:active?`3px solid ${C.sidebarActive}`:"3px solid transparent", textAlign:"left", transition:"background 0.12s, color 0.12s" }}>
                 <span>{m.icon}</span>{m.label}
               </button>
             );
           })}
         </div>
-
         <div style={{ padding:"14px 18px", borderTop:`1px solid ${C.sidebarBorder}`, fontSize:11 }}>
           <div style={{ color:C.green, fontWeight:600 }}>● Tigger disponible</div>
           <div style={{ color:C.sidebarMuted, marginTop:2 }}>{tiggersActivos} envíos en ruta</div>
         </div>
       </aside>
 
-      {/* ── CONTENIDO PRINCIPAL ── */}
       <div style={{ flex:1, display:"flex", flexDirection:"column", overflow:"hidden" }}>
         <div style={{ background:C.white, borderBottom:`1px solid ${C.border}`, padding:"0 20px", height:52, display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0 }}>
           <div style={{ display:"flex", alignItems:"center", gap:10 }}>
@@ -731,20 +842,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                   <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
                     <div style={{ fontWeight:600, fontSize:15 }}>Paquetes activos</div>
                     <button onClick={()=>setMostrarForm(v=>!v)}
-                      style={{
-                        background: "transparent",
-                        color: C.honeyDark,
-                        border: `1.5px solid ${C.honeyDark}`,
-                        borderRadius:8,
-                        padding:"7px 14px",
-                        fontWeight:600,
-                        fontSize:13,
-                        cursor:"pointer",
-                        transition:"background 0.15s, color 0.15s",
-                      }}
-                      onMouseEnter={e=>{ e.currentTarget.style.background=C.honeyBg; }}
-                      onMouseLeave={e=>{ e.currentTarget.style.background="transparent"; }}
-                    >
+                      style={{ background:"transparent", color:C.honeyDark, border:`1.5px solid ${C.honeyDark}`, borderRadius:8, padding:"7px 14px", fontWeight:600, fontSize:13, cursor:"pointer" }}>
                       {mostrarForm ? "✕ Cancelar" : "＋ Nuevo envío"}
                     </button>
                   </div>
@@ -752,7 +850,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                   {mostrarForm && (
                     <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:16, marginBottom:14, borderLeft:`4px solid ${C.honey}` }}>
                       <div style={{ fontWeight:600, fontSize:14, marginBottom:12 }}>📦 Registrar nuevo paquete</div>
-                      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:10 }}>
+                      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:14 }}>
                         {FORM_FIELDS.map(([k,l,ph])=>(
                           <div key={k}>
                             <label style={{ fontSize:11, fontWeight:600, color:C.gray, display:"block", marginBottom:3 }}>{l}</label>
@@ -761,6 +859,27 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                           </div>
                         ))}
                       </div>
+
+                      <div style={{ marginBottom:12 }}>
+                        <UbicacionSelector
+                          label="Origen"
+                          accentColor={C.green}
+                          value={origenLoc}
+                          onChange={setOrigenLoc}
+                        />
+                      </div>
+
+                      <div style={{ borderTop:`1px solid ${C.border}`, margin:"12px 0" }} />
+
+                      <div style={{ marginBottom:14 }}>
+                        <UbicacionSelector
+                          label="Destino"
+                          accentColor={C.blue}
+                          value={destinoLoc}
+                          onChange={setDestinoLoc}
+                        />
+                      </div>
+
                       {formErr && <div style={{ background:C.redLight, color:C.red, borderRadius:6, padding:"6px 10px", fontSize:12, marginBottom:8 }}>{formErr}</div>}
                       <button onClick={crearPaquete}
                         style={{ background:C.honey, color:C.white, border:"none", borderRadius:8, padding:"8px 18px", fontWeight:600, fontSize:13, cursor:"pointer" }}>
@@ -911,8 +1030,8 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                 <hr style={{ border:"none", borderTop:`1px solid ${C.border}`, margin:"14px 0" }}/>
                 <div style={{ fontSize:12, color:C.gray, fontWeight:600, marginBottom:6 }}>Ubicaciones reconocidas</div>
                 <div style={{ fontSize:11, color:C.gray, lineHeight:1.8 }}>
-                  Departamentos, municipios, colonias y zonas de El Salvador están precargadas.<br/>
-                  Ejemplos: "Colonia Escalón", "Santa Tecla", "Sonsonate", "San Miguel", "Colonia Médica"
+                  14 departamentos · municipios y colonias de El Salvador precargados.<br/>
+                  El formulario de nuevo envío usa selectores en cascada: Departamento → Municipio → Colonia.
                 </div>
               </div>
             </div>
@@ -925,7 +1044,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// VISTA: DRIVER — Tigger
+// VISTA: DRIVER
 // ══════════════════════════════════════════════════════════════════════════════
 function DriverView({ envios, setEnvios, userName, onLogout }) {
   const miNombre   = userName || "";
@@ -940,15 +1059,15 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
   const [mapaAbierto, setMapaAbierto] = useState(null);
   const [fotos,       setFotos]       = useState({});
 
-  const avanzar = id => setEnvios(p=>p.map(e=>
+  const avanzar = id => setEnvios(p => p.map(e =>
     e.id===id && ESTADO_NEXT[e.estado]
-      ? {...e, estado:ESTADO_NEXT[e.estado], hora:{...e.hora, [ESTADO_NEXT[e.estado]]:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
+      ? { ...e, estado:ESTADO_NEXT[e.estado], hora:{ ...e.hora, [ESTADO_NEXT[e.estado]]:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"}) } }
       : e
   ));
 
-  const marcarFallido = id => setEnvios(p=>p.map(e=>
+  const marcarFallido = id => setEnvios(p => p.map(e =>
     e.id===id && (e.estado==="EN_RUTA"||e.estado==="EN_ALMACEN")
-      ? {...e, estado:"FALLIDO", hora:{...e.hora, FALLIDO:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
+      ? { ...e, estado:"FALLIDO", hora:{ ...e.hora, FALLIDO:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"}) } }
       : e
   ));
 
