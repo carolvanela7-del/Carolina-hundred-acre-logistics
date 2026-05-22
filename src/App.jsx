@@ -428,7 +428,7 @@ function PigletView({ envios, onLogout }) {
   return (
     // ── ÚNICO CAMBIO: background cambiado de C.grayLight a C.sidebarBg (#FFF5E6) ──
     <div style={{ minHeight:"100vh", background:C.sidebarBg }}>
-      <div style={{ background:C.#FFF5E6, padding:"20px 24px 18px", position:"relative", borderBottom:`1px solid #F5E6B4` }}>
+      <div style={{ background:"#FFF5E6", padding:"20px 24px 18px", position:"relative", borderBottom:`1px solid #F5E6B4` }}>
         <div style={{ textAlign:"center" }}>
           <HoneyBearAnim />
           <h1 style={{ color:"#412402", fontSize:22, fontWeight:700, margin:"8px 0 4px" }}>¿Dónde está mi paquete?</h1>
