@@ -1,167 +1,363 @@
 import { useState, useEffect, useRef } from "react";
 
-// ─── COORDENADAS El Salvador — ciudades reales ─────────────────────────────
+const SV_DATA = {
+  "San Salvador": {
+    "San Salvador": ["Centro de San Salvador","Mercado Central","Barrio El Centro","Barrio Candelaria","Barrio San Esteban","Barrio Santa Anita","Barrio San Miguelito","Barrio La Vega","Barrio San Jacinto","Barrio Modelo","Colonia Escalón","Colonia San Benito","Colonia Miramonte","Colonia Flor Blanca","Colonia Médica","Boulevard de los Héroes","Zona Rosa","Colonia Centroamérica","Colonia Santa Marta","Colonia Cucumacayán","Residencial Los Héroes","Colonia Utila","Colonia Layco","Colonia Libertad","Colonia El Roble","Colonia Lourdes","Colonia Costa Rica","Colonia Atlacatl","Colonia Universitaria","Colonia El Refugio","Colonia San Mateo","Colonia Alvarez","Colonia Ferrocarril","Colonia Militar","Colonia Monserrat","Colonia San Antonio Abad","Colonia Quiñónez","Colonia Santa Eduviges","Colonia Dolores","Colonia Guadalupe","Colonia Bernal","Colonia Zúñiga","Colonia Dinamarca","Colonia Bello Horizonte","Colonia Las Mercedes","Colonia Santa Alegría","Colonia Cuscatlán","Colonia El Modelo","Colonia Tres Ceibas","Cantón El Playón","Cantón Las Delicias","Cantón El Ángel","Cantón Planes de Renderos"],
+    "Mejicanos": ["Centro de Mejicanos","Colonia Zacamil","Colonia Amatepec","Colonia Satélite","Colonia Santa Lucía","Colonia Independencia","Colonia Lomas de San Francisco","Colonia Miramonte Norte","Colonia Las Palmeras","Colonia El Rosal","Colonia El Paraíso","Colonia La Gloria","Colonia San Ramón","Colonia Santa Isabel","Colonia San Alfredo","Colonia San Valentín","Colonia Trinidad","Colonia Las Rosas","Colonia Lomas de Mejicanos","Colonia Nuevo Mejicanos","Colonia San Cristóbal","Colonia Quezaltepec","Barrio San Rafael","Barrio Apulo","Cantón Ayutepeque","Cantón Planes de San José"],
+    "Soyapango": ["Centro de Soyapango","Colonia Miralvalle","Colonia San Jacinto","Colonia Las Brisas","Colonia Iberia","Colonia Santa Anita","Colonia Jardines de Soyapango","Colonia Las Margaritas","Colonia El Roble","Colonia San Jorge","Colonia Monte María","Colonia San Antonio","Colonia San Luis","Colonia Venecia","Colonia Minerva","Colonia Monserrat","Colonia Las Begonias","Colonia La Pradera","Colonia El Progreso","Colonia La Cañada","Urbanización Santa Lucía","Urbanización Milán","Cantón Apulo","Cantón Unicentro"],
+    "Ilopango": ["Centro de Ilopango","Colonia Santa María","Colonia Las Delicias","Colonia Ciudad Delgado","Colonia El Tránsito","Colonia San Bartolo","Colonia La Gloria","Colonia San José","Colonia Las Américas","Colonia El Almendro","Colonia Monte Sinaí","Colonia San Carlos","Colonia Jardines de Ilopango","Cantón Asino","Cantón El Ángel","Cantón Dolores","Cantón San Bartolo Oriente","Finca El Paraíso","Finca San Antonio"],
+    "Apopa": ["Centro de Apopa","Colonia Guadalupe","Colonia El Carmen","Colonia Ciudad Real","Colonia Las Flores","Colonia Santa Paula","Colonia El Milagro","Colonia Quezaltepec","Colonia San Marcos","Colonia El Trébol","Colonia Las Vegas","Colonia Monte Verde","Colonia El Progreso","Colonia San Rafael","Colonia Santa Rosa","Colonia Las Palmas","Cantón Nejapa","Cantón El Ángel","Cantón Ayutuxtepeque","Cantón Las Lajas","Cantón San José Villanueva","Cantón El Pajal","Cantón Las Marías","Finca El Rosario","Finca Las Mercedes"],
+    "Santa Tecla": ["Centro de Santa Tecla","Colonia Buena Vista","Colonia Las Victorias","Colonia Miramonte","Colonia Santa Teresa","Colonia California","Colonia El Molino","Colonia Las Colinas","Colonia Lomas de Santa Tecla","Colonia Merliot","Colonia Las Rosas","Colonia Jardines del Volcán","Colonia Santa Marta","Colonia El Carmelo","Colonia Las Mercedes","Colonia San Ramón","Colonia Escalón Sur","Colonia Lomas Verdes","Colonia San Luis","Colonia El Recreo","Urbanización Madre Selva","Urbanización Las Cumbres","Residencial Santa Tecla","Residencial Jardines de Santa Tecla","Cantón El Progreso","Cantón Las Granadillas","Cantón Tutunichapa","Cantón Nuevo Cuscatlán","Finca El Edén","Finca La Esperanza"],
+    "Antiguo Cuscatlán": ["Centro Antiguo Cuscatlán","Colonia Maquilishuat","Jardines de Guadalupe","Colonia Montserrat","Colonia San Luis","Colonia El Bálsamo","Colonia Las Magnolias","Colonia La Sultana","Colonia Jardines del Bálsamo","Colonia Lomas del Bálsamo","Colonia San Francisco","Colonia Santa Elena","Residencial Santa Elena","Urbanización Madre Selva","Urbanización Las Colinas","Urbanización Bosques de Prusia","Cantón El Bálsamo","Finca El Bálsamo","Finca Las Delicias"],
+    "San Marcos": ["Centro de San Marcos","Colonia Las Margaritas","Colonia Jardines de San Marcos","Colonia Santa Marta","Colonia Las Flores","Colonia San Antonio","Colonia El Paraíso","Colonia La Cañada","Colonia Los Almendros","Colonia Las Brisas","Colonia Monte Alegre","Barrio El Centro","Cantón Los Planes","Cantón El Barillo","Cantón El Sunza","Finca El Rosario"],
+    "Delgado": ["Centro de Delgado","Colonia Cinco de Noviembre","Colonia Ciudad Delgado","Colonia Las Palmeras","Colonia Quiñónez","Colonia El Modelo","Colonia La Fosa","Colonia El Rosal","Colonia San Rafael","Colonia Santa Lucía","Colonia Las Vegas","Colonia El Milagro","Barrio San Rafael","Cantón Iberia","Cantón El Ángel"],
+    "Panchimalco": ["Centro de Panchimalco","Barrio El Calvario","Barrio La Cruz","Cantón Los Planes de Renderos","Cantón El Cedro","Cantón San Isidro","Cantón Los Talnetes","Cantón El Jocote","Finca Las Mercedes","Finca El Paraíso"],
+    "Aguilares": ["Centro de Aguilares","Colonia El Carmen","Colonia Las Flores","Colonia El Progreso","Colonia San Rafael","Barrio El Centro","Cantón Guazapa Norte","Cantón El Sitio","Cantón San Felipe","Cantón Rosario","Finca La Esperanza"],
+    "Quezaltepeque": ["Centro de Quezaltepeque","Colonia El Carmen","Colonia Las Flores","Colonia Santa Rosa","Colonia San Antonio","Barrio El Centro","Barrio San Rafael","Cantón El Refugio","Cantón Las Cruces","Cantón El Jute","Cantón Agua Caliente","Finca San José","Finca El Molino"],
+    "San Juan Opico": ["Centro de San Juan Opico","Colonia El Carmen","Colonia Las Flores","Barrio El Centro","Cantón Sitio del Niño","Cantón El Paisnal","Cantón Lomas de San Gabriel","Cantón El Jocote","Cantón Las Lajas","Cantón San Andrés","Finca El Progreso","Finca Las Delicias"],
+    "Tonacatepeque": ["Centro de Tonacatepeque","Colonia Las Flores","Colonia El Carmen","Barrio El Centro","Cantón El Tránsito","Cantón San José","Cantón Los Llanos","Cantón El Guayabo","Finca La Esperanza"],
+    "Cuscatancingo": ["Centro de Cuscatancingo","Colonia Zacamil Sur","Colonia Las Palmas","Colonia San Ramón","Cantón Las Lajas"],
+    "Guazapa": ["Centro de Guazapa","Barrio El Centro","Cantón San Felipe","Cantón El Rodeo","Cantón El Paisnal","Cantón Las Flores","Finca El Paraíso"],
+    "San Martín": ["Centro de San Martín","Colonia El Tránsito","Colonia Las Flores","Cantón El Tránsito","Cantón Ayutuxtepeque","Finca San José"],
+    "Santo Tomás": ["Centro de Santo Tomás","Barrio El Centro","Cantón El Jute","Cantón San Bartolo","Finca Las Delicias"],
+    "Nejapa": ["Centro de Nejapa","Barrio El Centro","Cantón El Ángel","Cantón Las Lajas","Cantón San Jerónimo","Finca El Rosario"],
+    "Ayutuxtepeque": ["Centro de Ayutuxtepeque","Colonia Jardines","Cantón Las Flores","Cantón El Carmen"],
+  },
+  "Santa Ana": {
+    "Santa Ana": ["Centro de Santa Ana","Colonia Sinaí","Colonia Santa Bárbara","Colonia El Palmar","Colonia Las Vegas","Colonia Santa Lucia","Colonia Belén","Colonia Lourdes","Colonia San Rafael","Colonia La Esperanza","Colonia El Carmen","Colonia Santa Cruz","Colonia Las Flores","Colonia La Gloria","Colonia Modelo","Colonia Progreso","Colonia San Antonio","Colonia Quiñónez","Barrio El Calvario","Barrio Santa Bárbara","Barrio San Rafael","Barrio El Centro","Barrio La Cruz","Cantón Texistepeque","Cantón El Sunza","Cantón Las Piedras","Cantón San Luis","Cantón El Palmar","Finca El Paraíso","Finca Las Mercedes","Finca La Esperanza"],
+    "Coatepeque": ["Centro de Coatepeque","Colonia San Francisco","Colonia Las Flores","Colonia El Carmen","Barrio El Centro","Cantón El Congo","Cantón Las Lajas","Cantón El Cerrito","Finca Las Lajas","Finca El Molino"],
+    "Chalchuapa": ["Centro de Chalchuapa","Barrio El Calvario","Barrio San Rafael","Barrio Santiago","Colonia El Carmen","Colonia Las Flores","Cantón Atiquizaya","Cantón El Sunza","Cantón Las Flores","Cantón San Isidro","Cantón Sihuatehuacán","Finca El Paraíso","Finca Las Delicias"],
+    "Metapán": ["Centro de Metapán","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Colonia El Carmen","Cantón Santa Rosa Guachipilín","Cantón El Sauce","Cantón Las Pilas","Cantón San José","Cantón El Pital","Finca El Rosario","Finca Las Mercedes"],
+    "Atiquizaya": ["Centro de Atiquizaya","Barrio El Centro","Colonia Las Flores","Cantón San Lorenzo","Cantón El Espino","Finca Las Mercedes"],
+  },
+  "San Miguel": {
+    "San Miguel": ["Centro de San Miguel","Colonia Ciudad Jardín","Colonia Chaparral","Barrio El Calvario","Colonia El Molino","Colonia Milagro de la Paz","Colonia Las Margaritas","Colonia Belén","Colonia San Francisco","Colonia Las Flores","Colonia Santa Rosa","Colonia El Carmen","Colonia La Merced","Colonia Las Palmas","Colonia Lourdes","Barrio El Centro","Barrio San Francisco","Barrio La Merced","Barrio San Felipe","Cantón El Jícaro","Cantón Hornitos","Cantón Gualcho","Cantón El Tránsito","Cantón Las Flores","Cantón San Pedro","Finca El Paraíso","Finca Las Mercedes","Finca El Rosario"],
+    "Ciudad Barrios": ["Centro de Ciudad Barrios","Barrio El Centro","Colonia Las Flores","Cantón El Volcán","Cantón Las Cruces","Cantón El Jícaro","Finca El Rosario"],
+    "San Francisco Gotera": ["Centro de San Francisco Gotera","Barrio El Centro","Colonia Las Flores","Cantón El Delirio","Cantón Las Lajas","Finca Las Mercedes"],
+  },
+  "Sonsonate": {
+    "Sonsonate": ["Centro de Sonsonate","Colonia Las Palmas","Colonia El Progreso","Colonia Las Flores","Colonia Santa Rosa","Colonia El Carmen","Colonia Lourdes","Colonia San Rafael","Barrio El Centro","Barrio El Calvario","Barrio El Ángel","Cantón El Sunza","Cantón Las Lajas","Cantón El Cacao","Cantón San Isidro","Finca Las Mercedes","Finca El Paraíso"],
+    "Acajutla": ["Centro de Acajutla","Puerto de Acajutla","Barrio El Centro","Colonia Las Flores","Cantón El Zope","Cantón Las Lajas","Finca El Rosario"],
+    "Armenia": ["Centro de Armenia","Barrio El Centro","Colonia Las Flores","Cantón El Sunza","Cantón Las Lajas","Finca El Molino"],
+    "Izalco": ["Centro de Izalco","Barrio El Calvario","Barrio El Centro","Colonia Las Flores","Cantón El Sunza","Cantón Las Lajas","Cantón Cuyagualo","Cantón Naco","Finca Las Delicias","Finca El Rosario"],
+  },
+  "La Libertad": {
+    "La Libertad": ["Puerto de La Libertad","Colonia El Delfín","Barrio El Centro","Barrio El Calvario","Cantón El Tunco","Cantón Playa San Diego","Cantón El Sunzal","Finca Las Delicias"],
+    "Santa Tecla": ["Centro Santa Tecla","Colonia Las Victorias","Colonia El Merliot","Colonia Jardines del Volcán","Colonia Madre Selva","Colonia Las Cumbres","Colonia Santa Marta","Cantón El Progreso","Finca El Paraíso"],
+    "Antiguo Cuscatlán": ["Jardines de Guadalupe","Colonia Santa Elena","Colonia Montserrat","Colonia La Sultana","Urbanización Bosques de Prusia","Cantón El Bálsamo"],
+    "San Juan Opico": ["Centro de San Juan Opico","Colonia El Carmen","Cantón Sitio del Niño","Cantón Las Lajas","Finca El Progreso"],
+    "Colón": ["Centro de Colón","Colonia Las Flores","Colonia El Carmen","Cantón Las Lajas","Cantón El Sitio","Cantón Lourdes","Finca El Rosario"],
+    "Nuevo Cuscatlán": ["Centro de Nuevo Cuscatlán","Urbanización Las Colinas","Colonia Las Flores"],
+    "Zaragoza": ["Centro de Zaragoza","Colonia Las Flores","Cantón El Progreso","Finca El Rosario"],
+  },
+  "Usulután": {
+    "Usulután": ["Centro de Usulután","Colonia 15 de Septiembre","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Colonia El Carmen","Cantón El Jícaro","Cantón Las Lajas","Cantón El Tránsito","Finca El Paraíso","Finca Las Mercedes"],
+    "Jiquilisco": ["Centro de Jiquilisco","Barrio El Centro","Cantón Puerto El Triunfo","Cantón El Jobal","Cantón Las Flores","Cantón El Tránsito","Finca El Rosario"],
+    "Santiago de María": ["Centro de Santiago de María","Barrio El Centro","Colonia Las Flores","Cantón El Sunza","Cantón Las Lajas","Finca Las Delicias"],
+    "Puerto El Triunfo": ["Centro de Puerto El Triunfo","Barrio El Centro","Cantón El Jobal"],
+  },
+  "La Unión": {
+    "La Unión": ["Centro de La Unión","Puerto Cutuco","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Cantón El Tamarindo","Cantón Las Tunas","Cantón Playitas","Finca El Rosario"],
+    "Santa Rosa de Lima": ["Centro de Santa Rosa de Lima","Barrio El Centro","Colonia Las Flores","Cantón El Delirio","Cantón Las Lajas","Finca Las Mercedes"],
+    "Conchagua": ["Centro de Conchagua","Cantón Las Tunas","Cantón El Tamarindo","Finca El Rosario"],
+  },
+  "Chalatenango": {
+    "Chalatenango": ["Centro de Chalatenango","Colonia El Rosario","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Cantón El Sitio","Cantón Las Lajas","Cantón San Felipe","Finca El Paraíso","Finca Las Mercedes"],
+    "La Palma": ["Centro de La Palma","Barrio El Centro","Cantón El Pital","Cantón Las Flores","Finca El Rosario"],
+    "Nueva Concepción": ["Centro de Nueva Concepción","Colonia Las Flores","Cantón Las Lajas","Finca El Rosario"],
+  },
+  "Cuscatlán": {
+    "Cojutepeque": ["Centro de Cojutepeque","Colonia San Rafael","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Cantón El Sitio","Cantón Las Lajas","Finca El Paraíso"],
+    "Suchitoto": ["Centro de Suchitoto","Barrio El Centro","Barrio El Calvario","Cantón El Sitio","Cantón Las Flores","Cantón San José","Finca Las Mercedes"],
+  },
+  "Ahuachapán": {
+    "Ahuachapán": ["Centro de Ahuachapán","Colonia Las Flores","Barrio El Centro","Barrio El Calvario","Colonia El Carmen","Colonia San Rafael","Cantón Las Lajas","Cantón El Barro","Cantón El Sunza","Cantón San Lorenzo","Finca El Paraíso","Finca Las Mercedes","Finca El Rosario"],
+    "Atiquizaya": ["Centro de Atiquizaya","Barrio El Centro","Colonia Las Flores","Cantón San Lorenzo","Cantón El Espino","Finca Las Mercedes"],
+    "Apaneca": ["Centro de Apaneca","Cantón Las Flores","Finca Las Delicias","Finca El Paraíso"],
+    "Concepción de Ataco": ["Centro de Concepción de Ataco","Cantón Las Flores","Finca El Rosario"],
+  },
+  "Cabañas": {
+    "Sensuntepeque": ["Centro de Sensuntepeque","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Cantón Las Lajas","Cantón El Rosario","Cantón San Felipe","Finca El Paraíso","Finca Las Mercedes"],
+    "Ilobasco": ["Centro de Ilobasco","Barrio El Centro","Colonia Las Flores","Colonia El Carmen","Cantón El Sunza","Cantón Las Lajas","Cantón San Isidro","Finca El Rosario"],
+  },
+  "La Paz": {
+    "Zacatecoluca": ["Centro de Zacatecoluca","Colonia El Carmen","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Cantón San Juan Talpa","Cantón Las Lajas","Cantón El Rosario","Finca El Paraíso","Finca Las Mercedes"],
+    "San Luis Talpa": ["Centro de San Luis Talpa","Cantón Las Flores","Cantón El Aeropuerto","Finca El Rosario"],
+    "Santiago Nonualco": ["Centro de Santiago Nonualco","Barrio El Centro","Cantón Las Flores","Cantón El Rosario","Finca El Molino"],
+    "Olocuilta": ["Centro de Olocuilta","Barrio El Centro","Colonia Las Flores","Cantón El Sunza","Cantón Las Lajas","Finca El Rosario"],
+    "San Luis La Herradura": ["Centro de San Luis La Herradura","Cantón El Rosario","Playa El Espino"],
+  },
+  "Morazán": {
+    "San Francisco Gotera": ["Centro de San Francisco Gotera","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Cantón El Delirio","Cantón Las Lajas","Finca El Paraíso"],
+    "Perquín": ["Centro de Perquín","Cantón Las Flores","Finca El Paraíso"],
+    "Cacaopera": ["Centro de Cacaopera","Cantón Las Flores","Finca Las Delicias"],
+    "Jocoro": ["Centro de Jocoro","Cantón El Rosario","Finca El Paraíso"],
+  },
+  "San Vicente": {
+    "San Vicente": ["Centro de San Vicente","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Colonia El Carmen","Cantón El Sitio","Cantón Las Lajas","Cantón El Rosario","Finca El Paraíso","Finca Las Mercedes"],
+    "San Sebastián": ["Centro de San Sebastián","Barrio El Centro","Cantón Las Flores","Cantón El Rosario","Finca El Molino"],
+    "Apastepeque": ["Centro de Apastepeque","Cantón Las Flores","Finca El Paraíso"],
+  },
+};
+
 const SV_COORDS = {
-  "Casa del roble, bosque sur":   [13.6929, -89.2182],
-  "Árbol grande, bosque norte":   [13.9942, -89.5597],
-  "Prado de Eeyore":              [13.4745, -88.1775],
-  "Casa de Kanga":                [13.8206, -89.0997],
-  "Bodega central":               [13.7034, -89.2182],
-  "Huerto de Rabbit":             [13.6762, -89.2379],
+  "San Salvador":[13.6929,-89.2182],"Santa Ana":[13.9942,-89.5597],"San Miguel":[13.4745,-88.1775],
+  "Sonsonate":[13.7196,-89.7249],"La Libertad":[13.4903,-89.3222],"Usulután":[13.3500,-88.4333],
+  "La Unión":[13.3367,-87.8437],"Chalatenango":[14.0356,-88.9335],"Cuscatlán":[13.7167,-88.9333],
+  "Ahuachapán":[13.9211,-89.8450],"Cabañas":[13.8667,-88.7500],"La Paz":[13.5000,-88.9167],
+  "Morazán":[13.7667,-88.1167],"San Vicente":[13.6417,-88.7847],
+  "Santa Tecla":[13.6767,-89.2797],"Antiguo Cuscatlán":[13.6731,-89.2503],
+  "Mejicanos":[13.7282,-89.2167],"Soyapango":[13.7100,-89.1533],
+  "Ilopango":[13.7022,-89.1128],"Apopa":[13.8025,-89.1783],
+  "Delgado":[13.7294,-89.1736],"San Marcos":[13.6631,-89.1803],
+  "Panchimalco":[13.6106,-89.1717],"Aguilares":[13.9556,-89.1878],
+  "Quezaltepeque":[13.8311,-89.2700],"San Juan Opico":[13.8761,-89.3575],
+  "Coatepeque":[13.9089,-89.5028],"Chalchuapa":[13.9833,-89.6833],
+  "Metapán":[14.3333,-89.4500],"Nahuizalco":[13.7808,-89.7278],
+  "Armenia":[13.7433,-89.5031],"Ciudad Barrios":[13.7608,-88.2753],
+  "San Francisco Gotera":[13.6994,-88.1033],"Zacatecoluca":[13.5019,-88.8694],
+  "San Luis Talpa":[13.4753,-89.0919],"Santiago Nonualco":[13.5194,-88.9078],
+  "Jiquilisco":[13.3189,-88.5747],"Santiago de María":[13.4878,-88.4703],
+  "Santa Rosa de Lima":[13.6247,-87.9808],"Sensuntepeque":[13.8753,-88.6258],
+  "Ilobasco":[13.8408,-88.8500],"San Sebastián":[13.7269,-88.8336],
+  "Cojutepeque":[13.7167,-88.9333],"Acajutla":[13.5928,-89.8317],
+  "Colonia Escalón":[13.7094,-89.2378],"Colonia San Benito":[13.7011,-89.2267],
+  "Colonia Miramonte":[13.7103,-89.2278],"Colonia Flor Blanca":[13.6989,-89.2214],
+  "Colonia Médica":[13.6978,-89.2133],"Centro de San Salvador":[13.6985,-89.1912],
+  "Mercado Central":[13.6997,-89.1908],"Boulevard de los Héroes":[13.7139,-89.2092],
+  "Zona Rosa":[13.7003,-89.2289],"Colonia Centroamérica":[13.7211,-89.2044],
+  "Colonia Zacamil":[13.7350,-89.2220],"Colonia Amatepec":[13.7310,-89.2190],
+  "Colonia Miralvalle":[13.7150,-89.1480],"Centro de Soyapango":[13.7100,-89.1533],
+  "Centro de Ilopango":[13.7022,-89.1128],"Centro de Apopa":[13.8025,-89.1783],
+  "Jardines de Guadalupe":[13.6720,-89.2480],"Centro Antiguo Cuscatlán":[13.6731,-89.2503],
+  "Puerto de La Libertad":[13.4903,-89.3222],"Centro de Santa Ana":[13.9942,-89.5597],
+  "Centro de San Miguel":[13.4745,-88.1775],"Centro de Sonsonate":[13.7196,-89.7249],
+  "Centro de Usulután":[13.3500,-88.4333],"Centro de La Unión":[13.3367,-87.8437],
+  "Puerto Cutuco":[13.3320,-87.8400],"Centro de Chalatenango":[14.0356,-88.9335],
+  "Centro de Cojutepeque":[13.7167,-88.9333],"Centro de Ahuachapán":[13.9211,-89.8450],
+  "Centro de Sensuntepeque":[13.8753,-88.6258],"Centro de Ilobasco":[13.8408,-88.8500],
+  "Centro de Zacatecoluca":[13.5019,-88.8694],"Centro de San Vicente":[13.6417,-88.7847],
+  "Centro de Mejicanos":[13.7282,-89.2167],"Centro de Quezaltepeque":[13.8311,-89.2700],
+  "Centro de San Juan Opico":[13.8761,-89.3575],"Centro de Delgado":[13.7294,-89.1736],
+  "Centro de San Marcos":[13.6631,-89.1803],"Centro de Aguilares":[13.9556,-89.1878],
+  "Colonia Buena Vista":[13.6810,-89.2850],"Centro de Santa Tecla":[13.6767,-89.2797],
+  "Bodega central":[13.6985,-89.1912],
 };
 
-// ─── PALETA ────────────────────────────────────────────────────────────────────
+function resolveCoords(name) {
+  if (!name) return null;
+  if (SV_COORDS[name]) return SV_COORDS[name];
+  const lower = name.toLowerCase().trim();
+  for (const [k, v] of Object.entries(SV_COORDS)) {
+    if (k.toLowerCase().includes(lower) || lower.includes(k.toLowerCase())) return v;
+  }
+  for (const [dep, municipios] of Object.entries(SV_DATA)) {
+    for (const [mun, colonias] of Object.entries(municipios)) {
+      if (colonias.includes(name)) {
+        if (SV_COORDS[mun]) return SV_COORDS[mun];
+        if (SV_COORDS[dep]) return SV_COORDS[dep];
+      }
+    }
+  }
+  for (const [dep, municipios] of Object.entries(SV_DATA)) {
+    if (Object.keys(municipios).includes(name)) {
+      if (SV_COORDS[name]) return SV_COORDS[name];
+      if (SV_COORDS[dep]) return SV_COORDS[dep];
+    }
+  }
+  return null;
+}
+
+// ─── PALETA ─────────────────────────────────────────────────────────────────
 const C = {
-  honey:     "#F0A500",
-  honeyDark: "#C47F00",
-  honeyLight:"#FFF8E7",
-  honeyBg:   "#FEF3D0",
-  blue:      "#2563EB",
-  blueDark:  "#1D4ED8",
-  blueLight: "#EFF6FF",
-  green:     "#16A34A",
-  greenLight:"#F0FDF4",
-  gray:      "#6B7280",
-  grayLight: "#F9FAFB",
-  border:    "#E5E7EB",
-  text:      "#111827",
-  textSoft:  "#374151",
-  red:       "#DC2626",
-  redLight:  "#FEF2F2",
-  white:     "#FFFFFF",
+  honey:"#F0A500", honeyDark:"#C47F00", honeyLight:"#FFF8E7", honeyBg:"#FEF3D0",
+  blue:"#2563EB", blueDark:"#1D4ED8", blueLight:"#EFF6FF",
+  green:"#16A34A", greenLight:"#F0FDF4",
+  gray:"#6B7280", grayLight:"#F9FAFB", border:"#E5E7EB",
+  text:"#111827", textSoft:"#374151",
+  red:"#DC2626", redLight:"#FEF2F2", white:"#FFFFFF",
+  sidebarBg:"#FFFFFF", sidebarText:"#412402", sidebarMuted:"#855010",
+  sidebarActive:"#633806", sidebarActiveBg:"rgba(196,127,0,0.10)", sidebarBorder:"#F5E6B4",
 };
 
-// ─── ESTADO COMPARTIDO ─────────────────────────────────────────────────────────
-const ESTADO_COLORS = { CREADO:"#9CA3AF", EN_ALMACEN:C.honey, EN_RUTA:C.blue, ENTREGADO:C.green, FALLIDO:C.red };
-const ESTADO_NEXT   = { CREADO:"EN_ALMACEN", EN_ALMACEN:"EN_RUTA", EN_RUTA:"ENTREGADO", ENTREGADO:null, FALLIDO:null };
+const ESTADO_COLORS = {
+  CREADO:"#9CA3AF", EN_ALMACEN:C.honey, EN_RUTA:C.blue, ENTREGADO:C.green, FALLIDO:C.red,
+};
+const ESTADO_NEXT = {
+  CREADO:"EN_ALMACEN", EN_ALMACEN:"EN_RUTA", EN_RUTA:"ENTREGADO", ENTREGADO:null, FALLIDO:null,
+};
 const DRIVER_ACTIVO = ["EN_ALMACEN","EN_RUTA"];
 const DRIVERS = Array.from({length:10},(_,i)=>`Tigger-${String(i+1).padStart(2,"0")}`);
+const ROUTE_COLORS = ["#E24B4A","#1D9E75","#7F77DD","#EF9F27","#D4537E","#378ADD","#639922","#D85A30","#885EA6","#0F6E56"];
 
 const ENVIOS_INIT = [
-  { id:"HAW001", cliente:"Piglet",  producto:"Tarro de miel × 3",  origen:"Bodega central",  destino:"Casa del roble, bosque sur",  estado:"EN_RUTA",    driver:"Tigger-03", hora:{ CREADO:"08:15", EN_ALMACEN:"09:00", EN_RUTA:"10:30" } },
-  { id:"HAW002", cliente:"Owl",     producto:"Zanahorias × 10",    origen:"Huerto de Rabbit", destino:"Árbol grande, bosque norte",  estado:"EN_ALMACEN", driver:"",          hora:{ CREADO:"09:00", EN_ALMACEN:"09:45" } },
-  { id:"HAW003", cliente:"Eeyore",  producto:"Globo azul × 1",     origen:"Bodega central",  destino:"Prado de Eeyore",             estado:"CREADO",     driver:"",          hora:{ CREADO:"10:00" } },
-  { id:"HAW004", cliente:"Kanga",   producto:"Miel de trébol × 5", origen:"Bodega central",  destino:"Casa de Kanga",               estado:"ENTREGADO",  driver:"Tigger-07", hora:{ CREADO:"07:00", EN_ALMACEN:"07:30", EN_RUTA:"08:00", ENTREGADO:"09:15" } },
+  { id:"HAW001", cliente:"Piglet",  telefono:"7755-1001", producto:"Tarro de miel × 3",  origen:"Bodega central", destino:"San Miguel",   estado:"EN_RUTA",    driver:"Tigger-03", hora:{ CREADO:"08:15", EN_ALMACEN:"09:00", EN_RUTA:"10:30" } },
+  { id:"HAW002", cliente:"Owl",     telefono:"7755-1002", producto:"Zanahorias × 10",    origen:"Santa Ana",      destino:"San Salvador", estado:"EN_ALMACEN", driver:"",          hora:{ CREADO:"09:00", EN_ALMACEN:"09:45" } },
+  { id:"HAW003", cliente:"Eeyore",  telefono:"7755-1003", producto:"Globo azul × 1",     origen:"Bodega central", destino:"Sonsonate",    estado:"CREADO",     driver:"",          hora:{ CREADO:"10:00" } },
+  { id:"HAW004", cliente:"Kanga",   telefono:"7755-1004", producto:"Miel de trébol × 5", origen:"Bodega central", destino:"La Libertad",  estado:"ENTREGADO",  driver:"Tigger-07", hora:{ CREADO:"07:00", EN_ALMACEN:"07:30", EN_RUTA:"08:00", ENTREGADO:"09:15" } },
 ];
 
-// ─── LEAFLET HELPER ────────────────────────────────────────────────────────────
-function ensureLeaflet(cb) {
-  if (!document.getElementById("leaflet-css")) {
+// ─── HOOK: cargar Leaflet dinámicamente ──────────────────────────────────────
+function useLeaflet() {
+  const [ready, setReady] = useState(!!window.L);
+  useEffect(() => {
+    if (window.L) { setReady(true); return; }
     const link = document.createElement("link");
-    link.id = "leaflet-css"; link.rel = "stylesheet";
-    link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+    link.rel = "stylesheet";
+    link.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
     document.head.appendChild(link);
-  }
-  if (window.L) { cb(); return; }
-  if (document.getElementById("leaflet-js")) {
-    const wait = setInterval(() => { if (window.L) { clearInterval(wait); cb(); } }, 50);
-    return;
-  }
-  const sc = document.createElement("script");
-  sc.id = "leaflet-js";
-  sc.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
-  sc.onload = cb;
-  document.head.appendChild(sc);
+    const script = document.createElement("script");
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
+    script.onload = () => setReady(true);
+    document.head.appendChild(script);
+  }, []);
+  return ready;
 }
 
-// ─── MAPA ADMIN — envíos activos sobre El Salvador ────────────────────────────
+// ─── MAPA ADMIN: todas las rutas EN_RUTA ─────────────────────────────────────
 function MapaSV({ envios }) {
-  const mapRef     = useRef(null);
-  const instanceRef= useRef(null);
+  const leafletReady = useLeaflet();
+  const mapRef = useRef(null);
+  const instanceRef = useRef(null);
+  const enRuta = envios.filter(e => e.estado === "EN_RUTA");
 
   useEffect(() => {
-    ensureLeaflet(() => {
-      if (!mapRef.current) return;
-      if (instanceRef.current) { instanceRef.current.remove(); instanceRef.current = null; }
-      const L   = window.L;
-      const map = L.map(mapRef.current, { zoomControl:true }).setView([13.7942, -88.8965], 8);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom:18,
-      }).addTo(map);
-
-      envios.filter(e => e.estado === "EN_RUTA").forEach(e => {
-        const coords = SV_COORDS[e.destino];
-        if (!coords) return;
-        const icon = L.divIcon({
-          html:`<div style="background:#2563EB;color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3)">${e.id.replace("HAW","")}</div>`,
-          className:"", iconSize:[28,28], iconAnchor:[14,14],
-        });
-        L.marker(coords, { icon }).addTo(map)
-          .bindPopup(`<b>${e.id}</b><br>${e.producto||"Paquete"}<br>📍 ${e.destino}<br>🐯 ${e.driver||"—"}`);
-      });
-
-      envios.filter(e => e.estado === "EN_ALMACEN").forEach(e => {
-        const coords = SV_COORDS["Bodega central"];
-        if (!coords) return;
-        const icon = L.divIcon({
-          html:`<div style="background:#F0A500;color:white;border-radius:6px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.2)">📦</div>`,
-          className:"", iconSize:[28,28], iconAnchor:[14,14],
-        });
-        L.marker(coords, { icon }).addTo(map).bindPopup(`<b>${e.id}</b><br>En bodega`);
-      });
-
-      instanceRef.current = map;
+    if (!leafletReady || !mapRef.current) return;
+    const L = window.L;
+    if (instanceRef.current) {
+      instanceRef.current.remove();
+      instanceRef.current = null;
+    }
+    const map = L.map(mapRef.current, {
+      center: [13.794, -88.896],
+      zoom: 7,
+      zoomControl: true,
+      scrollWheelZoom: false,
     });
-    return () => { if (instanceRef.current) { instanceRef.current.remove(); instanceRef.current = null; } };
-  }, [envios]);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap",
+      maxZoom: 18,
+    }).addTo(map);
 
-  return <div ref={mapRef} style={{ width:"100%", height:"100%" }}/>;
+    const greenIcon = L.divIcon({ html: '<div style="background:#16A34A;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:11px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">A</div>', className:"", iconSize:[22,22], iconAnchor:[11,11] });
+    const blueIcon  = L.divIcon({ html: '<div style="background:#2563EB;color:#fff;border-radius:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:11px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">B</div>', className:"", iconSize:[22,22], iconAnchor:[11,11] });
+
+    enRuta.forEach((e, i) => {
+      const color = ROUTE_COLORS[i % ROUTE_COLORS.length];
+      const cA = resolveCoords(e.origen);
+      const cB = resolveCoords(e.destino);
+      if (!cA || !cB) return;
+      L.polyline([cA, cB], { color, weight: 3, dashArray: "8 4", opacity: 0.85 }).addTo(map)
+        .bindPopup(`<b>${e.id}</b><br>${e.origen} → ${e.destino}<br>🐯 ${e.driver}`);
+      L.marker(cA, { icon: greenIcon }).addTo(map).bindPopup(`Origen: ${e.origen}`);
+      L.marker(cB, { icon: blueIcon  }).addTo(map).bindPopup(`Destino: ${e.destino} · ${e.id}`);
+    });
+
+    instanceRef.current = map;
+    return () => { if (instanceRef.current) { instanceRef.current.remove(); instanceRef.current = null; } };
+  }, [leafletReady, JSON.stringify(enRuta.map(e=>e.id))]);
+
+  return (
+    <div style={{ width:"100%", height:"100%", position:"relative" }}>
+      {!leafletReady && (
+        <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", background:"#f0f4f8", color:C.gray, fontSize:13, zIndex:1 }}>
+          Cargando mapa…
+        </div>
+      )}
+      <div ref={mapRef} style={{ width:"100%", height:"100%" }}/>
+      {leafletReady && enRuta.length === 0 && (
+        <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", color:C.gray, fontSize:12, fontStyle:"italic", pointerEvents:"none", zIndex:10 }}>
+          No hay envíos EN RUTA ahora mismo
+        </div>
+      )}
+    </div>
+  );
 }
 
-// ─── MAPA A→B — Piglet y Tigger ───────────────────────────────────────────────
+// ─── MAPA A→B individual ─────────────────────────────────────────────────────
 function MapaAB({ origen, destino }) {
-  const mapRef     = useRef(null);
-  const instanceRef= useRef(null);
+  const leafletReady = useLeaflet();
+  const mapRef = useRef(null);
+  const instanceRef = useRef(null);
+
+  const coordA = resolveCoords(origen);
+  const coordB = resolveCoords(destino);
 
   useEffect(() => {
-    const coordA = SV_COORDS[origen]  || [13.7034, -89.2182];
-    const coordB = SV_COORDS[destino] || [13.6929, -89.2182];
+    if (!leafletReady || !mapRef.current) return;
+    if (!coordA || !coordB) return;
+    const L = window.L;
+    if (instanceRef.current) {
+      instanceRef.current.remove();
+      instanceRef.current = null;
+    }
 
-    ensureLeaflet(() => {
-      if (!mapRef.current) return;
-      if (instanceRef.current) { instanceRef.current.remove(); instanceRef.current = null; }
-      const L   = window.L;
-      const mid = [(coordA[0]+coordB[0])/2, (coordA[1]+coordB[1])/2];
-      const map = L.map(mapRef.current, { zoomControl:true, scrollWheelZoom:false }).setView(mid, 9);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom:18,
-      }).addTo(map);
+    const midLat = (coordA[0] + coordB[0]) / 2;
+    const midLon = (coordA[1] + coordB[1]) / 2;
 
-      const iconA = L.divIcon({ html:`<div style="background:#16A34A;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.35)">A</div>`, className:"", iconSize:[32,32], iconAnchor:[16,16] });
-      const iconB = L.divIcon({ html:`<div style="background:#2563EB;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.35)">B</div>`, className:"", iconSize:[32,32], iconAnchor:[16,16] });
-
-      L.marker(coordA, { icon:iconA }).addTo(map).bindPopup(`<b>📦 Origen</b><br>${origen}`).openPopup();
-      L.marker(coordB, { icon:iconB }).addTo(map).bindPopup(`<b>🏠 Destino</b><br>${destino}`);
-      L.polyline([coordA, coordB], { color:"#F0A500", weight:3, dashArray:"8 6", opacity:0.85 }).addTo(map);
-      map.fitBounds([coordA, coordB], { padding:[30,30] });
-
-      instanceRef.current = map;
+    const map = L.map(mapRef.current, {
+      center: [midLat, midLon],
+      zoom: 8,
+      zoomControl: true,
+      scrollWheelZoom: false,
     });
-    return () => { if (instanceRef.current) { instanceRef.current.remove(); instanceRef.current = null; } };
-  }, [origen, destino]);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap",
+      maxZoom: 18,
+    }).addTo(map);
 
-  return <div ref={mapRef} style={{ width:"100%", height:"100%" }}/>;
+    L.polyline([coordA, coordB], { color: C.honey, weight: 4, dashArray: "10 5", opacity: 0.9 }).addTo(map);
+
+    const mkA = L.divIcon({ html: `<div style="background:#16A34A;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35)">A</div>`, className:"", iconSize:[28,28], iconAnchor:[14,14] });
+    const mkB = L.divIcon({ html: `<div style="background:#2563EB;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35)">B</div>`, className:"", iconSize:[28,28], iconAnchor:[14,14] });
+
+    L.marker(coordA, { icon: mkA }).addTo(map).bindPopup(`<b>Origen</b><br>${origen}`).openPopup();
+    L.marker(coordB, { icon: mkB }).addTo(map).bindPopup(`<b>Destino</b><br>${destino}`);
+
+    const bounds = L.latLngBounds([coordA, coordB]);
+    map.fitBounds(bounds, { padding: [30, 30] });
+
+    instanceRef.current = map;
+    return () => { if (instanceRef.current) { instanceRef.current.remove(); instanceRef.current = null; } };
+  }, [leafletReady, origen, destino]);
+
+  if (!coordA || !coordB) {
+    return (
+      <div style={{ width:"100%", height:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", background:"#FEF2F2", color:C.red, fontSize:13, gap:8, padding:16, textAlign:"center" }}>
+        <span style={{fontSize:22}}>⚠️</span>
+        <span>No se pudo ubicar: <b>{!coordA ? origen : destino}</b></span>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ width:"100%", height:"100%", position:"relative" }}>
+      {!leafletReady && (
+        <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", background:"#f0f4f8", color:C.gray, fontSize:13, zIndex:1 }}>
+          Cargando mapa…
+        </div>
+      )}
+      <div ref={mapRef} style={{ width:"100%", height:"100%" }}/>
+    </div>
+  );
 }
 
-// ─── OSITO ANIMADO — nuevo diseño emoji minimalista ───────────────────────────
-function HoneyBearAnim({ size=90, wiggle=false }) {
+// ─── ANIMACIÓN TARRO DE MIEL ─────────────────────────────────────────────────
+function HoneyBearAnim() {
   return (
     <div style={{ position:"relative", height:70, display:"flex", alignItems:"flex-end", justifyContent:"center", marginBottom:4 }}>
       <style>{`
-        @keyframes haBounce  { 0%,100%{transform:translateY(0px)} 40%{transform:translateY(-12px)} 60%{transform:translateY(-6px)} }
-        @keyframes haPeek    { 0%,60%{transform:translateY(30px);opacity:0} 75%,100%{transform:translateY(0px);opacity:1} }
+        @keyframes haBounce{0%,100%{transform:translateY(0)}40%{transform:translateY(-12px)}60%{transform:translateY(-6px)}}
+        @keyframes haPeek{0%,60%{transform:translateY(30px);opacity:0}75%,100%{transform:translateY(0);opacity:1}}
       `}</style>
-      {/* Osito asomándose */}
       <div style={{ position:"absolute", top:0, left:"50%", transform:"translateX(-50%)", zIndex:2, overflow:"hidden", height:36, width:40 }}>
         <div style={{ fontSize:26, lineHeight:1, animation:"haPeek 3s ease-in-out infinite" }}>🐻</div>
       </div>
-      {/* Tarro rebotando */}
       <div style={{ fontSize:50, animation:"haBounce 3s ease-in-out infinite", zIndex:1, lineHeight:1 }}>🍯</div>
     </div>
   );
 }
 
-// ─── BADGE ESTADO ──────────────────────────────────────────────────────────────
 function EstadoBadge({ estado }) {
   const label = { CREADO:"Creado", EN_ALMACEN:"En almacén", EN_RUTA:"En ruta", ENTREGADO:"Entregado", FALLIDO:"Fallido ❌" };
   const col = ESTADO_COLORS[estado] || "#888";
@@ -172,16 +368,14 @@ function EstadoBadge({ estado }) {
   );
 }
 
-// ─── STEPPER ───────────────────────────────────────────────────────────────────
 function Stepper({ estado }) {
   const steps  = ["CREADO","EN_ALMACEN","EN_RUTA","ENTREGADO"];
   const labels = { CREADO:"Creado", EN_ALMACEN:"En almacén", EN_RUTA:"En ruta", ENTREGADO:"Entregado" };
-  const cur = steps.indexOf(estado);
+  const cur    = steps.indexOf(estado);
   return (
     <div style={{ display:"flex", alignItems:"flex-start", margin:"12px 0" }}>
       {steps.map((st, i) => {
-        const done   = i <= cur;
-        const isLast = i === steps.length-1;
+        const done = i <= cur; const isLast = i === steps.length - 1;
         return (
           <div key={st} style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center" }}>
             <div style={{ display:"flex", alignItems:"center", width:"100%" }}>
@@ -197,6 +391,53 @@ function Stepper({ estado }) {
           </div>
         );
       })}
+    </div>
+  );
+}
+
+const selStyle = (disabled) => ({
+  width:"100%", padding:"8px 28px 8px 10px",
+  borderRadius:8, border:`1px solid ${C.border}`,
+  background:disabled?C.grayLight:C.white,
+  color:disabled?"#9CA3AF":C.text,
+  fontSize:13, cursor:disabled?"not-allowed":"pointer",
+  appearance:"none", outline:"none",
+  backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+  backgroundRepeat:"no-repeat", backgroundPosition:"right 10px center",
+  opacity:disabled?0.5:1,
+});
+
+function UbicacionSelector({ label, accentColor, value, onChange }) {
+  const { departamento, municipio, colonia } = value;
+  const departamentos = Object.keys(SV_DATA);
+  const municipios    = departamento ? Object.keys(SV_DATA[departamento] || {}) : [];
+  const colonias      = departamento && municipio ? (SV_DATA[departamento]?.[municipio] || []) : [];
+  return (
+    <div>
+      <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8 }}>
+        <div style={{ width:8, height:8, borderRadius:"50%", background:accentColor }}/>
+        <span style={{ fontSize:12, fontWeight:600, color:C.gray }}>{label}</span>
+        {departamento && (
+          <span style={{ marginLeft:"auto", fontSize:11, fontWeight:600, background:accentColor+"22", color:accentColor, border:`1px solid ${accentColor}44`, borderRadius:99, padding:"1px 8px" }}>
+            {colonia||municipio||departamento}
+          </span>
+        )}
+      </div>
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:8 }}>
+        {[
+          ["Departamento", departamento, null, departamentos, (e)=>onChange({departamento:e.target.value,municipio:"",colonia:""})],
+          ["Municipio",    municipio,    !departamento, municipios,    (e)=>onChange({departamento,municipio:e.target.value,colonia:""})],
+          ["Colonia/zona", colonia,      !municipio,    colonias,      (e)=>onChange({departamento,municipio,colonia:e.target.value})],
+        ].map(([lbl, val, dis, opts, handler])=>(
+          <div key={lbl}>
+            <label style={{ fontSize:11, fontWeight:600, color:C.gray, display:"block", marginBottom:3 }}>{lbl}</label>
+            <select value={val} onChange={handler} disabled={dis} style={selStyle(dis)}>
+              <option value="">Seleccionar…</option>
+              {opts.map(o=><option key={o} value={o}>{o}</option>)}
+            </select>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -222,46 +463,33 @@ function LoginView({ onLogin }) {
   };
 
   return (
-    <div style={{ minHeight:"100vh", background:"#FFF5E6", display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"'Helvetica Neue',Arial,sans-serif", fontWeight:300 }}>
+    <div style={{ minHeight:"100vh", background:"#FFF5E6", display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"'Helvetica Neue',Arial,sans-serif" }}>
       <div style={{ background:"#fff", borderRadius:16, padding:"32px 28px", width:300, boxShadow:"0 4px 20px rgba(0,0,0,0.10)" }}>
-
-        {/* Osito + tarro animado */}
         <div style={{ textAlign:"center", marginBottom:20 }}>
-          <HoneyBearAnim />
-          <p style={{ margin:"10px 0 3px", fontSize:19, color:"#412402", fontWeight:300, letterSpacing:"0.3px" }}>Hundred Acre Logistics</p>
-          <p style={{ color:"#aaa", fontSize:12, margin:0, fontWeight:300 }}>Ingresa al sistema del bosque</p>
+          <HoneyBearAnim/>
+          <p style={{ margin:"10px 0 3px", fontSize:19, color:"#412402", fontWeight:300 }}>Hundred Acre Logistics</p>
+          <p style={{ color:"#aaa", fontSize:12, margin:0 }}>Ingresa al sistema del bosque</p>
         </div>
-
-        {/* Email */}
-        <label style={{ fontSize:11, color:"#aaa", fontWeight:300, display:"block", marginBottom:5 }}>Email</label>
-        <input value={email} onChange={e=>setEmail(e.target.value)} placeholder="rabbit@hundredacre.com"
-          onKeyDown={e=>e.key==="Enter"&&login()}
-          style={{ width:"100%", padding:"10px 12px", border:"1px solid #e8e8e8", borderRadius:8, fontSize:13, fontWeight:300, marginBottom:14, boxSizing:"border-box", outline:"none", background:"#f9fbff", color:"#333" }}/>
-
-        {/* Contraseña */}
-        <label style={{ fontSize:11, color:"#aaa", fontWeight:300, display:"block", marginBottom:5 }}>Contraseña</label>
-        <input type="password" value={pass} onChange={e=>setPass(e.target.value)} placeholder="••••••••"
-          onKeyDown={e=>e.key==="Enter"&&login()}
-          style={{ width:"100%", padding:"10px 12px", border:"1px solid #e8e8e8", borderRadius:8, fontSize:13, fontWeight:300, marginBottom:16, boxSizing:"border-box", outline:"none", background:"#f9fbff", color:"#333" }}/>
-
-        {err && <div style={{ background:"#FEF2F2", color:"#DC2626", borderRadius:8, padding:"8px 12px", fontSize:12, fontWeight:300, marginBottom:12 }}>{err}</div>}
-
-        {/* Botón */}
+        {[["Email","text",email,setEmail,"rabbit@hundredacre.com"],["Contraseña","password",pass,setPass,"••••••••"]].map(([lbl,type,val,setter,ph])=>(
+          <div key={lbl}>
+            <label style={{ fontSize:11, color:"#aaa", display:"block", marginBottom:5 }}>{lbl}</label>
+            <input type={type} value={val} onChange={e=>setter(e.target.value)}
+              onKeyDown={e=>e.key==="Enter"&&login()} placeholder={ph}
+              style={{ width:"100%", padding:"10px 12px", border:"1px solid #e8e8e8", borderRadius:8, fontSize:13, marginBottom:14, boxSizing:"border-box", outline:"none", background:"#f9fbff", color:"#333" }}/>
+          </div>
+        ))}
+        {err && <div style={{ background:"#FEF2F2", color:"#DC2626", borderRadius:8, padding:"8px 12px", fontSize:12, marginBottom:12 }}>{err}</div>}
         <button onClick={login}
-          style={{ width:"100%", padding:"12px", background:"#EF9F27", color:"#fff", border:"none", borderRadius:8, fontWeight:300, fontSize:14, letterSpacing:"0.3px", cursor:"pointer" }}>
+          style={{ width:"100%", padding:"12px", background:"#EF9F27", color:"#fff", border:"none", borderRadius:8, fontWeight:600, fontSize:14, cursor:"pointer" }}>
           Entrar al bosque 🌳
         </button>
-
-        {/* Demo box */}
-        <div style={{ marginTop:16, padding:"12px", background:"#FAEEDA", borderRadius:8, fontSize:11, color:"#633806", fontWeight:300, lineHeight:2, textAlign:"center" }}>
-          <span style={{ fontWeight:400 }}>Demo:</span><br/>
+        <div style={{ marginTop:16, padding:"12px", background:"#FAEEDA", borderRadius:8, fontSize:11, color:"#633806", lineHeight:2, textAlign:"center" }}>
+          <span style={{fontWeight:600}}>Demo:</span><br/>
           🐰 rabbit@hundredacre.com / honey123<br/>
           🐯 tigger@hundredacre.com / honey123
         </div>
-
-        {/* Link Piglet */}
-        <p style={{ textAlign:"center", marginTop:14, fontSize:11, color:"#aaa", fontWeight:300 }}>
-          ¿Sos cliente?{" "}
+        <p style={{ textAlign:"center", marginTop:14, fontSize:11, color:"#aaa" }}>
+          ¿Eres cliente?{" "}
           <span style={{ color:"#EF9F27", cursor:"pointer" }} onClick={()=>onLogin("piglet","")}>
             Rastreá tu paquete →
           </span>
@@ -272,7 +500,7 @@ function LoginView({ onLogin }) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// VISTA: PIGLET — Portal de rastreo público
+// VISTA: PIGLET
 // ══════════════════════════════════════════════════════════════════════════════
 function PigletView({ envios, onLogout }) {
   const [code,   setCode]   = useState("");
@@ -286,30 +514,25 @@ function PigletView({ envios, onLogout }) {
   };
 
   const HIST_LABELS = {
-    CREADO:     { icon:"📦", label:"Paquete creado",  who: ()  => "Bodega central" },
-    EN_ALMACEN: { icon:"🏭", label:"En almacén",       who: ()  => "Rabbit lo recibió 🐰" },
-    EN_RUTA:    { icon:"🐯", label:"En ruta — ahora", who: e   => `Tigger está en camino\nConductor: ${e.driver?.slice(0,-3)}*** (asignado)` },
-    ENTREGADO:  { icon:"✅", label:"Entregado",        who: ()  => "Entrega completada" },
+    CREADO:    { icon:"📦", label:"Paquete creado",   who:()=>"Bodega central" },
+    EN_ALMACEN:{ icon:"🏭", label:"En almacén",        who:()=>"Rabbit lo recibió 🐰" },
+    EN_RUTA:   { icon:"🐯", label:"En ruta — ahora",  who:e=>`Tigger está en camino\nConductor: ${e.driver?.slice(0,-3)}*** (asignado)` },
+    ENTREGADO: { icon:"✅", label:"Entregado",         who:()=>"Entrega completada" },
   };
   const STEPS  = ["CREADO","EN_ALMACEN","EN_RUTA","ENTREGADO"];
   const curIdx = result && result!=="notfound" && result!=="invisible" ? STEPS.indexOf(result.estado) : -1;
 
   return (
-    <div style={{ minHeight:"100vh", background:C.grayLight }}>
-      {/* Header */}
-      <div style={{ background:C.honey, padding:"20px 24px 18px", position:"relative" }}>
+    <div style={{ minHeight:"100vh", background:C.sidebarBg }}>
+      <div style={{ background:"#FFF5E6", padding:"20px 24px 18px", position:"relative", borderBottom:`1px solid #F5E6B4` }}>
         <div style={{ textAlign:"center" }}>
-          <HoneyBearAnim size={52} wiggle />
-          <h1 style={{ color:C.white, fontSize:22, fontWeight:700, margin:"8px 0 4px" }}>¿Dónde está mi paquete?</h1>
-          <p style={{ color:"rgba(255,255,255,0.85)", fontSize:13, margin:0 }}>Hundred Acre Wood Logistics</p>
+          <HoneyBearAnim/>
+          <h1 style={{ color:"#412402", fontSize:22, fontWeight:700, margin:"8px 0 4px" }}>¿Dónde está mi paquete?</h1>
+          <p style={{ color:"#855010", fontSize:13, margin:0 }}>Hundred Acre Wood Logistics · El Salvador</p>
         </div>
-        <button onClick={onLogout} style={{ position:"absolute", top:16, right:20, background:"rgba(255,255,255,0.2)", color:C.white, border:"1px solid rgba(255,255,255,0.4)", borderRadius:8, padding:"6px 14px", fontSize:12, cursor:"pointer", fontWeight:600 }}>
-          ← Salir
-        </button>
+        <button onClick={onLogout} style={{ position:"absolute", top:16, right:20, background:"rgba(196,127,0,0.12)", color:"#633806", border:"1px solid rgba(196,127,0,0.35)", borderRadius:8, padding:"6px 14px", fontSize:12, cursor:"pointer", fontWeight:600 }}>← Salir</button>
       </div>
-
       <div style={{ maxWidth:480, margin:"0 auto", padding:"28px 16px" }}>
-        {/* Buscador */}
         <div style={{ background:C.white, borderRadius:14, padding:"20px", boxShadow:"0 2px 12px rgba(0,0,0,0.07)", marginBottom:20 }}>
           <div style={{ fontSize:12, fontWeight:600, color:C.gray, marginBottom:8 }}>Número de guía</div>
           <div style={{ display:"flex", gap:8 }}>
@@ -332,7 +555,6 @@ function PigletView({ envios, onLogout }) {
             ⏳ Tu paquete aún no ingresó a bodega. En breve podrás rastrearlo.
           </div>
         )}
-
         {result && result!=="notfound" && result!=="invisible" && (
           <>
             <div style={{ background:C.white, borderRadius:14, padding:"20px", boxShadow:"0 2px 12px rgba(0,0,0,0.07)", marginBottom:14 }}>
@@ -344,37 +566,38 @@ function PigletView({ envios, onLogout }) {
                 <EstadoBadge estado={result.estado}/>
               </div>
               <Stepper estado={result.estado}/>
+              {result.estado==="EN_RUTA" && result.telefono && (
+                <a href={`tel:${result.telefono}`}
+                  style={{ display:"flex", alignItems:"center", gap:8, marginTop:10, background:C.greenLight, color:C.green, border:`1px solid ${C.green}33`, borderRadius:10, padding:"10px 14px", textDecoration:"none", fontWeight:600, fontSize:13 }}>
+                  📞 Contactar al conductor — {result.telefono}
+                </a>
+              )}
             </div>
 
-            {/* Mapa A→B */}
             <div style={{ background:C.white, borderRadius:14, overflow:"hidden", boxShadow:"0 2px 12px rgba(0,0,0,0.07)", marginBottom:14 }}>
-              <div style={{ padding:"14px 18px 10px", borderBottom:`1px solid ${C.border}`, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                <div style={{ fontWeight:600, fontSize:14 }}>📍 Ruta de tu paquete</div>
-                <div style={{ display:"flex", gap:12, fontSize:12 }}>
+              <div style={{ padding:"14px 18px 10px", borderBottom:`1px solid ${C.border}` }}>
+                <div style={{ fontWeight:600, fontSize:14, marginBottom:6 }}>📍 Ruta de tu paquete — El Salvador</div>
+                <div style={{ display:"flex", gap:10, fontSize:12, flexWrap:"wrap", alignItems:"center" }}>
                   <span style={{ display:"flex", alignItems:"center", gap:5 }}>
                     <span style={{ background:"#16A34A", color:"#fff", borderRadius:"50%", width:18, height:18, display:"inline-flex", alignItems:"center", justifyContent:"center", fontWeight:800, fontSize:10 }}>A</span>
                     {result.origen}
                   </span>
-                  <span style={{ color:C.honey, fontWeight:700 }}>→</span>
+                  <span style={{ color:C.honey, fontWeight:700, fontSize:16 }}>——→</span>
                   <span style={{ display:"flex", alignItems:"center", gap:5 }}>
                     <span style={{ background:"#2563EB", color:"#fff", borderRadius:"50%", width:18, height:18, display:"inline-flex", alignItems:"center", justifyContent:"center", fontWeight:800, fontSize:10 }}>B</span>
                     {result.destino}
                   </span>
                 </div>
               </div>
-              <div style={{ height:240 }}>
+              <div style={{ height:260 }}>
                 <MapaAB origen={result.origen} destino={result.destino}/>
               </div>
             </div>
 
-            {/* Historial */}
             <div style={{ background:C.white, borderRadius:14, padding:"20px", boxShadow:"0 2px 12px rgba(0,0,0,0.07)", marginBottom:14 }}>
               <div style={{ fontWeight:600, fontSize:14, marginBottom:14 }}>Historial del paquete</div>
               {STEPS.map((st, i) => {
-                const done  = i <= curIdx;
-                const h     = HIST_LABELS[st];
-                const hora  = result.hora?.[st];
-                const isCur = i === curIdx;
+                const done = i <= curIdx; const h = HIST_LABELS[st]; const hora = result.hora?.[st]; const isCur = i===curIdx;
                 return (
                   <div key={st} style={{ display:"flex", gap:12, marginBottom:16, opacity:done?1:0.35 }}>
                     <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}>
@@ -393,14 +616,12 @@ function PigletView({ envios, onLogout }) {
                 );
               })}
             </div>
-
             <div style={{ background:C.honeyLight, border:`1px solid ${C.honey}55`, borderRadius:10, padding:"12px 14px", fontSize:12, color:C.honeyDark }}>
               <div style={{ fontWeight:600, marginBottom:2 }}>🔒 Tu privacidad</div>
-              No necesitás crear cuenta. Solo ves el estado de TU paquete. El nombre completo del conductor no se muestra.
+              No necesitás crear cuenta. Solo ves el estado de TU paquete.
             </div>
           </>
         )}
-
         <p style={{ textAlign:"center", fontSize:11, color:"#9CA3AF", marginTop:20 }}>
           Demo: HAW001 (en ruta) · HAW002 (bodega) · HAW003 (invisible) · HAW004 (entregado)
         </p>
@@ -410,28 +631,39 @@ function PigletView({ envios, onLogout }) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// VISTA: ADMIN — Rabbit
+// VISTA: ADMIN
 // ══════════════════════════════════════════════════════════════════════════════
 function AdminView({ envios, setEnvios, userName, onLogout }) {
   const [section,     setSection]     = useState("paquetes");
   const [driverSel,   setDriverSel]   = useState({});
   const [mostrarForm, setMostrarForm] = useState(false);
-  const [form,        setForm]        = useState({ cliente:"", producto:"", origen:"", destino:"" });
+  const [form,        setForm]        = useState({ cliente:"", telefono:"", producto:"" });
+  const [origenLoc,   setOrigenLoc]   = useState({ departamento:"", municipio:"", colonia:"" });
+  const [destinoLoc,  setDestinoLoc]  = useState({ departamento:"", municipio:"", colonia:"" });
   const [formErr,     setFormErr]     = useState("");
 
   const crearPaquete = () => {
-    if (!form.cliente.trim()||!form.producto.trim()||!form.origen.trim()||!form.destino.trim())
-      return setFormErr("Completá todos los campos.");
+    const origenStr  = origenLoc.colonia  || origenLoc.municipio  || origenLoc.departamento;
+    const destinoStr = destinoLoc.colonia || destinoLoc.municipio || destinoLoc.departamento;
+    if (!form.cliente.trim() || !form.producto.trim() || !origenStr || !destinoStr)
+      return setFormErr("Completá todos los campos, incluyendo origen y destino.");
     const num   = String(envios.length+1).padStart(3,"0");
-    const nuevo = { id:`HAW${num}`, ...form, estado:"CREADO", driver:"", hora:{ CREADO:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"}) } };
+    const nuevo = {
+      id:`HAW${num}`, cliente:form.cliente, telefono:form.telefono,
+      producto:form.producto, origen:origenStr, destino:destinoStr,
+      estado:"CREADO", driver:"",
+      hora:{ CREADO:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"}) }
+    };
     setEnvios(p=>[...p,nuevo]);
-    setForm({ cliente:"", producto:"", origen:"", destino:"" });
+    setForm({cliente:"",telefono:"",producto:""});
+    setOrigenLoc({departamento:"",municipio:"",colonia:""});
+    setDestinoLoc({departamento:"",municipio:"",colonia:""});
     setFormErr(""); setMostrarForm(false);
   };
 
   const recibirBodega = id => setEnvios(p=>p.map(e=>
     e.id===id&&e.estado==="CREADO"
-      ? {...e, estado:"EN_ALMACEN", hora:{...e.hora, EN_ALMACEN:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
+      ? {...e,estado:"EN_ALMACEN",hora:{...e.hora,EN_ALMACEN:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
       : e
   ));
 
@@ -440,72 +672,71 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
     if (!dr) return alert("Seleccioná un driver primero.");
     setEnvios(p=>p.map(e=>
       e.id===id&&e.estado==="EN_ALMACEN"
-        ? {...e, estado:"EN_RUTA", driver:dr, hora:{...e.hora, EN_RUTA:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
+        ? {...e,estado:"EN_RUTA",driver:dr,hora:{...e.hora,EN_RUTA:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
         : e
     ));
   };
 
   const stats = [
-    { label:"Total hoy",  val:envios.length,                                   sub:"paquetes",      col:C.text  },
-    { label:"En ruta",    val:envios.filter(e=>e.estado==="EN_RUTA").length,    sub:"con Tigger 🐯", col:C.blue  },
-    { label:"Entregados", val:envios.filter(e=>e.estado==="ENTREGADO").length,  sub:"hoy",           col:C.green },
-    { label:"Fallidos",   val:0,                                                sub:"revisar",       col:C.red   },
+    {label:"Total hoy",  val:envios.length,                                  sub:"paquetes",     col:C.text },
+    {label:"En ruta",    val:envios.filter(e=>e.estado==="EN_RUTA").length,   sub:"con Tigger 🐯",col:C.blue },
+    {label:"Entregados", val:envios.filter(e=>e.estado==="ENTREGADO").length, sub:"hoy",          col:C.green},
+    {label:"Fallidos",   val:0,                                               sub:"revisar",      col:C.red  },
   ];
   const estadoStats = [
-    { label:"Creado",     val:envios.filter(e=>e.estado==="CREADO").length,     col:C.gray  },
-    { label:"En almacén", val:envios.filter(e=>e.estado==="EN_ALMACEN").length, col:C.honey },
-    { label:"En ruta",    val:envios.filter(e=>e.estado==="EN_RUTA").length,    col:C.blue  },
-    { label:"Entregado",  val:envios.filter(e=>e.estado==="ENTREGADO").length,  col:C.green },
+    {label:"Creado",     val:envios.filter(e=>e.estado==="CREADO").length,     col:C.gray },
+    {label:"En almacén", val:envios.filter(e=>e.estado==="EN_ALMACEN").length, col:C.honey},
+    {label:"En ruta",    val:envios.filter(e=>e.estado==="EN_RUTA").length,    col:C.blue },
+    {label:"Entregado",  val:envios.filter(e=>e.estado==="ENTREGADO").length,  col:C.green},
   ];
+
   const MENU = [
-    { id:"paquetes",    icon:"📦", label:"Paquetes"      },
-    { id:"conductores", icon:"🐯", label:"Conductores"   },
-    { id:"historial",   icon:"📋", label:"Historial"     },
-    { id:"config",      icon:"⚙️",  label:"Configuración" },
+    {id:"paquetes",    icon:"📦", label:"Paquetes"      },
+    {id:"conductores", icon:"🐯", label:"Conductores"   },
+    {id:"historial",   icon:"📋", label:"Historial"     },
+    {id:"config",      icon:"⚙️",  label:"Configuración" },
   ];
 
   const activeEnvios   = envios.filter(e=>e.estado!=="ENTREGADO");
   const tiggersActivos = DRIVERS.filter(d=>envios.some(e=>e.driver===d&&e.estado==="EN_RUTA")).length;
+  const enRutaCount    = envios.filter(e=>e.estado==="EN_RUTA").length;
 
   return (
     <div style={{ display:"flex", minHeight:"100vh", background:C.grayLight, fontFamily:"'Segoe UI',system-ui,sans-serif" }}>
-      {/* SIDEBAR */}
-      <aside style={{ width:200, background:C.white, borderRight:`1px solid ${C.border}`, display:"flex", flexDirection:"column", flexShrink:0 }}>
-        <div style={{ padding:"18px 16px 12px", borderBottom:`1px solid ${C.border}` }}>
-          <HoneyBearAnim size={38} />
-          <div style={{ fontSize:12, fontWeight:700, color:C.text, marginTop:4 }}>Hundred Acre Wood</div>
-          <div style={{ fontSize:11, color:C.gray }}>Panel de despacho — Owl Admin</div>
+      <aside style={{ width:220, background:C.sidebarBg, borderRight:`1px solid ${C.sidebarBorder}`, display:"flex", flexDirection:"column", flexShrink:0 }}>
+        <div style={{ padding:"20px 18px 14px", borderBottom:`1px solid ${C.sidebarBorder}` }}>
+          <HoneyBearAnim/>
+          <div style={{ fontSize:13, fontWeight:700, color:C.sidebarText, marginTop:4 }}>Hundred Acre Wood</div>
+          <div style={{ fontSize:11, color:C.sidebarMuted, marginTop:2 }}>Panel de despacho — Owl Admin</div>
         </div>
         <div style={{ padding:"10px 0", flex:1 }}>
-          <div style={{ fontSize:10, fontWeight:700, color:"#9CA3AF", letterSpacing:1, padding:"6px 16px" }}>MENÚ</div>
-          {MENU.map(m=>(
-            <button key={m.id} onClick={()=>setSection(m.id)}
-              style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"10px 16px", border:"none", background:section===m.id?C.honeyLight:"none", color:section===m.id?C.honeyDark:C.textSoft, fontWeight:section===m.id?700:400, fontSize:13.5, cursor:"pointer", borderLeft:section===m.id?`3px solid ${C.honey}`:"3px solid transparent", textAlign:"left" }}>
-              <span>{m.icon}</span>{m.label}
-            </button>
-          ))}
+          <div style={{ fontSize:10, fontWeight:700, color:C.sidebarMuted, letterSpacing:1.2, padding:"8px 18px 4px", textTransform:"uppercase" }}>MENÚ</div>
+          {MENU.map(m => {
+            const active = section===m.id;
+            return (
+              <button key={m.id} onClick={()=>setSection(m.id)}
+                style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"11px 18px", border:"none", background:active?C.sidebarActiveBg:"transparent", color:active?C.sidebarActive:C.sidebarText, fontWeight:active?700:400, fontSize:13.5, cursor:"pointer", borderLeft:active?`3px solid ${C.sidebarActive}`:"3px solid transparent", textAlign:"left" }}>
+                <span>{m.icon}</span>{m.label}
+              </button>
+            );
+          })}
         </div>
-        <div style={{ padding:"12px 16px", borderTop:`1px solid ${C.border}`, fontSize:11 }}>
+        <div style={{ padding:"14px 18px", borderTop:`1px solid ${C.sidebarBorder}`, fontSize:11 }}>
           <div style={{ color:C.green, fontWeight:600 }}>● Tigger disponible</div>
-          <div style={{ color:C.gray, marginTop:2 }}>{tiggersActivos} envíos en ruta</div>
+          <div style={{ color:C.sidebarMuted, marginTop:2 }}>{tiggersActivos} envíos en ruta</div>
         </div>
       </aside>
 
-      {/* CONTENIDO */}
       <div style={{ flex:1, display:"flex", flexDirection:"column", overflow:"hidden" }}>
-        {/* Topbar */}
-        <div style={{ background:C.white, borderBottom:`1px solid ${C.border}`, padding:"0 24px", height:52, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <div style={{ background:C.white, borderBottom:`1px solid ${C.border}`, padding:"0 20px", height:52, display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0 }}>
           <span style={{ fontSize:13, color:C.gray }}>Panel de despacho — Owl Admin</span>
           <div style={{ display:"flex", alignItems:"center", gap:10 }}>
             <span style={{ fontSize:13, color:C.textSoft }}>🐰 {userName}</span>
-            <div style={{ width:30, height:30, borderRadius:"50%", background:C.honey, color:C.white, display:"flex", alignItems:"center", justifyContent:"center", fontWeight:700, fontSize:14 }}>R</div>
             <button onClick={onLogout} style={{ background:"none", border:`1px solid ${C.border}`, borderRadius:8, padding:"5px 12px", fontSize:12, cursor:"pointer", color:C.gray }}>Cerrar sesión</button>
           </div>
         </div>
 
-        {/* Main */}
         <div style={{ flex:1, overflow:"auto", padding:"20px 24px" }}>
-
           {section==="paquetes" && (
             <>
               <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:12, marginBottom:16 }}>
@@ -529,12 +760,12 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                 ))}
               </div>
 
-              <div style={{ display:"grid", gridTemplateColumns:"1fr 360px", gap:16 }}>
+              <div style={{ display:"grid", gridTemplateColumns:"1fr 380px", gap:16 }}>
                 <div>
                   <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
                     <div style={{ fontWeight:600, fontSize:15 }}>Paquetes activos</div>
                     <button onClick={()=>setMostrarForm(v=>!v)}
-                      style={{ background:C.honey, color:C.white, border:"none", borderRadius:8, padding:"7px 14px", fontWeight:600, fontSize:13, cursor:"pointer" }}>
+                      style={{ background:"transparent", color:C.honeyDark, border:`1.5px solid ${C.honeyDark}`, borderRadius:8, padding:"7px 14px", fontWeight:600, fontSize:13, cursor:"pointer" }}>
                       {mostrarForm?"✕ Cancelar":"＋ Nuevo envío"}
                     </button>
                   </div>
@@ -542,14 +773,21 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                   {mostrarForm && (
                     <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:16, marginBottom:14, borderLeft:`4px solid ${C.honey}` }}>
                       <div style={{ fontWeight:600, fontSize:14, marginBottom:12 }}>📦 Registrar nuevo paquete</div>
-                      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:10 }}>
-                        {[["cliente","Cliente / destinatario","Ej: Piglet"],["producto","Producto","Ej: Tarro de miel × 3"],["origen","Origen","Ej: Bodega central"],["destino","Destino","Ej: Casa del roble, bosque sur"]].map(([k,l,ph])=>(
+                      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:14 }}>
+                        {[["cliente","Cliente / destinatario","Ej: Piglet"],["telefono","Teléfono","Ej: 7755-1234"],["producto","Producto","Ej: Tarro de miel × 3"]].map(([k,l,ph])=>(
                           <div key={k}>
                             <label style={{ fontSize:11, fontWeight:600, color:C.gray, display:"block", marginBottom:3 }}>{l}</label>
                             <input value={form[k]} onChange={e=>setForm(f=>({...f,[k]:e.target.value}))} placeholder={ph}
                               style={{ width:"100%", padding:"8px 10px", borderRadius:8, border:`1px solid ${C.border}`, fontSize:13, boxSizing:"border-box", outline:"none" }}/>
                           </div>
                         ))}
+                      </div>
+                      <div style={{ marginBottom:12 }}>
+                        <UbicacionSelector label="Origen" accentColor={C.green} value={origenLoc} onChange={setOrigenLoc}/>
+                      </div>
+                      <div style={{ borderTop:`1px solid ${C.border}`, margin:"12px 0" }}/>
+                      <div style={{ marginBottom:14 }}>
+                        <UbicacionSelector label="Destino" accentColor={C.blue} value={destinoLoc} onChange={setDestinoLoc}/>
                       </div>
                       {formErr && <div style={{ background:C.redLight, color:C.red, borderRadius:6, padding:"6px 10px", fontSize:12, marginBottom:8 }}>{formErr}</div>}
                       <button onClick={crearPaquete}
@@ -559,18 +797,16 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                     </div>
                   )}
 
-                  {activeEnvios.length===0 && (
+                  {activeEnvios.length===0 ? (
                     <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:32, textAlign:"center", color:C.gray, fontSize:13 }}>
-                      No hay paquetes activos. ¡Creá el primero!
+                      No hay paquetes activos.
                     </div>
-                  )}
-
-                  {activeEnvios.length>0 && (
+                  ) : (
                     <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, overflow:"hidden" }}>
                       <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
                         <thead>
                           <tr style={{ background:C.grayLight, color:C.gray, fontSize:11, fontWeight:600 }}>
-                            {["ID","Destino","Estado","Driver","Acción"].map(h=>(
+                            {["ID","Cliente","Teléfono","Estado","Driver","Acción"].map(h=>(
                               <th key={h} style={{ padding:"9px 12px", textAlign:"left", whiteSpace:"nowrap" }}>{h}</th>
                             ))}
                           </tr>
@@ -579,25 +815,28 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                           {activeEnvios.map(e=>(
                             <tr key={e.id} style={{ borderTop:`1px solid ${C.border}` }}>
                               <td style={{ padding:"11px 12px", fontFamily:"monospace", fontWeight:700, fontSize:12 }}>{e.id}</td>
-                              <td style={{ padding:"11px 12px", fontSize:12 }}>{e.destino}</td>
+                              <td style={{ padding:"11px 12px", fontSize:12 }}>{e.cliente}</td>
+                              <td style={{ padding:"11px 12px", fontSize:12 }}>
+                                {e.telefono ? <a href={`tel:${e.telefono}`} style={{ color:C.green, textDecoration:"none", fontWeight:600 }}>📞 {e.telefono}</a> : <span style={{color:"#9CA3AF"}}>—</span>}
+                              </td>
                               <td style={{ padding:"11px 12px" }}><EstadoBadge estado={e.estado}/></td>
                               <td style={{ padding:"11px 12px", fontSize:12, color:e.driver?C.text:"#9CA3AF" }}>{e.driver||"—"}</td>
                               <td style={{ padding:"11px 12px" }}>
                                 {e.estado==="CREADO" && (
                                   <button onClick={()=>recibirBodega(e.id)}
-                                    style={{ background:C.honeyLight, color:C.honeyDark, border:`1px solid ${C.honey}66`, borderRadius:7, padding:"5px 10px", fontSize:12, fontWeight:600, cursor:"pointer", whiteSpace:"nowrap" }}>
-                                    📦 Recibir en bodega
+                                    style={{ background:C.honeyLight, color:C.honeyDark, border:`1px solid ${C.honey}66`, borderRadius:7, padding:"5px 10px", fontSize:12, fontWeight:600, cursor:"pointer" }}>
+                                    📦 Recibir
                                   </button>
                                 )}
                                 {e.estado==="EN_ALMACEN" && (
                                   <div style={{ display:"flex", gap:6, alignItems:"center" }}>
                                     <select value={driverSel[e.id]||""} onChange={ev=>setDriverSel(p=>({...p,[e.id]:ev.target.value}))}
                                       style={{ padding:"5px 8px", borderRadius:7, border:`1px solid ${C.border}`, fontSize:12, outline:"none" }}>
-                                      <option value="">Asignar driver…</option>
+                                      <option value="">Driver…</option>
                                       {DRIVERS.map(d=><option key={d} value={d}>{d}</option>)}
                                     </select>
                                     <button onClick={()=>despachar(e.id)}
-                                      style={{ background:C.blueLight, color:C.blue, border:`1px solid ${C.blue}44`, borderRadius:7, padding:"5px 10px", fontSize:12, fontWeight:600, cursor:"pointer", whiteSpace:"nowrap" }}>
+                                      style={{ background:C.blueLight, color:C.blue, border:`1px solid ${C.blue}44`, borderRadius:7, padding:"5px 10px", fontSize:12, fontWeight:600, cursor:"pointer" }}>
                                       🚗 Despachar
                                     </button>
                                   </div>
@@ -612,13 +851,25 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                   )}
                 </div>
 
-                {/* Mapa */}
+                {/* MAPA ADMIN con Leaflet */}
                 <div>
-                  <div style={{ fontWeight:600, fontSize:15, marginBottom:10 }}>Mapa del bosque 🇸🇻</div>
-                  <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, overflow:"hidden", height:320 }}>
+                  <div style={{ fontWeight:600, fontSize:15, marginBottom:6 }}>Mapa del bosque 🇸🇻</div>
+                  {enRutaCount>0 && (
+                    <div style={{ marginBottom:8, display:"flex", flexWrap:"wrap", gap:6 }}>
+                      {envios.filter(e=>e.estado==="EN_RUTA").map((e,i)=>(
+                        <span key={e.id} style={{ display:"inline-flex", alignItems:"center", gap:5, background:ROUTE_COLORS[i%ROUTE_COLORS.length]+"18", border:`1px solid ${ROUTE_COLORS[i%ROUTE_COLORS.length]}44`, borderRadius:99, padding:"2px 9px", fontSize:11, fontWeight:600, color:ROUTE_COLORS[i%ROUTE_COLORS.length] }}>
+                          <span style={{ width:8, height:8, borderRadius:"50%", background:ROUTE_COLORS[i%ROUTE_COLORS.length], display:"inline-block" }}/>
+                          {e.id}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, overflow:"hidden", height:340 }}>
                     <MapaSV envios={envios}/>
                   </div>
-                  <div style={{ marginTop:8, fontSize:11, color:C.gray }}>📍 Paquetes EN RUTA en el mapa</div>
+                  <div style={{ marginTop:6, fontSize:11, color:C.gray }}>
+                    ● A = origen &nbsp;■ B = destino &nbsp;— cada color es un paquete EN RUTA
+                  </div>
                 </div>
               </div>
             </>
@@ -634,9 +885,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                     <div key={d} style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:14 }}>
                       <div style={{ fontWeight:600, fontSize:13 }}>🐯 {d}</div>
                       <div style={{ fontSize:12, marginTop:4 }}>
-                        {asignado
-                          ? <span style={{ color:C.blue, fontWeight:600 }}>● En ruta · {asignado.id}</span>
-                          : <span style={{ color:C.green }}>● Disponible</span>}
+                        {asignado ? <span style={{color:C.blue,fontWeight:600}}>● En ruta · {asignado.id}</span> : <span style={{color:C.green}}>● Disponible</span>}
                       </div>
                     </div>
                   );
@@ -651,13 +900,16 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
               <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, overflow:"hidden" }}>
                 <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
                   <thead><tr style={{ background:C.grayLight, color:C.gray, fontSize:11, fontWeight:600 }}>
-                    {["ID","Cliente","Producto","Destino","Estado","Driver"].map(h=><th key={h} style={{ padding:"9px 12px", textAlign:"left" }}>{h}</th>)}
+                    {["ID","Cliente","Teléfono","Producto","Destino","Estado","Driver"].map(h=><th key={h} style={{ padding:"9px 12px", textAlign:"left" }}>{h}</th>)}
                   </tr></thead>
                   <tbody>
                     {envios.map(e=>(
                       <tr key={e.id} style={{ borderTop:`1px solid ${C.border}` }}>
                         <td style={{ padding:"10px 12px", fontFamily:"monospace", fontWeight:700, fontSize:12 }}>{e.id}</td>
                         <td style={{ padding:"10px 12px", fontSize:12 }}>{e.cliente}</td>
+                        <td style={{ padding:"10px 12px", fontSize:12 }}>
+                          {e.telefono ? <a href={`tel:${e.telefono}`} style={{ color:C.green, textDecoration:"none", fontWeight:600 }}>{e.telefono}</a> : <span style={{color:"#9CA3AF"}}>—</span>}
+                        </td>
                         <td style={{ padding:"10px 12px", fontSize:12 }}>{e.producto}</td>
                         <td style={{ padding:"10px 12px", fontSize:12 }}>{e.destino}</td>
                         <td style={{ padding:"10px 12px" }}><EstadoBadge estado={e.estado}/></td>
@@ -675,14 +927,17 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
               <div style={{ fontWeight:600, fontSize:18, marginBottom:16 }}>⚙️ Configuración</div>
               <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:20 }}>
                 <div style={{ fontWeight:600, marginBottom:4 }}>Sistema</div>
-                <div style={{ fontSize:13, color:C.gray }}>Hundred Acre Wood Logistics v1.0</div>
-                <div style={{ fontSize:13, color:C.gray, marginTop:2 }}>Backend: .NET 8 · DB: PostgreSQL 15</div>
+                <div style={{ fontSize:13, color:C.gray }}>Hundred Acre Wood Logistics v3.0</div>
+                <div style={{ fontSize:13, color:C.gray, marginTop:2 }}>Mapa real Leaflet + OpenStreetMap</div>
                 <hr style={{ border:"none", borderTop:`1px solid ${C.border}`, margin:"14px 0" }}/>
-                <div style={{ fontSize:13, color:C.gray }}>🦉 Swagger: localhost:5288/swagger</div>
+                <div style={{ fontSize:12, color:C.gray, fontWeight:600, marginBottom:6 }}>Mapa</div>
+                <div style={{ fontSize:11, color:C.gray, lineHeight:1.8 }}>
+                  Usando OpenStreetMap vía Leaflet 1.9.4.<br/>
+                  14 departamentos · municipios y colonias de El Salvador precargados.
+                </div>
               </div>
             </div>
           )}
-
         </div>
       </div>
     </div>
@@ -690,43 +945,42 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// VISTA: DRIVER — Tigger
+// VISTA: DRIVER
 // ══════════════════════════════════════════════════════════════════════════════
 function DriverView({ envios, setEnvios, userName, onLogout }) {
-  const miNombre   = userName || "";
-  const activos    = envios.filter(e =>
+  const miNombre = userName || "";
+  const activos  = envios.filter(e =>
     DRIVER_ACTIVO.includes(e.estado) &&
     (e.driver===miNombre || e.driver==="" || !miNombre.startsWith("Tigger-"))
   );
   const entregados = envios.filter(e =>
-    e.estado==="ENTREGADO" &&
-    (e.driver===miNombre || !miNombre.startsWith("Tigger-"))
+    e.estado==="ENTREGADO" && (e.driver===miNombre || !miNombre.startsWith("Tigger-"))
   );
 
   const [mapaAbierto, setMapaAbierto] = useState(null);
   const [fotos,       setFotos]       = useState({});
 
   const avanzar = id => setEnvios(p=>p.map(e=>
-    e.id===id && ESTADO_NEXT[e.estado]
-      ? {...e, estado:ESTADO_NEXT[e.estado], hora:{...e.hora, [ESTADO_NEXT[e.estado]]:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
+    e.id===id&&ESTADO_NEXT[e.estado]
+      ? {...e,estado:ESTADO_NEXT[e.estado],hora:{...e.hora,[ESTADO_NEXT[e.estado]]:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
       : e
   ));
 
   const marcarFallido = id => setEnvios(p=>p.map(e=>
-    e.id===id && (e.estado==="EN_RUTA"||e.estado==="EN_ALMACEN")
-      ? {...e, estado:"FALLIDO", hora:{...e.hora, FALLIDO:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
+    e.id===id&&(e.estado==="EN_RUTA"||e.estado==="EN_ALMACEN")
+      ? {...e,estado:"FALLIDO",hora:{...e.hora,FALLIDO:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
       : e
   ));
 
   return (
     <div style={{ minHeight:"100vh", background:C.grayLight, fontFamily:"'Segoe UI',system-ui,sans-serif" }}>
-      <div style={{ background:`linear-gradient(135deg,${C.blue},${C.green})`, padding:"20px 20px 16px" }}>
+      <div style={{ background:"#FFF5E6", padding:"20px 20px 16px", borderBottom:`1px solid #F5E6B4` }}>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-          <div style={{ background:"rgba(255,255,255,0.2)", borderRadius:12, padding:"10px 16px", display:"inline-block" }}>
-            <div style={{ color:C.white, fontWeight:700, fontSize:16 }}>🐯 App Tigger</div>
-            <div style={{ color:"rgba(255,255,255,0.8)", fontSize:12 }}>Conductor · {userName}</div>
+          <div style={{ background:"rgba(196,127,0,0.10)", borderRadius:12, padding:"10px 16px", border:"1px solid rgba(196,127,0,0.2)" }}>
+            <div style={{ color:"#412402", fontWeight:700, fontSize:16 }}>🐯 App Tigger</div>
+            <div style={{ color:"#855010", fontSize:12 }}>Conductor · {userName}</div>
           </div>
-          <button onClick={onLogout} style={{ background:"rgba(255,255,255,0.2)", color:C.white, border:"none", borderRadius:8, padding:"7px 14px", fontSize:12, cursor:"pointer" }}>
+          <button onClick={onLogout} style={{ background:"rgba(196,127,0,0.12)", color:"#633806", border:"1px solid rgba(196,127,0,0.35)", borderRadius:8, padding:"7px 14px", fontSize:12, cursor:"pointer", fontWeight:600 }}>
             Salir
           </button>
         </div>
@@ -754,28 +1008,18 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
               <div style={{ fontSize:26 }}>🍯</div>
               <div style={{ flex:1 }}>
                 <div style={{ fontWeight:700, fontSize:14 }}>{e.producto||"Paquete"}</div>
-                <div style={{ fontSize:12, color:C.gray }}>#{e.id} · Para: {e.cliente} 🐷</div>
-                <div style={{ fontSize:12, color:C.gray }}>{e.destino}</div>
+                <div style={{ fontSize:12, color:C.gray }}>#{e.id} · Para: {e.cliente}</div>
+                <div style={{ fontSize:12, color:C.gray }}>📍 {e.destino}</div>
+                {e.telefono && (
+                  <a href={`tel:${e.telefono}`}
+                    style={{ display:"inline-flex", alignItems:"center", gap:5, marginTop:6, background:C.greenLight, color:C.green, border:`1px solid ${C.green}33`, borderRadius:8, padding:"5px 10px", textDecoration:"none", fontSize:12, fontWeight:600 }}>
+                    📞 Llamar al cliente — {e.telefono}
+                  </a>
+                )}
               </div>
             </div>
 
-            <div style={{ display:"flex", gap:6, margin:"12px 0 10px", alignItems:"center", flexWrap:"wrap" }}>
-              {["CREADO","EN_ALMACEN","EN_RUTA","ENTREGADO"].map((st,i,arr)=>{
-                const cur  = arr.indexOf(e.estado);
-                const done = i<=cur;
-                const isCur= i===cur;
-                return (
-                  <div key={st} style={{ display:"flex", alignItems:"center", gap:4 }}>
-                    <div style={{ background:isCur?ESTADO_COLORS[st]:done?ESTADO_COLORS[st]+"66":"#E5E7EB", color:C.white, borderRadius:8, padding:"4px 8px", fontSize:11, fontWeight:600, whiteSpace:"nowrap" }}>
-                      {["Creado","Almacén","En ruta","Entregado"][i]}{done&&" ✓"}
-                    </div>
-                    {i<arr.length-1 && <div style={{ width:12, height:2, background:done&&i<cur?ESTADO_COLORS[e.estado]:"#E5E7EB" }}/>}
-                  </div>
-                );
-              })}
-            </div>
-
-            <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+            <div style={{ display:"flex", gap:8, margin:"12px 0 10px", alignItems:"center", flexWrap:"wrap" }}>
               {e.estado==="EN_ALMACEN" && (
                 <>
                   <button onClick={()=>avanzar(e.id)}
@@ -798,17 +1042,10 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
                     style={{ background:`linear-gradient(135deg,${C.red},#B91C1C)`, color:C.white, border:"none", borderRadius:10, padding:"10px 14px", fontWeight:700, fontSize:13, cursor:"pointer" }}>
                     ❌ Fallido
                   </button>
-                  {/* Botón foto — abre cámara en móvil */}
                   <label style={{ background:C.grayLight, color:C.gray, border:`1px solid ${C.border}`, borderRadius:10, padding:"10px 12px", fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:4 }}>
                     📷 Foto
                     <input type="file" accept="image/*" capture="environment" style={{ display:"none" }}
-                      onChange={ev=>{
-                        const file = ev.target.files?.[0];
-                        if (!file) return;
-                        const url = URL.createObjectURL(file);
-                        setFotos(prev=>({...prev,[e.id]:url}));
-                        ev.target.value="";
-                      }}/>
+                      onChange={ev=>{ const file=ev.target.files?.[0]; if(!file)return; const url=URL.createObjectURL(file); setFotos(p=>({...p,[e.id]:url})); ev.target.value=""; }}/>
                   </label>
                 </>
               )}
@@ -819,7 +1056,7 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
             </div>
 
             {mapaAbierto===e.id && (
-              <div style={{ marginTop:12, borderRadius:10, overflow:"hidden", border:`1px solid ${C.border}`, height:220 }}>
+              <div style={{ marginTop:12, borderRadius:10, overflow:"hidden", border:`1px solid ${C.border}`, height:280 }}>
                 <MapaAB origen={e.origen||"Bodega central"} destino={e.destino}/>
               </div>
             )}
@@ -853,7 +1090,6 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
           </>
         )}
 
-        {/* FALLIDOS */}
         {envios.filter(e=>e.estado==="FALLIDO"&&(e.driver===miNombre||!miNombre.startsWith("Tigger-"))).length>0 && (
           <>
             <div style={{ fontWeight:600, fontSize:14, color:C.red, margin:"20px 0 10px" }}>❌ Fallidos</div>
@@ -875,7 +1111,7 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// APP ROOT — todo en un solo archivo, sin react-router
+// APP ROOT
 // ══════════════════════════════════════════════════════════════════════════════
 export default function App() {
   const [role,     setRole]   = useState(null);
@@ -885,9 +1121,9 @@ export default function App() {
   const handleLogin  = (r, name) => { setRole(r); setUser(name); };
   const handleLogout = ()        => { setRole(null); setUser(""); };
 
-  if (!role)             return <LoginView onLogin={handleLogin}/>;
-  if (role==="piglet")   return <PigletView  envios={envios} onLogout={handleLogout}/>;
-  if (role==="admin")    return <AdminView   envios={envios} setEnvios={setEnvios} userName={userName} onLogout={handleLogout}/>;
-  if (role==="driver")   return <DriverView  envios={envios} setEnvios={setEnvios} userName={userName} onLogout={handleLogout}/>;
+  if (!role)           return <LoginView onLogin={handleLogin}/>;
+  if (role==="piglet") return <PigletView  envios={envios} onLogout={handleLogout}/>;
+  if (role==="admin")  return <AdminView   envios={envios} setEnvios={setEnvios} userName={userName} onLogout={handleLogout}/>;
+  if (role==="driver") return <DriverView  envios={envios} setEnvios={setEnvios} userName={userName} onLogout={handleLogout}/>;
   return null;
 }
