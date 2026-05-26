@@ -11,39 +11,92 @@ const SV_DATA = {
     "Antiguo Cuscatlán": ["Centro Antiguo Cuscatlán","Colonia Maquilishuat","Jardines de Guadalupe","Colonia Montserrat","Colonia San Luis","Colonia El Bálsamo","Colonia Las Magnolias","Colonia La Sultana","Colonia Jardines del Bálsamo","Colonia Lomas del Bálsamo","Colonia San Francisco","Colonia Santa Elena","Residencial Santa Elena","Urbanización Madre Selva","Urbanización Las Colinas","Urbanización Bosques de Prusia","Cantón El Bálsamo","Finca El Bálsamo","Finca Las Delicias"],
     "San Marcos": ["Centro de San Marcos","Colonia Las Margaritas","Colonia Jardines de San Marcos","Colonia Santa Marta","Colonia Las Flores","Colonia San Antonio","Colonia El Paraíso","Colonia La Cañada","Colonia Los Almendros","Colonia Las Brisas","Colonia Monte Alegre","Barrio El Centro","Cantón Los Planes","Cantón El Barillo","Cantón El Sunza","Finca El Rosario"],
     "Delgado": ["Centro de Delgado","Colonia Cinco de Noviembre","Colonia Ciudad Delgado","Colonia Las Palmeras","Colonia Quiñónez","Colonia El Modelo","Colonia La Fosa","Colonia El Rosal","Colonia San Rafael","Colonia Santa Lucía","Colonia Las Vegas","Colonia El Milagro","Barrio San Rafael","Cantón Iberia","Cantón El Ángel"],
+    "Panchimalco": ["Centro de Panchimalco","Barrio El Calvario","Barrio La Cruz","Cantón Los Planes de Renderos","Cantón El Cedro","Cantón San Isidro","Cantón Los Talnetes","Cantón El Jocote","Finca Las Mercedes","Finca El Paraíso"],
+    "Aguilares": ["Centro de Aguilares","Colonia El Carmen","Colonia Las Flores","Colonia El Progreso","Colonia San Rafael","Barrio El Centro","Cantón Guazapa Norte","Cantón El Sitio","Cantón San Felipe","Cantón Rosario","Finca La Esperanza"],
+    "Quezaltepeque": ["Centro de Quezaltepeque","Colonia El Carmen","Colonia Las Flores","Colonia Santa Rosa","Colonia San Antonio","Barrio El Centro","Barrio San Rafael","Cantón El Refugio","Cantón Las Cruces","Cantón El Jute","Cantón Agua Caliente","Finca San José","Finca El Molino"],
+    "San Juan Opico": ["Centro de San Juan Opico","Colonia El Carmen","Colonia Las Flores","Barrio El Centro","Cantón Sitio del Niño","Cantón El Paisnal","Cantón Lomas de San Gabriel","Cantón El Jocote","Cantón Las Lajas","Cantón San Andrés","Finca El Progreso","Finca Las Delicias"],
+    "Tonacatepeque": ["Centro de Tonacatepeque","Colonia Las Flores","Colonia El Carmen","Barrio El Centro","Cantón El Tránsito","Cantón San José","Cantón Los Llanos","Cantón El Guayabo","Finca La Esperanza"],
+    "Cuscatancingo": ["Centro de Cuscatancingo","Colonia Zacamil Sur","Colonia Las Palmas","Colonia San Ramón","Cantón Las Lajas"],
+    "Guazapa": ["Centro de Guazapa","Barrio El Centro","Cantón San Felipe","Cantón El Rodeo","Cantón El Paisnal","Cantón Las Flores","Finca El Paraíso"],
+    "San Martín": ["Centro de San Martín","Colonia El Tránsito","Colonia Las Flores","Cantón El Tránsito","Cantón Ayutuxtepeque","Finca San José"],
+    "Santo Tomás": ["Centro de Santo Tomás","Barrio El Centro","Cantón El Jute","Cantón San Bartolo","Finca Las Delicias"],
+    "Nejapa": ["Centro de Nejapa","Barrio El Centro","Cantón El Ángel","Cantón Las Lajas","Cantón San Jerónimo","Finca El Rosario"],
+    "Ayutuxtepeque": ["Centro de Ayutuxtepeque","Colonia Jardines","Cantón Las Flores","Cantón El Carmen"],
   },
   "Santa Ana": {
-    "Santa Ana": ["Centro de Santa Ana","Colonia Sinaí","Colonia Santa Bárbara","Colonia El Palmar","Colonia Las Vegas","Colonia Santa Lucia","Colonia Belén","Colonia Lourdes","Colonia San Rafael","Colonia La Esperanza","Colonia El Carmen","Colonia Santa Cruz","Colonia Las Flores","Barrio El Calvario","Barrio Santa Bárbara","Barrio San Rafael","Barrio El Centro"],
-    "Chalchuapa": ["Centro de Chalchuapa","Barrio El Calvario","Barrio San Rafael","Barrio Santiago","Colonia El Carmen","Colonia Las Flores","Cantón Atiquizaya","Cantón El Sunza","Cantón Las Flores"],
+    "Santa Ana": ["Centro de Santa Ana","Colonia Sinaí","Colonia Santa Bárbara","Colonia El Palmar","Colonia Las Vegas","Colonia Santa Lucia","Colonia Belén","Colonia Lourdes","Colonia San Rafael","Colonia La Esperanza","Colonia El Carmen","Colonia Santa Cruz","Colonia Las Flores","Colonia La Gloria","Colonia Modelo","Colonia Progreso","Colonia San Antonio","Colonia Quiñónez","Barrio El Calvario","Barrio Santa Bárbara","Barrio San Rafael","Barrio El Centro","Barrio La Cruz","Cantón Texistepeque","Cantón El Sunza","Cantón Las Piedras","Cantón San Luis","Cantón El Palmar","Finca El Paraíso","Finca Las Mercedes","Finca La Esperanza"],
+    "Coatepeque": ["Centro de Coatepeque","Colonia San Francisco","Colonia Las Flores","Colonia El Carmen","Barrio El Centro","Cantón El Congo","Cantón Las Lajas","Cantón El Cerrito","Finca Las Lajas","Finca El Molino"],
+    "Chalchuapa": ["Centro de Chalchuapa","Barrio El Calvario","Barrio San Rafael","Barrio Santiago","Colonia El Carmen","Colonia Las Flores","Cantón Atiquizaya","Cantón El Sunza","Cantón Las Flores","Cantón San Isidro","Cantón Sihuatehuacán","Finca El Paraíso","Finca Las Delicias"],
+    "Metapán": ["Centro de Metapán","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Colonia El Carmen","Cantón Santa Rosa Guachipilín","Cantón El Sauce","Cantón Las Pilas","Cantón San José","Cantón El Pital","Finca El Rosario","Finca Las Mercedes"],
+    "Atiquizaya": ["Centro de Atiquizaya","Barrio El Centro","Colonia Las Flores","Cantón San Lorenzo","Cantón El Espino","Finca Las Mercedes"],
   },
   "San Miguel": {
-    "San Miguel": ["Centro de San Miguel","Colonia Ciudad Jardín","Colonia Chaparral","Barrio El Calvario","Colonia El Molino","Colonia Milagro de la Paz","Colonia Las Margaritas","Colonia Belén","Colonia San Francisco","Colonia Las Flores","Colonia Santa Rosa","Colonia El Carmen","Colonia La Merced","Barrio El Centro","Barrio San Francisco","Barrio La Merced","Cantón El Jícaro","Cantón Hornitos","Cantón Gualcho"],
+    "San Miguel": ["Centro de San Miguel","Colonia Ciudad Jardín","Colonia Chaparral","Barrio El Calvario","Colonia El Molino","Colonia Milagro de la Paz","Colonia Las Margaritas","Colonia Belén","Colonia San Francisco","Colonia Las Flores","Colonia Santa Rosa","Colonia El Carmen","Colonia La Merced","Colonia Las Palmas","Colonia Lourdes","Barrio El Centro","Barrio San Francisco","Barrio La Merced","Barrio San Felipe","Cantón El Jícaro","Cantón Hornitos","Cantón Gualcho","Cantón El Tránsito","Cantón Las Flores","Cantón San Pedro","Finca El Paraíso","Finca Las Mercedes","Finca El Rosario"],
+    "Ciudad Barrios": ["Centro de Ciudad Barrios","Barrio El Centro","Colonia Las Flores","Cantón El Volcán","Cantón Las Cruces","Cantón El Jícaro","Finca El Rosario"],
+    "San Francisco Gotera": ["Centro de San Francisco Gotera","Barrio El Centro","Colonia Las Flores","Cantón El Delirio","Cantón Las Lajas","Finca Las Mercedes"],
   },
   "Sonsonate": {
-    "Sonsonate": ["Centro de Sonsonate","Colonia Las Palmas","Colonia El Progreso","Colonia Las Flores","Colonia Santa Rosa","Colonia El Carmen","Barrio El Centro","Barrio El Calvario"],
-    "Acajutla": ["Centro de Acajutla","Puerto de Acajutla","Barrio El Centro","Colonia Las Flores"],
+    "Sonsonate": ["Centro de Sonsonate","Colonia Las Palmas","Colonia El Progreso","Colonia Las Flores","Colonia Santa Rosa","Colonia El Carmen","Colonia Lourdes","Colonia San Rafael","Barrio El Centro","Barrio El Calvario","Barrio El Ángel","Cantón El Sunza","Cantón Las Lajas","Cantón El Cacao","Cantón San Isidro","Finca Las Mercedes","Finca El Paraíso"],
+    "Acajutla": ["Centro de Acajutla","Puerto de Acajutla","Barrio El Centro","Colonia Las Flores","Cantón El Zope","Cantón Las Lajas","Finca El Rosario"],
+    "Armenia": ["Centro de Armenia","Barrio El Centro","Colonia Las Flores","Cantón El Sunza","Cantón Las Lajas","Finca El Molino"],
+    "Izalco": ["Centro de Izalco","Barrio El Calvario","Barrio El Centro","Colonia Las Flores","Cantón El Sunza","Cantón Las Lajas","Cantón Cuyagualo","Cantón Naco","Finca Las Delicias","Finca El Rosario"],
   },
   "La Libertad": {
-    "La Libertad": ["Puerto de La Libertad","Colonia El Delfín","Barrio El Centro","Cantón El Tunco","Cantón Playa San Diego"],
-    "Santa Tecla": ["Centro Santa Tecla","Colonia Las Victorias","Colonia El Merliot","Colonia Jardines del Volcán"],
-    "Antiguo Cuscatlán": ["Jardines de Guadalupe","Colonia Santa Elena","Colonia Montserrat"],
+    "La Libertad": ["Puerto de La Libertad","Colonia El Delfín","Barrio El Centro","Barrio El Calvario","Cantón El Tunco","Cantón Playa San Diego","Cantón El Sunzal","Finca Las Delicias"],
+    "Santa Tecla": ["Centro Santa Tecla","Colonia Las Victorias","Colonia El Merliot","Colonia Jardines del Volcán","Colonia Madre Selva","Colonia Las Cumbres","Colonia Santa Marta","Cantón El Progreso","Finca El Paraíso"],
+    "Antiguo Cuscatlán": ["Jardines de Guadalupe","Colonia Santa Elena","Colonia Montserrat","Colonia La Sultana","Urbanización Bosques de Prusia","Cantón El Bálsamo"],
+    "San Juan Opico": ["Centro de San Juan Opico","Colonia El Carmen","Cantón Sitio del Niño","Cantón Las Lajas","Finca El Progreso"],
+    "Colón": ["Centro de Colón","Colonia Las Flores","Colonia El Carmen","Cantón Las Lajas","Cantón El Sitio","Cantón Lourdes","Finca El Rosario"],
+    "Nuevo Cuscatlán": ["Centro de Nuevo Cuscatlán","Urbanización Las Colinas","Colonia Las Flores"],
+    "Zaragoza": ["Centro de Zaragoza","Colonia Las Flores","Cantón El Progreso","Finca El Rosario"],
   },
   "Usulután": {
-    "Usulután": ["Centro de Usulután","Colonia 15 de Septiembre","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Colonia El Carmen"],
-    "Jiquilisco": ["Centro de Jiquilisco","Barrio El Centro","Cantón Puerto El Triunfo","Cantón El Jobal"],
+    "Usulután": ["Centro de Usulután","Colonia 15 de Septiembre","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Colonia El Carmen","Cantón El Jícaro","Cantón Las Lajas","Cantón El Tránsito","Finca El Paraíso","Finca Las Mercedes"],
+    "Jiquilisco": ["Centro de Jiquilisco","Barrio El Centro","Cantón Puerto El Triunfo","Cantón El Jobal","Cantón Las Flores","Cantón El Tránsito","Finca El Rosario"],
+    "Santiago de María": ["Centro de Santiago de María","Barrio El Centro","Colonia Las Flores","Cantón El Sunza","Cantón Las Lajas","Finca Las Delicias"],
+    "Puerto El Triunfo": ["Centro de Puerto El Triunfo","Barrio El Centro","Cantón El Jobal"],
   },
   "La Unión": {
-    "La Unión": ["Centro de La Unión","Puerto Cutuco","Barrio El Centro","Barrio El Calvario","Colonia Las Flores"],
+    "La Unión": ["Centro de La Unión","Puerto Cutuco","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Cantón El Tamarindo","Cantón Las Tunas","Cantón Playitas","Finca El Rosario"],
+    "Santa Rosa de Lima": ["Centro de Santa Rosa de Lima","Barrio El Centro","Colonia Las Flores","Cantón El Delirio","Cantón Las Lajas","Finca Las Mercedes"],
+    "Conchagua": ["Centro de Conchagua","Cantón Las Tunas","Cantón El Tamarindo","Finca El Rosario"],
   },
   "Chalatenango": {
-    "Chalatenango": ["Centro de Chalatenango","Colonia El Rosario","Barrio El Centro","Barrio El Calvario","Colonia Las Flores"],
+    "Chalatenango": ["Centro de Chalatenango","Colonia El Rosario","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Cantón El Sitio","Cantón Las Lajas","Cantón San Felipe","Finca El Paraíso","Finca Las Mercedes"],
+    "La Palma": ["Centro de La Palma","Barrio El Centro","Cantón El Pital","Cantón Las Flores","Finca El Rosario"],
+    "Nueva Concepción": ["Centro de Nueva Concepción","Colonia Las Flores","Cantón Las Lajas","Finca El Rosario"],
+  },
+  "Cuscatlán": {
+    "Cojutepeque": ["Centro de Cojutepeque","Colonia San Rafael","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Cantón El Sitio","Cantón Las Lajas","Finca El Paraíso"],
+    "Suchitoto": ["Centro de Suchitoto","Barrio El Centro","Barrio El Calvario","Cantón El Sitio","Cantón Las Flores","Cantón San José","Finca Las Mercedes"],
   },
   "Ahuachapán": {
-    "Ahuachapán": ["Centro de Ahuachapán","Colonia Las Flores","Barrio El Centro","Barrio El Calvario","Colonia El Carmen"],
+    "Ahuachapán": ["Centro de Ahuachapán","Colonia Las Flores","Barrio El Centro","Barrio El Calvario","Colonia El Carmen","Colonia San Rafael","Cantón Las Lajas","Cantón El Barro","Cantón El Sunza","Cantón San Lorenzo","Finca El Paraíso","Finca Las Mercedes","Finca El Rosario"],
+    "Atiquizaya": ["Centro de Atiquizaya","Barrio El Centro","Colonia Las Flores","Cantón San Lorenzo","Cantón El Espino","Finca Las Mercedes"],
+    "Apaneca": ["Centro de Apaneca","Cantón Las Flores","Finca Las Delicias","Finca El Paraíso"],
+    "Concepción de Ataco": ["Centro de Concepción de Ataco","Cantón Las Flores","Finca El Rosario"],
+  },
+  "Cabañas": {
+    "Sensuntepeque": ["Centro de Sensuntepeque","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Cantón Las Lajas","Cantón El Rosario","Cantón San Felipe","Finca El Paraíso","Finca Las Mercedes"],
+    "Ilobasco": ["Centro de Ilobasco","Barrio El Centro","Colonia Las Flores","Colonia El Carmen","Cantón El Sunza","Cantón Las Lajas","Cantón San Isidro","Finca El Rosario"],
   },
   "La Paz": {
-    "Zacatecoluca": ["Centro de Zacatecoluca","Colonia El Carmen","Barrio El Centro","Barrio El Calvario","Colonia Las Flores"],
-    "San Luis Talpa": ["Centro de San Luis Talpa","Cantón Las Flores","Cantón El Aeropuerto"],
+    "Zacatecoluca": ["Centro de Zacatecoluca","Colonia El Carmen","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Cantón San Juan Talpa","Cantón Las Lajas","Cantón El Rosario","Finca El Paraíso","Finca Las Mercedes"],
+    "San Luis Talpa": ["Centro de San Luis Talpa","Cantón Las Flores","Cantón El Aeropuerto","Finca El Rosario"],
+    "Santiago Nonualco": ["Centro de Santiago Nonualco","Barrio El Centro","Cantón Las Flores","Cantón El Rosario","Finca El Molino"],
+    "Olocuilta": ["Centro de Olocuilta","Barrio El Centro","Colonia Las Flores","Cantón El Sunza","Cantón Las Lajas","Finca El Rosario"],
+    "San Luis La Herradura": ["Centro de San Luis La Herradura","Cantón El Rosario","Playa El Espino"],
+  },
+  "Morazán": {
+    "San Francisco Gotera": ["Centro de San Francisco Gotera","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Cantón El Delirio","Cantón Las Lajas","Finca El Paraíso"],
+    "Perquín": ["Centro de Perquín","Cantón Las Flores","Finca El Paraíso"],
+    "Cacaopera": ["Centro de Cacaopera","Cantón Las Flores","Finca Las Delicias"],
+    "Jocoro": ["Centro de Jocoro","Cantón El Rosario","Finca El Paraíso"],
+  },
+  "San Vicente": {
+    "San Vicente": ["Centro de San Vicente","Barrio El Centro","Barrio El Calvario","Colonia Las Flores","Colonia El Carmen","Cantón El Sitio","Cantón Las Lajas","Cantón El Rosario","Finca El Paraíso","Finca Las Mercedes"],
+    "San Sebastián": ["Centro de San Sebastián","Barrio El Centro","Cantón Las Flores","Cantón El Rosario","Finca El Molino"],
+    "Apastepeque": ["Centro de Apastepeque","Cantón Las Flores","Finca El Paraíso"],
   },
 };
 
@@ -57,13 +110,38 @@ const SV_COORDS = {
   "Mejicanos":[13.7282,-89.2167],"Soyapango":[13.7100,-89.1533],
   "Ilopango":[13.7022,-89.1128],"Apopa":[13.8025,-89.1783],
   "Delgado":[13.7294,-89.1736],"San Marcos":[13.6631,-89.1803],
-  "Centro de San Salvador":[13.6985,-89.1912],"Mercado Central":[13.6997,-89.1908],
-  "Boulevard de los Héroes":[13.7139,-89.2092],"Zona Rosa":[13.7003,-89.2289],
+  "Panchimalco":[13.6106,-89.1717],"Aguilares":[13.9556,-89.1878],
+  "Quezaltepeque":[13.8311,-89.2700],"San Juan Opico":[13.8761,-89.3575],
+  "Coatepeque":[13.9089,-89.5028],"Chalchuapa":[13.9833,-89.6833],
+  "Metapán":[14.3333,-89.4500],"Nahuizalco":[13.7808,-89.7278],
+  "Armenia":[13.7433,-89.5031],"Ciudad Barrios":[13.7608,-88.2753],
+  "San Francisco Gotera":[13.6994,-88.1033],"Zacatecoluca":[13.5019,-88.8694],
+  "San Luis Talpa":[13.4753,-89.0919],"Santiago Nonualco":[13.5194,-88.9078],
+  "Jiquilisco":[13.3189,-88.5747],"Santiago de María":[13.4878,-88.4703],
+  "Santa Rosa de Lima":[13.6247,-87.9808],"Sensuntepeque":[13.8753,-88.6258],
+  "Ilobasco":[13.8408,-88.8500],"San Sebastián":[13.7269,-88.8336],
+  "Cojutepeque":[13.7167,-88.9333],"Acajutla":[13.5928,-89.8317],
+  "Colonia Escalón":[13.7094,-89.2378],"Colonia San Benito":[13.7011,-89.2267],
+  "Colonia Miramonte":[13.7103,-89.2278],"Colonia Flor Blanca":[13.6989,-89.2214],
+  "Colonia Médica":[13.6978,-89.2133],"Centro de San Salvador":[13.6985,-89.1912],
+  "Mercado Central":[13.6997,-89.1908],"Boulevard de los Héroes":[13.7139,-89.2092],
+  "Zona Rosa":[13.7003,-89.2289],"Colonia Centroamérica":[13.7211,-89.2044],
+  "Colonia Zacamil":[13.7350,-89.2220],"Colonia Amatepec":[13.7310,-89.2190],
+  "Colonia Miralvalle":[13.7150,-89.1480],"Centro de Soyapango":[13.7100,-89.1533],
+  "Centro de Ilopango":[13.7022,-89.1128],"Centro de Apopa":[13.8025,-89.1783],
+  "Jardines de Guadalupe":[13.6720,-89.2480],"Centro Antiguo Cuscatlán":[13.6731,-89.2503],
   "Puerto de La Libertad":[13.4903,-89.3222],"Centro de Santa Ana":[13.9942,-89.5597],
   "Centro de San Miguel":[13.4745,-88.1775],"Centro de Sonsonate":[13.7196,-89.7249],
-  "Puerto Cutuco":[13.3320,-87.8400],"Colonia Escalón":[13.7094,-89.2378],
-  "Centro de Santa Tecla":[13.6767,-89.2797],"Bodega central":[13.6985,-89.1912],
-  "Centro de Mejicanos":[13.7282,-89.2167],"Centro de Delgado":[13.7294,-89.1736],
+  "Centro de Usulután":[13.3500,-88.4333],"Centro de La Unión":[13.3367,-87.8437],
+  "Puerto Cutuco":[13.3320,-87.8400],"Centro de Chalatenango":[14.0356,-88.9335],
+  "Centro de Cojutepeque":[13.7167,-88.9333],"Centro de Ahuachapán":[13.9211,-89.8450],
+  "Centro de Sensuntepeque":[13.8753,-88.6258],"Centro de Ilobasco":[13.8408,-88.8500],
+  "Centro de Zacatecoluca":[13.5019,-88.8694],"Centro de San Vicente":[13.6417,-88.7847],
+  "Centro de Mejicanos":[13.7282,-89.2167],"Centro de Quezaltepeque":[13.8311,-89.2700],
+  "Centro de San Juan Opico":[13.8761,-89.3575],"Centro de Delgado":[13.7294,-89.1736],
+  "Centro de San Marcos":[13.6631,-89.1803],"Centro de Aguilares":[13.9556,-89.1878],
+  "Colonia Buena Vista":[13.6810,-89.2850],"Centro de Santa Tecla":[13.6767,-89.2797],
+  "Bodega central":[13.6985,-89.1912],
 };
 
 function resolveCoords(name) {
@@ -90,6 +168,7 @@ function resolveCoords(name) {
   return null;
 }
 
+// ─── PALETA ─────────────────────────────────────────────────────────────────
 const C = {
   honey:"#F0A500", honeyDark:"#C47F00", honeyLight:"#FFF8E7", honeyBg:"#FEF3D0",
   blue:"#2563EB", blueDark:"#1D4ED8", blueLight:"#EFF6FF",
@@ -118,6 +197,7 @@ const ENVIOS_INIT = [
   { id:"HAW004", cliente:"Kanga",   telefono:"7755-1004", producto:"Miel de trébol × 5", origen:"Bodega central", destino:"La Libertad",  estado:"ENTREGADO",  driver:"Tigger-07", hora:{ CREADO:"07:00", EN_ALMACEN:"07:30", EN_RUTA:"08:00", ENTREGADO:"09:15" } },
 ];
 
+// ─── HOOK: cargar Leaflet dinámicamente ──────────────────────────────────────
 function useLeaflet() {
   const [ready, setReady] = useState(!!window.L);
   useEffect(() => {
@@ -134,6 +214,7 @@ function useLeaflet() {
   return ready;
 }
 
+// ─── MAPA ADMIN: todas las rutas EN_RUTA ─────────────────────────────────────
 function MapaSV({ envios }) {
   const leafletReady = useLeaflet();
   const mapRef = useRef(null);
@@ -143,74 +224,132 @@ function MapaSV({ envios }) {
   useEffect(() => {
     if (!leafletReady || !mapRef.current) return;
     const L = window.L;
-    if (instanceRef.current) { instanceRef.current.remove(); instanceRef.current = null; }
-    const map = L.map(mapRef.current, { center:[13.794,-88.896], zoom:7, zoomControl:true, scrollWheelZoom:false });
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution:"© OpenStreetMap", maxZoom:18 }).addTo(map);
-    const greenIcon = L.divIcon({ html:'<div style="background:#16A34A;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:11px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">A</div>', className:"", iconSize:[22,22], iconAnchor:[11,11] });
-    const blueIcon  = L.divIcon({ html:'<div style="background:#2563EB;color:#fff;border-radius:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:11px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">B</div>', className:"", iconSize:[22,22], iconAnchor:[11,11] });
+    if (instanceRef.current) {
+      instanceRef.current.remove();
+      instanceRef.current = null;
+    }
+    const map = L.map(mapRef.current, {
+      center: [13.794, -88.896],
+      zoom: 7,
+      zoomControl: true,
+      scrollWheelZoom: false,
+    });
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap",
+      maxZoom: 18,
+    }).addTo(map);
+
+    const greenIcon = L.divIcon({ html: '<div style="background:#16A34A;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:11px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">A</div>', className:"", iconSize:[22,22], iconAnchor:[11,11] });
+    const blueIcon  = L.divIcon({ html: '<div style="background:#2563EB;color:#fff;border-radius:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:11px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">B</div>', className:"", iconSize:[22,22], iconAnchor:[11,11] });
+
     enRuta.forEach((e, i) => {
       const color = ROUTE_COLORS[i % ROUTE_COLORS.length];
-      const cA = resolveCoords(e.origen); const cB = resolveCoords(e.destino);
+      const cA = resolveCoords(e.origen);
+      const cB = resolveCoords(e.destino);
       if (!cA || !cB) return;
-      L.polyline([cA, cB], { color, weight:3, dashArray:"8 4", opacity:0.85 }).addTo(map).bindPopup(`<b>${e.id}</b><br>${e.origen} → ${e.destino}<br>🐯 ${e.driver}`);
-      L.marker(cA, { icon:greenIcon }).addTo(map).bindPopup(`Origen: ${e.origen}`);
-      L.marker(cB, { icon:blueIcon  }).addTo(map).bindPopup(`Destino: ${e.destino} · ${e.id}`);
+      L.polyline([cA, cB], { color, weight: 3, dashArray: "8 4", opacity: 0.85 }).addTo(map)
+        .bindPopup(`<b>${e.id}</b><br>${e.origen} → ${e.destino}<br>🐯 ${e.driver}`);
+      L.marker(cA, { icon: greenIcon }).addTo(map).bindPopup(`Origen: ${e.origen}`);
+      L.marker(cB, { icon: blueIcon  }).addTo(map).bindPopup(`Destino: ${e.destino} · ${e.id}`);
     });
+
     instanceRef.current = map;
     return () => { if (instanceRef.current) { instanceRef.current.remove(); instanceRef.current = null; } };
   }, [leafletReady, JSON.stringify(enRuta.map(e=>e.id))]);
 
   return (
     <div style={{ width:"100%", height:"100%", position:"relative" }}>
-      {!leafletReady && <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", background:"#f0f4f8", color:C.gray, fontSize:13 }}>Cargando mapa…</div>}
+      {!leafletReady && (
+        <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", background:"#f0f4f8", color:C.gray, fontSize:13, zIndex:1 }}>
+          Cargando mapa…
+        </div>
+      )}
       <div ref={mapRef} style={{ width:"100%", height:"100%" }}/>
-      {leafletReady && enRuta.length===0 && <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", color:C.gray, fontSize:12, fontStyle:"italic", pointerEvents:"none", zIndex:10 }}>No hay envíos EN RUTA ahora mismo</div>}
+      {leafletReady && enRuta.length === 0 && (
+        <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", color:C.gray, fontSize:12, fontStyle:"italic", pointerEvents:"none", zIndex:10 }}>
+          No hay envíos EN RUTA ahora mismo
+        </div>
+      )}
     </div>
   );
 }
 
+// ─── MAPA A→B individual ─────────────────────────────────────────────────────
 function MapaAB({ origen, destino }) {
   const leafletReady = useLeaflet();
   const mapRef = useRef(null);
   const instanceRef = useRef(null);
+
   const coordA = resolveCoords(origen);
   const coordB = resolveCoords(destino);
 
   useEffect(() => {
-    if (!leafletReady || !mapRef.current || !coordA || !coordB) return;
+    if (!leafletReady || !mapRef.current) return;
+    if (!coordA || !coordB) return;
     const L = window.L;
-    if (instanceRef.current) { instanceRef.current.remove(); instanceRef.current = null; }
-    const map = L.map(mapRef.current, { center:[(coordA[0]+coordB[0])/2,(coordA[1]+coordB[1])/2], zoom:8, zoomControl:true, scrollWheelZoom:false });
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution:"© OpenStreetMap", maxZoom:18 }).addTo(map);
-    L.polyline([coordA, coordB], { color:C.honey, weight:4, dashArray:"10 5", opacity:0.9 }).addTo(map);
-    const mkA = L.divIcon({ html:`<div style="background:#16A34A;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35)">A</div>`, className:"", iconSize:[28,28], iconAnchor:[14,14] });
-    const mkB = L.divIcon({ html:`<div style="background:#2563EB;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35)">B</div>`, className:"", iconSize:[28,28], iconAnchor:[14,14] });
-    L.marker(coordA, { icon:mkA }).addTo(map).bindPopup(`<b>Origen</b><br>${origen}`).openPopup();
-    L.marker(coordB, { icon:mkB }).addTo(map).bindPopup(`<b>Destino</b><br>${destino}`);
-    map.fitBounds(L.latLngBounds([coordA, coordB]), { padding:[30,30] });
+    if (instanceRef.current) {
+      instanceRef.current.remove();
+      instanceRef.current = null;
+    }
+
+    const midLat = (coordA[0] + coordB[0]) / 2;
+    const midLon = (coordA[1] + coordB[1]) / 2;
+
+    const map = L.map(mapRef.current, {
+      center: [midLat, midLon],
+      zoom: 8,
+      zoomControl: true,
+      scrollWheelZoom: false,
+    });
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap",
+      maxZoom: 18,
+    }).addTo(map);
+
+    L.polyline([coordA, coordB], { color: C.honey, weight: 4, dashArray: "10 5", opacity: 0.9 }).addTo(map);
+
+    const mkA = L.divIcon({ html: `<div style="background:#16A34A;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35)">A</div>`, className:"", iconSize:[28,28], iconAnchor:[14,14] });
+    const mkB = L.divIcon({ html: `<div style="background:#2563EB;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35)">B</div>`, className:"", iconSize:[28,28], iconAnchor:[14,14] });
+
+    L.marker(coordA, { icon: mkA }).addTo(map).bindPopup(`<b>Origen</b><br>${origen}`).openPopup();
+    L.marker(coordB, { icon: mkB }).addTo(map).bindPopup(`<b>Destino</b><br>${destino}`);
+
+    const bounds = L.latLngBounds([coordA, coordB]);
+    map.fitBounds(bounds, { padding: [30, 30] });
+
     instanceRef.current = map;
     return () => { if (instanceRef.current) { instanceRef.current.remove(); instanceRef.current = null; } };
   }, [leafletReady, origen, destino]);
 
-  if (!coordA || !coordB) return (
-    <div style={{ width:"100%", height:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", background:"#FEF2F2", color:C.red, fontSize:13, gap:8, padding:16, textAlign:"center" }}>
-      <span style={{fontSize:22}}>⚠️</span>
-      <span>No se pudo ubicar: <b>{!coordA ? origen : destino}</b></span>
-    </div>
-  );
+  if (!coordA || !coordB) {
+    return (
+      <div style={{ width:"100%", height:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", background:"#FEF2F2", color:C.red, fontSize:13, gap:8, padding:16, textAlign:"center" }}>
+        <span style={{fontSize:22}}>⚠️</span>
+        <span>No se pudo ubicar: <b>{!coordA ? origen : destino}</b></span>
+      </div>
+    );
+  }
 
   return (
     <div style={{ width:"100%", height:"100%", position:"relative" }}>
-      {!leafletReady && <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", background:"#f0f4f8", color:C.gray, fontSize:13, zIndex:1 }}>Cargando mapa…</div>}
+      {!leafletReady && (
+        <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", background:"#f0f4f8", color:C.gray, fontSize:13, zIndex:1 }}>
+          Cargando mapa…
+        </div>
+      )}
       <div ref={mapRef} style={{ width:"100%", height:"100%" }}/>
     </div>
   );
 }
 
+// ─── ANIMACIÓN TARRO DE MIEL ─────────────────────────────────────────────────
 function HoneyBearAnim() {
   return (
     <div style={{ position:"relative", height:70, display:"flex", alignItems:"flex-end", justifyContent:"center", marginBottom:4 }}>
-      <style>{`@keyframes haBounce{0%,100%{transform:translateY(0)}40%{transform:translateY(-12px)}60%{transform:translateY(-6px)}}@keyframes haPeek{0%,60%{transform:translateY(30px);opacity:0}75%,100%{transform:translateY(0);opacity:1}}`}</style>
+      <style>{`
+        @keyframes haBounce{0%,100%{transform:translateY(0)}40%{transform:translateY(-12px)}60%{transform:translateY(-6px)}}
+        @keyframes haPeek{0%,60%{transform:translateY(30px);opacity:0}75%,100%{transform:translateY(0);opacity:1}}
+      `}</style>
       <div style={{ position:"absolute", top:0, left:"50%", transform:"translateX(-50%)", zIndex:2, overflow:"hidden", height:36, width:40 }}>
         <div style={{ fontSize:26, lineHeight:1, animation:"haPeek 3s ease-in-out infinite" }}>🐻</div>
       </div>
@@ -236,7 +375,7 @@ function Stepper({ estado }) {
   return (
     <div style={{ display:"flex", alignItems:"flex-start", margin:"12px 0" }}>
       {steps.map((st, i) => {
-        const done = i<=cur; const isLast = i===steps.length-1;
+        const done = i <= cur; const isLast = i === steps.length - 1;
         return (
           <div key={st} style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center" }}>
             <div style={{ display:"flex", alignItems:"center", width:"100%" }}>
@@ -246,7 +385,9 @@ function Stepper({ estado }) {
               </div>
               <div style={{ flex:isLast?"0 0 50%":1, height:3, background:!isLast&&i<cur?ESTADO_COLORS[estado]:"#E5E7EB" }}/>
             </div>
-            <div style={{ fontSize:9, marginTop:4, color:done?ESTADO_COLORS[estado]:"#9CA3AF", fontWeight:600, textAlign:"center" }}>{labels[st]}</div>
+            <div style={{ fontSize:9, marginTop:4, color:done?ESTADO_COLORS[estado]:"#9CA3AF", fontWeight:600, textAlign:"center" }}>
+              {labels[st]}
+            </div>
           </div>
         );
       })}
@@ -255,11 +396,15 @@ function Stepper({ estado }) {
 }
 
 const selStyle = (disabled) => ({
-  width:"100%", padding:"8px 28px 8px 10px", borderRadius:8, border:`1px solid ${C.border}`,
-  background:disabled?C.grayLight:C.white, color:disabled?"#9CA3AF":C.text,
-  fontSize:13, cursor:disabled?"not-allowed":"pointer", appearance:"none", outline:"none",
+  width:"100%", padding:"8px 28px 8px 10px",
+  borderRadius:8, border:`1px solid ${C.border}`,
+  background:disabled?C.grayLight:C.white,
+  color:disabled?"#9CA3AF":C.text,
+  fontSize:13, cursor:disabled?"not-allowed":"pointer",
+  appearance:"none", outline:"none",
   backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-  backgroundRepeat:"no-repeat", backgroundPosition:"right 10px center", opacity:disabled?0.5:1,
+  backgroundRepeat:"no-repeat", backgroundPosition:"right 10px center",
+  opacity:disabled?0.5:1,
 });
 
 function UbicacionSelector({ label, accentColor, value, onChange }) {
@@ -297,7 +442,9 @@ function UbicacionSelector({ label, accentColor, value, onChange }) {
   );
 }
 
-// LOGIN
+// ══════════════════════════════════════════════════════════════════════════════
+// VISTA: LOGIN
+// ══════════════════════════════════════════════════════════════════════════════
 function LoginView({ onLogin }) {
   const [email, setEmail] = useState("");
   const [pass,  setPass]  = useState("");
@@ -316,8 +463,8 @@ function LoginView({ onLogin }) {
   };
 
   return (
-    <div style={{ minHeight:"100vh", background:"#FFF5E6", display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"'Helvetica Neue',Arial,sans-serif", padding:"16px" }}>
-      <div style={{ background:"#fff", borderRadius:16, padding:"32px 28px", width:"100%", maxWidth:340, boxShadow:"0 4px 20px rgba(0,0,0,0.10)" }}>
+    <div style={{ minHeight:"100vh", background:"#FFF5E6", display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"'Helvetica Neue',Arial,sans-serif" }}>
+      <div style={{ background:"#fff", borderRadius:16, padding:"32px 28px", width:300, boxShadow:"0 4px 20px rgba(0,0,0,0.10)" }}>
         <div style={{ textAlign:"center", marginBottom:20 }}>
           <HoneyBearAnim/>
           <p style={{ margin:"10px 0 3px", fontSize:19, color:"#412402", fontWeight:300 }}>Hundred Acre Logistics</p>
@@ -332,7 +479,8 @@ function LoginView({ onLogin }) {
           </div>
         ))}
         {err && <div style={{ background:"#FEF2F2", color:"#DC2626", borderRadius:8, padding:"8px 12px", fontSize:12, marginBottom:12 }}>{err}</div>}
-        <button onClick={login} style={{ width:"100%", padding:"12px", background:"#EF9F27", color:"#fff", border:"none", borderRadius:8, fontWeight:600, fontSize:14, cursor:"pointer" }}>
+        <button onClick={login}
+          style={{ width:"100%", padding:"12px", background:"#EF9F27", color:"#fff", border:"none", borderRadius:8, fontWeight:600, fontSize:14, cursor:"pointer" }}>
           Entrar al bosque 🌳
         </button>
         <div style={{ marginTop:16, padding:"12px", background:"#FAEEDA", borderRadius:8, fontSize:11, color:"#633806", lineHeight:2, textAlign:"center" }}>
@@ -351,7 +499,9 @@ function LoginView({ onLogin }) {
   );
 }
 
-// PIGLET VIEW
+// ══════════════════════════════════════════════════════════════════════════════
+// VISTA: PIGLET
+// ══════════════════════════════════════════════════════════════════════════════
 function PigletView({ envios, onLogout }) {
   const [code,   setCode]   = useState("");
   const [result, setResult] = useState(null);
@@ -389,15 +539,26 @@ function PigletView({ envios, onLogout }) {
             <input value={code} onChange={e=>setCode(e.target.value)} onKeyDown={e=>e.key==="Enter"&&buscar()}
               placeholder="Ej: HAW001"
               style={{ flex:1, padding:"10px 12px", borderRadius:10, border:`1px solid ${C.border}`, fontSize:14, outline:"none" }}/>
-            <button onClick={buscar} style={{ background:C.honey, color:C.white, border:"none", borderRadius:10, padding:"10px 18px", fontWeight:700, fontSize:14, cursor:"pointer" }}>Rastrear ↗</button>
+            <button onClick={buscar} style={{ background:C.honey, color:C.white, border:"none", borderRadius:10, padding:"10px 18px", fontWeight:700, fontSize:14, cursor:"pointer" }}>
+              Rastrear ↗
+            </button>
           </div>
         </div>
-        {result==="notfound" && <div style={{ background:C.redLight, color:C.red, borderRadius:10, padding:"12px 16px", fontSize:13 }}>No se encontró el envío. Verificá el código.</div>}
-        {result==="invisible" && <div style={{ background:C.honeyLight, color:C.honeyDark, border:`1px solid ${C.honey}66`, borderRadius:10, padding:"12px 16px", fontSize:13 }}>⏳ Tu paquete aún no ingresó a bodega. En breve podrás rastrearlo.</div>}
+
+        {result==="notfound" && (
+          <div style={{ background:C.redLight, color:C.red, borderRadius:10, padding:"12px 16px", fontSize:13 }}>
+            No se encontró el envío. Verificá el código.
+          </div>
+        )}
+        {result==="invisible" && (
+          <div style={{ background:C.honeyLight, color:C.honeyDark, border:`1px solid ${C.honey}66`, borderRadius:10, padding:"12px 16px", fontSize:13 }}>
+            ⏳ Tu paquete aún no ingresó a bodega. En breve podrás rastrearlo.
+          </div>
+        )}
         {result && result!=="notfound" && result!=="invisible" && (
           <>
             <div style={{ background:C.white, borderRadius:14, padding:"20px", boxShadow:"0 2px 12px rgba(0,0,0,0.07)", marginBottom:14 }}>
-              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:4, flexWrap:"wrap", gap:8 }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:4 }}>
                 <div>
                   <div style={{ fontSize:17, fontWeight:700 }}>🍯 {result.producto}</div>
                   <div style={{ fontSize:12, color:C.gray, marginTop:2 }}>Guía: #{result.id}</div>
@@ -406,14 +567,16 @@ function PigletView({ envios, onLogout }) {
               </div>
               <Stepper estado={result.estado}/>
               {result.estado==="EN_RUTA" && result.telefono && (
-                <a href={`tel:${result.telefono}`} style={{ display:"flex", alignItems:"center", gap:8, marginTop:10, background:C.greenLight, color:C.green, border:`1px solid ${C.green}33`, borderRadius:10, padding:"10px 14px", textDecoration:"none", fontWeight:600, fontSize:13 }}>
+                <a href={`tel:${result.telefono}`}
+                  style={{ display:"flex", alignItems:"center", gap:8, marginTop:10, background:C.greenLight, color:C.green, border:`1px solid ${C.green}33`, borderRadius:10, padding:"10px 14px", textDecoration:"none", fontWeight:600, fontSize:13 }}>
                   📞 Contactar al conductor — {result.telefono}
                 </a>
               )}
             </div>
+
             <div style={{ background:C.white, borderRadius:14, overflow:"hidden", boxShadow:"0 2px 12px rgba(0,0,0,0.07)", marginBottom:14 }}>
               <div style={{ padding:"14px 18px 10px", borderBottom:`1px solid ${C.border}` }}>
-                <div style={{ fontWeight:600, fontSize:14, marginBottom:6 }}>📍 Ruta de tu paquete</div>
+                <div style={{ fontWeight:600, fontSize:14, marginBottom:6 }}>📍 Ruta de tu paquete — El Salvador</div>
                 <div style={{ display:"flex", gap:10, fontSize:12, flexWrap:"wrap", alignItems:"center" }}>
                   <span style={{ display:"flex", alignItems:"center", gap:5 }}>
                     <span style={{ background:"#16A34A", color:"#fff", borderRadius:"50%", width:18, height:18, display:"inline-flex", alignItems:"center", justifyContent:"center", fontWeight:800, fontSize:10 }}>A</span>
@@ -426,12 +589,15 @@ function PigletView({ envios, onLogout }) {
                   </span>
                 </div>
               </div>
-              <div style={{ height:260 }}><MapaAB origen={result.origen} destino={result.destino}/></div>
+              <div style={{ height:260 }}>
+                <MapaAB origen={result.origen} destino={result.destino}/>
+              </div>
             </div>
+
             <div style={{ background:C.white, borderRadius:14, padding:"20px", boxShadow:"0 2px 12px rgba(0,0,0,0.07)", marginBottom:14 }}>
               <div style={{ fontWeight:600, fontSize:14, marginBottom:14 }}>Historial del paquete</div>
               {STEPS.map((st, i) => {
-                const done = i<=curIdx; const h = HIST_LABELS[st]; const hora = result.hora?.[st]; const isCur = i===curIdx;
+                const done = i <= curIdx; const h = HIST_LABELS[st]; const hora = result.hora?.[st]; const isCur = i===curIdx;
                 return (
                   <div key={st} style={{ display:"flex", gap:12, marginBottom:16, opacity:done?1:0.35 }}>
                     <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}>
@@ -450,15 +616,23 @@ function PigletView({ envios, onLogout }) {
                 );
               })}
             </div>
+            <div style={{ background:C.honeyLight, border:`1px solid ${C.honey}55`, borderRadius:10, padding:"12px 14px", fontSize:12, color:C.honeyDark }}>
+              <div style={{ fontWeight:600, marginBottom:2 }}>🔒 Tu privacidad</div>
+              No necesitás crear cuenta. Solo ves el estado de TU paquete.
+            </div>
           </>
         )}
-        <p style={{ textAlign:"center", fontSize:11, color:"#9CA3AF", marginTop:20 }}>Demo: HAW001 · HAW002 · HAW003 · HAW004</p>
+        <p style={{ textAlign:"center", fontSize:11, color:"#9CA3AF", marginTop:20 }}>
+          Demo: HAW001 (en ruta) · HAW002 (bodega) · HAW003 (invisible) · HAW004 (entregado)
+        </p>
       </div>
     </div>
   );
 }
 
-// ADMIN VIEW — FULL RESPONSIVE con menú hamburguesa
+// ══════════════════════════════════════════════════════════════════════════════
+// VISTA: ADMIN
+// ══════════════════════════════════════════════════════════════════════════════
 function AdminView({ envios, setEnvios, userName, onLogout }) {
   const [section,     setSection]     = useState("paquetes");
   const [driverSel,   setDriverSel]   = useState({});
@@ -467,14 +641,6 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
   const [origenLoc,   setOrigenLoc]   = useState({ departamento:"", municipio:"", colonia:"" });
   const [destinoLoc,  setDestinoLoc]  = useState({ departamento:"", municipio:"", colonia:"" });
   const [formErr,     setFormErr]     = useState("");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isMobile,    setIsMobile]    = useState(window.innerWidth < 768);
-
-  useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
 
   const crearPaquete = () => {
     const origenStr  = origenLoc.colonia  || origenLoc.municipio  || origenLoc.departamento;
@@ -512,10 +678,10 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
   };
 
   const stats = [
-    {label:"Total hoy",  val:envios.length,                                  sub:"paquetes",      col:C.text },
-    {label:"En ruta",    val:envios.filter(e=>e.estado==="EN_RUTA").length,   sub:"con Tigger 🐯", col:C.blue },
-    {label:"Entregados", val:envios.filter(e=>e.estado==="ENTREGADO").length, sub:"hoy",           col:C.green},
-    {label:"Fallidos",   val:0,                                               sub:"revisar",       col:C.red  },
+    {label:"Total hoy",  val:envios.length,                                  sub:"paquetes",     col:C.text },
+    {label:"En ruta",    val:envios.filter(e=>e.estado==="EN_RUTA").length,   sub:"con Tigger 🐯",col:C.blue },
+    {label:"Entregados", val:envios.filter(e=>e.estado==="ENTREGADO").length, sub:"hoy",          col:C.green},
+    {label:"Fallidos",   val:0,                                               sub:"revisar",      col:C.red  },
   ];
   const estadoStats = [
     {label:"Creado",     val:envios.filter(e=>e.estado==="CREADO").length,     col:C.gray },
@@ -535,121 +701,79 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
   const tiggersActivos = DRIVERS.filter(d=>envios.some(e=>e.driver===d&&e.estado==="EN_RUTA")).length;
   const enRutaCount    = envios.filter(e=>e.estado==="EN_RUTA").length;
 
-  const navTo = (id) => { setSection(id); setSidebarOpen(false); };
-
-  const SidebarContent = () => (
-    <>
-      <div style={{ padding:"20px 18px 14px", borderBottom:`1px solid ${C.sidebarBorder}` }}>
-        <HoneyBearAnim/>
-        <div style={{ fontSize:13, fontWeight:700, color:C.sidebarText, marginTop:4 }}>Hundred Acre Wood</div>
-        <div style={{ fontSize:11, color:C.sidebarMuted, marginTop:2 }}>Panel de despacho</div>
-      </div>
-      <div style={{ padding:"10px 0", flex:1 }}>
-        <div style={{ fontSize:10, fontWeight:700, color:C.sidebarMuted, letterSpacing:1.2, padding:"8px 18px 4px", textTransform:"uppercase" }}>MENÚ</div>
-        {MENU.map(m => {
-          const active = section===m.id;
-          return (
-            <button key={m.id} onClick={()=>navTo(m.id)}
-              style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"11px 18px", border:"none", background:active?C.sidebarActiveBg:"transparent", color:active?C.sidebarActive:C.sidebarText, fontWeight:active?700:400, fontSize:13.5, cursor:"pointer", borderLeft:active?`3px solid ${C.sidebarActive}`:"3px solid transparent", textAlign:"left" }}>
-              <span>{m.icon}</span>{m.label}
-            </button>
-          );
-        })}
-      </div>
-      <div style={{ padding:"14px 18px", borderTop:`1px solid ${C.sidebarBorder}`, fontSize:11 }}>
-        <div style={{ color:C.green, fontWeight:600 }}>● Tigger disponible</div>
-        <div style={{ color:C.sidebarMuted, marginTop:2 }}>{tiggersActivos} envíos en ruta</div>
-      </div>
-    </>
-  );
-
   return (
     <div style={{ display:"flex", minHeight:"100vh", background:C.grayLight, fontFamily:"'Segoe UI',system-ui,sans-serif" }}>
-      {/* Sidebar desktop */}
-      {!isMobile && (
-        <aside style={{ width:220, background:C.sidebarBg, borderRight:`1px solid ${C.sidebarBorder}`, display:"flex", flexDirection:"column", flexShrink:0 }}>
-          <SidebarContent/>
-        </aside>
-      )}
-
-      {/* Overlay mobile */}
-      {isMobile && sidebarOpen && (
-        <div style={{ position:"fixed", inset:0, zIndex:100, display:"flex" }}>
-          <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.4)" }} onClick={()=>setSidebarOpen(false)}/>
-          <aside style={{ position:"relative", width:260, background:C.sidebarBg, display:"flex", flexDirection:"column", boxShadow:"4px 0 20px rgba(0,0,0,0.15)", zIndex:101 }}>
-            <button onClick={()=>setSidebarOpen(false)} style={{ position:"absolute", top:12, right:12, background:"none", border:"none", fontSize:20, cursor:"pointer", color:C.gray }}>✕</button>
-            <SidebarContent/>
-          </aside>
+      <aside style={{ width:220, background:C.sidebarBg, borderRight:`1px solid ${C.sidebarBorder}`, display:"flex", flexDirection:"column", flexShrink:0 }}>
+        <div style={{ padding:"20px 18px 14px", borderBottom:`1px solid ${C.sidebarBorder}` }}>
+          <HoneyBearAnim/>
+          <div style={{ fontSize:13, fontWeight:700, color:C.sidebarText, marginTop:4 }}>Hundred Acre Wood</div>
+          <div style={{ fontSize:11, color:C.sidebarMuted, marginTop:2 }}>Panel de despacho — Owl Admin</div>
         </div>
-      )}
-
-      <div style={{ flex:1, display:"flex", flexDirection:"column", overflow:"hidden", minWidth:0 }}>
-        {/* Header */}
-        <div style={{ background:C.white, borderBottom:`1px solid ${C.border}`, padding:"0 16px", height:52, display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0, gap:8 }}>
-          <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-            {isMobile && (
-              <button onClick={()=>setSidebarOpen(true)}
-                style={{ background:"none", border:`1px solid ${C.border}`, borderRadius:8, padding:"6px 10px", fontSize:18, cursor:"pointer", lineHeight:1 }}>
-                ☰
+        <div style={{ padding:"10px 0", flex:1 }}>
+          <div style={{ fontSize:10, fontWeight:700, color:C.sidebarMuted, letterSpacing:1.2, padding:"8px 18px 4px", textTransform:"uppercase" }}>MENÚ</div>
+          {MENU.map(m => {
+            const active = section===m.id;
+            return (
+              <button key={m.id} onClick={()=>setSection(m.id)}
+                style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"11px 18px", border:"none", background:active?C.sidebarActiveBg:"transparent", color:active?C.sidebarActive:C.sidebarText, fontWeight:active?700:400, fontSize:13.5, cursor:"pointer", borderLeft:active?`3px solid ${C.sidebarActive}`:"3px solid transparent", textAlign:"left" }}>
+                <span>{m.icon}</span>{m.label}
               </button>
-            )}
-            <span style={{ fontSize:13, color:C.gray, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>
-              {isMobile ? MENU.find(m=>m.id===section)?.label : "Panel de despacho — Owl Admin"}
-            </span>
-          </div>
-          <div style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0 }}>
-            {!isMobile && <span style={{ fontSize:13, color:C.textSoft }}>🐰 {userName}</span>}
-            <button onClick={onLogout} style={{ background:"none", border:`1px solid ${C.border}`, borderRadius:8, padding:"5px 10px", fontSize:12, cursor:"pointer", color:C.gray, whiteSpace:"nowrap" }}>
-              {isMobile ? "Salir" : "Cerrar sesión"}
-            </button>
+            );
+          })}
+        </div>
+        <div style={{ padding:"14px 18px", borderTop:`1px solid ${C.sidebarBorder}`, fontSize:11 }}>
+          <div style={{ color:C.green, fontWeight:600 }}>● Tigger disponible</div>
+          <div style={{ color:C.sidebarMuted, marginTop:2 }}>{tiggersActivos} envíos en ruta</div>
+        </div>
+      </aside>
+
+      <div style={{ flex:1, display:"flex", flexDirection:"column", overflow:"hidden" }}>
+        <div style={{ background:C.white, borderBottom:`1px solid ${C.border}`, padding:"0 20px", height:52, display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0 }}>
+          <span style={{ fontSize:13, color:C.gray }}>Panel de despacho — Owl Admin</span>
+          <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+            <span style={{ fontSize:13, color:C.textSoft }}>🐰 {userName}</span>
+            <button onClick={onLogout} style={{ background:"none", border:`1px solid ${C.border}`, borderRadius:8, padding:"5px 12px", fontSize:12, cursor:"pointer", color:C.gray }}>Cerrar sesión</button>
           </div>
         </div>
 
-        {/* Content */}
-        <div style={{ flex:1, overflow:"auto", padding:isMobile?"12px":"20px 24px" }}>
-
-          {/* PAQUETES */}
+        <div style={{ flex:1, overflow:"auto", padding:"20px 24px" }}>
           {section==="paquetes" && (
             <>
-              {/* Stats grid: 2 cols en mobile, 4 en desktop */}
-              <div style={{ display:"grid", gridTemplateColumns:isMobile?"1fr 1fr":"repeat(4,1fr)", gap:10, marginBottom:12 }}>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:12, marginBottom:16 }}>
                 {stats.map(st=>(
-                  <div key={st.label} style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:"12px 14px" }}>
+                  <div key={st.label} style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:"14px 16px" }}>
                     <div style={{ fontSize:11, color:C.gray }}>{st.label}</div>
-                    <div style={{ fontSize:26, fontWeight:700, color:st.col, lineHeight:1.2 }}>{st.val}</div>
+                    <div style={{ fontSize:28, fontWeight:700, color:st.col, lineHeight:1.2 }}>{st.val}</div>
                     <div style={{ fontSize:11, color:C.gray }}>{st.sub}</div>
                   </div>
                 ))}
               </div>
-
-              {/* Estado stats: 2 cols en mobile, 4 en desktop */}
-              <div style={{ display:"grid", gridTemplateColumns:isMobile?"1fr 1fr":"repeat(4,1fr)", gap:8, marginBottom:16 }}>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:10, marginBottom:20 }}>
                 {estadoStats.map(st=>(
-                  <div key={st.label} style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:10, padding:"10px 12px", display:"flex", alignItems:"center", gap:8 }}>
+                  <div key={st.label} style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:10, padding:"10px 14px", display:"flex", alignItems:"center", gap:10 }}>
                     <div style={{ width:10, height:10, borderRadius:"50%", background:st.col, flexShrink:0 }}/>
                     <div>
-                      <div style={{ fontSize:18, fontWeight:700, color:st.col }}>{st.val}</div>
+                      <div style={{ fontSize:20, fontWeight:700, color:st.col }}>{st.val}</div>
                       <div style={{ fontSize:11, color:C.gray }}>{st.label}</div>
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Layout: columna en mobile, grid en desktop */}
-              <div style={{ display:"grid", gridTemplateColumns:isMobile?"1fr":"1fr 360px", gap:16 }}>
+              <div style={{ display:"grid", gridTemplateColumns:"1fr 380px", gap:16 }}>
                 <div>
-                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10, gap:8 }}>
+                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
                     <div style={{ fontWeight:600, fontSize:15 }}>Paquetes activos</div>
                     <button onClick={()=>setMostrarForm(v=>!v)}
-                      style={{ background:"transparent", color:C.honeyDark, border:`1.5px solid ${C.honeyDark}`, borderRadius:8, padding:"7px 12px", fontWeight:600, fontSize:12, cursor:"pointer", whiteSpace:"nowrap" }}>
+                      style={{ background:"transparent", color:C.honeyDark, border:`1.5px solid ${C.honeyDark}`, borderRadius:8, padding:"7px 14px", fontWeight:600, fontSize:13, cursor:"pointer" }}>
                       {mostrarForm?"✕ Cancelar":"＋ Nuevo envío"}
                     </button>
                   </div>
 
                   {mostrarForm && (
-                    <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:14, marginBottom:14, borderLeft:`4px solid ${C.honey}` }}>
+                    <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:16, marginBottom:14, borderLeft:`4px solid ${C.honey}` }}>
                       <div style={{ fontWeight:600, fontSize:14, marginBottom:12 }}>📦 Registrar nuevo paquete</div>
-                      <div style={{ display:"grid", gridTemplateColumns:isMobile?"1fr":"1fr 1fr", gap:10, marginBottom:14 }}>
+                      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:14 }}>
                         {[["cliente","Cliente / destinatario","Ej: Piglet"],["telefono","Teléfono","Ej: 7755-1234"],["producto","Producto","Ej: Tarro de miel × 3"]].map(([k,l,ph])=>(
                           <div key={k}>
                             <label style={{ fontSize:11, fontWeight:600, color:C.gray, display:"block", marginBottom:3 }}>{l}</label>
@@ -674,90 +798,60 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                   )}
 
                   {activeEnvios.length===0 ? (
-                    <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:32, textAlign:"center", color:C.gray, fontSize:13 }}>No hay paquetes activos.</div>
-                  ) : isMobile ? (
-                    // MOBILE: tarjetas en vez de tabla
-                    <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
-                      {activeEnvios.map(e=>(
-                        <div key={e.id} style={{ background:C.white, border:`1px solid ${C.border}`, borderLeft:`4px solid ${ESTADO_COLORS[e.estado]}`, borderRadius:12, padding:14 }}>
-                          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:8 }}>
-                            <div>
-                              <div style={{ fontFamily:"monospace", fontWeight:700, fontSize:13 }}>{e.id}</div>
-                              <div style={{ fontSize:12, color:C.gray, marginTop:2 }}>{e.cliente}</div>
-                              <div style={{ fontSize:12, color:C.gray }}>{e.producto}</div>
-                            </div>
-                            <EstadoBadge estado={e.estado}/>
-                          </div>
-                          <div style={{ fontSize:12, color:C.gray, marginBottom:8 }}>📍 {e.origen} → {e.destino}</div>
-                          {e.telefono && <a href={`tel:${e.telefono}`} style={{ fontSize:12, color:C.green, fontWeight:600, display:"block", marginBottom:8 }}>📞 {e.telefono}</a>}
-                          {e.driver && <div style={{ fontSize:12, color:C.text, marginBottom:8 }}>🐯 {e.driver}</div>}
-                          <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
-                            {e.estado==="CREADO" && (
-                              <button onClick={()=>recibirBodega(e.id)} style={{ background:C.honeyLight, color:C.honeyDark, border:`1px solid ${C.honey}66`, borderRadius:7, padding:"6px 12px", fontSize:12, fontWeight:600, cursor:"pointer" }}>📦 Recibir</button>
-                            )}
-                            {e.estado==="EN_ALMACEN" && (
-                              <>
-                                <select value={driverSel[e.id]||""} onChange={ev=>setDriverSel(p=>({...p,[e.id]:ev.target.value}))}
-                                  style={{ padding:"6px 8px", borderRadius:7, border:`1px solid ${C.border}`, fontSize:12, outline:"none", flex:1, minWidth:0 }}>
-                                  <option value="">Driver…</option>
-                                  {DRIVERS.map(d=><option key={d} value={d}>{d}</option>)}
-                                </select>
-                                <button onClick={()=>despachar(e.id)} style={{ background:C.blueLight, color:C.blue, border:`1px solid ${C.blue}44`, borderRadius:7, padding:"6px 12px", fontSize:12, fontWeight:600, cursor:"pointer" }}>🚗 Despachar</button>
-                              </>
-                            )}
-                            {e.estado==="EN_RUTA" && <span style={{ color:"#9CA3AF", fontSize:12, alignSelf:"center" }}>En camino…</span>}
-                          </div>
-                        </div>
-                      ))}
+                    <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:32, textAlign:"center", color:C.gray, fontSize:13 }}>
+                      No hay paquetes activos.
                     </div>
                   ) : (
-                    // DESKTOP: tabla
                     <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, overflow:"hidden" }}>
-                      <div style={{ overflowX:"auto" }}>
-                        <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
-                          <thead>
-                            <tr style={{ background:C.grayLight, color:C.gray, fontSize:11, fontWeight:600 }}>
-                              {["ID","Cliente","Teléfono","Estado","Driver","Acción"].map(h=>(
-                                <th key={h} style={{ padding:"9px 12px", textAlign:"left", whiteSpace:"nowrap" }}>{h}</th>
-                              ))}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {activeEnvios.map(e=>(
-                              <tr key={e.id} style={{ borderTop:`1px solid ${C.border}` }}>
-                                <td style={{ padding:"11px 12px", fontFamily:"monospace", fontWeight:700, fontSize:12 }}>{e.id}</td>
-                                <td style={{ padding:"11px 12px", fontSize:12 }}>{e.cliente}</td>
-                                <td style={{ padding:"11px 12px", fontSize:12 }}>
-                                  {e.telefono ? <a href={`tel:${e.telefono}`} style={{ color:C.green, textDecoration:"none", fontWeight:600 }}>📞 {e.telefono}</a> : <span style={{color:"#9CA3AF"}}>—</span>}
-                                </td>
-                                <td style={{ padding:"11px 12px" }}><EstadoBadge estado={e.estado}/></td>
-                                <td style={{ padding:"11px 12px", fontSize:12, color:e.driver?C.text:"#9CA3AF" }}>{e.driver||"—"}</td>
-                                <td style={{ padding:"11px 12px" }}>
-                                  {e.estado==="CREADO" && (
-                                    <button onClick={()=>recibirBodega(e.id)} style={{ background:C.honeyLight, color:C.honeyDark, border:`1px solid ${C.honey}66`, borderRadius:7, padding:"5px 10px", fontSize:12, fontWeight:600, cursor:"pointer" }}>📦 Recibir</button>
-                                  )}
-                                  {e.estado==="EN_ALMACEN" && (
-                                    <div style={{ display:"flex", gap:6, alignItems:"center" }}>
-                                      <select value={driverSel[e.id]||""} onChange={ev=>setDriverSel(p=>({...p,[e.id]:ev.target.value}))}
-                                        style={{ padding:"5px 8px", borderRadius:7, border:`1px solid ${C.border}`, fontSize:12, outline:"none" }}>
-                                        <option value="">Driver…</option>
-                                        {DRIVERS.map(d=><option key={d} value={d}>{d}</option>)}
-                                      </select>
-                                      <button onClick={()=>despachar(e.id)} style={{ background:C.blueLight, color:C.blue, border:`1px solid ${C.blue}44`, borderRadius:7, padding:"5px 10px", fontSize:12, fontWeight:600, cursor:"pointer" }}>🚗 Despachar</button>
-                                    </div>
-                                  )}
-                                  {e.estado==="EN_RUTA" && <span style={{ color:"#9CA3AF", fontSize:12 }}>En camino…</span>}
-                                </td>
-                              </tr>
+                      <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
+                        <thead>
+                          <tr style={{ background:C.grayLight, color:C.gray, fontSize:11, fontWeight:600 }}>
+                            {["ID","Cliente","Teléfono","Estado","Driver","Acción"].map(h=>(
+                              <th key={h} style={{ padding:"9px 12px", textAlign:"left", whiteSpace:"nowrap" }}>{h}</th>
                             ))}
-                          </tbody>
-                        </table>
-                      </div>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {activeEnvios.map(e=>(
+                            <tr key={e.id} style={{ borderTop:`1px solid ${C.border}` }}>
+                              <td style={{ padding:"11px 12px", fontFamily:"monospace", fontWeight:700, fontSize:12 }}>{e.id}</td>
+                              <td style={{ padding:"11px 12px", fontSize:12 }}>{e.cliente}</td>
+                              <td style={{ padding:"11px 12px", fontSize:12 }}>
+                                {e.telefono ? <a href={`tel:${e.telefono}`} style={{ color:C.green, textDecoration:"none", fontWeight:600 }}>📞 {e.telefono}</a> : <span style={{color:"#9CA3AF"}}>—</span>}
+                              </td>
+                              <td style={{ padding:"11px 12px" }}><EstadoBadge estado={e.estado}/></td>
+                              <td style={{ padding:"11px 12px", fontSize:12, color:e.driver?C.text:"#9CA3AF" }}>{e.driver||"—"}</td>
+                              <td style={{ padding:"11px 12px" }}>
+                                {e.estado==="CREADO" && (
+                                  <button onClick={()=>recibirBodega(e.id)}
+                                    style={{ background:C.honeyLight, color:C.honeyDark, border:`1px solid ${C.honey}66`, borderRadius:7, padding:"5px 10px", fontSize:12, fontWeight:600, cursor:"pointer" }}>
+                                    📦 Recibir
+                                  </button>
+                                )}
+                                {e.estado==="EN_ALMACEN" && (
+                                  <div style={{ display:"flex", gap:6, alignItems:"center" }}>
+                                    <select value={driverSel[e.id]||""} onChange={ev=>setDriverSel(p=>({...p,[e.id]:ev.target.value}))}
+                                      style={{ padding:"5px 8px", borderRadius:7, border:`1px solid ${C.border}`, fontSize:12, outline:"none" }}>
+                                      <option value="">Driver…</option>
+                                      {DRIVERS.map(d=><option key={d} value={d}>{d}</option>)}
+                                    </select>
+                                    <button onClick={()=>despachar(e.id)}
+                                      style={{ background:C.blueLight, color:C.blue, border:`1px solid ${C.blue}44`, borderRadius:7, padding:"5px 10px", fontSize:12, fontWeight:600, cursor:"pointer" }}>
+                                      🚗 Despachar
+                                    </button>
+                                  </div>
+                                )}
+                                {e.estado==="EN_RUTA" && <span style={{ color:"#9CA3AF", fontSize:12 }}>En camino…</span>}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   )}
                 </div>
 
-                {/* Mapa — solo en desktop dentro del grid, en mobile debajo */}
+                {/* MAPA ADMIN con Leaflet */}
                 <div>
                   <div style={{ fontWeight:600, fontSize:15, marginBottom:6 }}>Mapa del bosque 🇸🇻</div>
                   {enRutaCount>0 && (
@@ -770,20 +864,21 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                       ))}
                     </div>
                   )}
-                  <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, overflow:"hidden", height:isMobile?280:340 }}>
+                  <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, overflow:"hidden", height:340 }}>
                     <MapaSV envios={envios}/>
                   </div>
-                  <div style={{ marginTop:6, fontSize:11, color:C.gray }}>● A = origen &nbsp;■ B = destino</div>
+                  <div style={{ marginTop:6, fontSize:11, color:C.gray }}>
+                    ● A = origen &nbsp;■ B = destino &nbsp;— cada color es un paquete EN RUTA
+                  </div>
                 </div>
               </div>
             </>
           )}
 
-          {/* CONDUCTORES */}
           {section==="conductores" && (
             <div>
               <div style={{ fontWeight:600, fontSize:18, marginBottom:16 }}>🐯 Conductores</div>
-              <div style={{ display:"grid", gridTemplateColumns:isMobile?"1fr 1fr":"repeat(auto-fill,minmax(180px,1fr))", gap:12 }}>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(180px,1fr))", gap:12 }}>
                 {DRIVERS.map(d=>{
                   const asignado = envios.find(e=>e.driver===d&&e.estado==="EN_RUTA");
                   return (
@@ -799,58 +894,34 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
             </div>
           )}
 
-          {/* HISTORIAL */}
           {section==="historial" && (
             <div>
               <div style={{ fontWeight:600, fontSize:18, marginBottom:16 }}>📋 Historial completo</div>
-              {isMobile ? (
-                <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
-                  {envios.map(e=>(
-                    <div key={e.id} style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:14 }}>
-                      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:6 }}>
-                        <div>
-                          <div style={{ fontFamily:"monospace", fontWeight:700, fontSize:13 }}>{e.id}</div>
-                          <div style={{ fontSize:12, color:C.gray }}>{e.cliente}</div>
-                        </div>
-                        <EstadoBadge estado={e.estado}/>
-                      </div>
-                      <div style={{ fontSize:12, color:C.gray, marginBottom:4 }}>{e.producto}</div>
-                      <div style={{ fontSize:12, color:C.gray, marginBottom:4 }}>📍 {e.destino}</div>
-                      {e.telefono && <a href={`tel:${e.telefono}`} style={{ fontSize:12, color:C.green, fontWeight:600 }}>📞 {e.telefono}</a>}
-                      {e.driver && <div style={{ fontSize:12, color:C.text, marginTop:4 }}>🐯 {e.driver}</div>}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, overflow:"hidden" }}>
-                  <div style={{ overflowX:"auto" }}>
-                    <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
-                      <thead><tr style={{ background:C.grayLight, color:C.gray, fontSize:11, fontWeight:600 }}>
-                        {["ID","Cliente","Teléfono","Producto","Destino","Estado","Driver"].map(h=><th key={h} style={{ padding:"9px 12px", textAlign:"left", whiteSpace:"nowrap" }}>{h}</th>)}
-                      </tr></thead>
-                      <tbody>
-                        {envios.map(e=>(
-                          <tr key={e.id} style={{ borderTop:`1px solid ${C.border}` }}>
-                            <td style={{ padding:"10px 12px", fontFamily:"monospace", fontWeight:700, fontSize:12 }}>{e.id}</td>
-                            <td style={{ padding:"10px 12px", fontSize:12 }}>{e.cliente}</td>
-                            <td style={{ padding:"10px 12px", fontSize:12 }}>
-                              {e.telefono ? <a href={`tel:${e.telefono}`} style={{ color:C.green, textDecoration:"none", fontWeight:600 }}>{e.telefono}</a> : <span style={{color:"#9CA3AF"}}>—</span>}
-                            </td>
-                            <td style={{ padding:"10px 12px", fontSize:12 }}>{e.producto}</td>
-                            <td style={{ padding:"10px 12px", fontSize:12 }}>{e.destino}</td>
-                            <td style={{ padding:"10px 12px" }}><EstadoBadge estado={e.estado}/></td>
-                            <td style={{ padding:"10px 12px", fontSize:12, color:e.driver?C.text:"#9CA3AF" }}>{e.driver||"—"}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
+              <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, overflow:"hidden" }}>
+                <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
+                  <thead><tr style={{ background:C.grayLight, color:C.gray, fontSize:11, fontWeight:600 }}>
+                    {["ID","Cliente","Teléfono","Producto","Destino","Estado","Driver"].map(h=><th key={h} style={{ padding:"9px 12px", textAlign:"left" }}>{h}</th>)}
+                  </tr></thead>
+                  <tbody>
+                    {envios.map(e=>(
+                      <tr key={e.id} style={{ borderTop:`1px solid ${C.border}` }}>
+                        <td style={{ padding:"10px 12px", fontFamily:"monospace", fontWeight:700, fontSize:12 }}>{e.id}</td>
+                        <td style={{ padding:"10px 12px", fontSize:12 }}>{e.cliente}</td>
+                        <td style={{ padding:"10px 12px", fontSize:12 }}>
+                          {e.telefono ? <a href={`tel:${e.telefono}`} style={{ color:C.green, textDecoration:"none", fontWeight:600 }}>{e.telefono}</a> : <span style={{color:"#9CA3AF"}}>—</span>}
+                        </td>
+                        <td style={{ padding:"10px 12px", fontSize:12 }}>{e.producto}</td>
+                        <td style={{ padding:"10px 12px", fontSize:12 }}>{e.destino}</td>
+                        <td style={{ padding:"10px 12px" }}><EstadoBadge estado={e.estado}/></td>
+                        <td style={{ padding:"10px 12px", fontSize:12, color:e.driver?C.text:"#9CA3AF" }}>{e.driver||"—"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
 
-          {/* CONFIG */}
           {section==="config" && (
             <div style={{ maxWidth:400 }}>
               <div style={{ fontWeight:600, fontSize:18, marginBottom:16 }}>⚙️ Configuración</div>
@@ -873,7 +944,9 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
   );
 }
 
-// DRIVER VIEW
+// ══════════════════════════════════════════════════════════════════════════════
+// VISTA: DRIVER
+// ══════════════════════════════════════════════════════════════════════════════
 function DriverView({ envios, setEnvios, userName, onLogout }) {
   const miNombre = userName || "";
   const activos  = envios.filter(e =>
@@ -907,19 +980,25 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
             <div style={{ color:"#412402", fontWeight:700, fontSize:16 }}>🐯 App Tigger</div>
             <div style={{ color:"#855010", fontSize:12 }}>Conductor · {userName}</div>
           </div>
-          <button onClick={onLogout} style={{ background:"rgba(196,127,0,0.12)", color:"#633806", border:"1px solid rgba(196,127,0,0.35)", borderRadius:8, padding:"7px 14px", fontSize:12, cursor:"pointer", fontWeight:600 }}>Salir</button>
+          <button onClick={onLogout} style={{ background:"rgba(196,127,0,0.12)", color:"#633806", border:"1px solid rgba(196,127,0,0.35)", borderRadius:8, padding:"7px 14px", fontSize:12, cursor:"pointer", fontWeight:600 }}>
+            Salir
+          </button>
         </div>
       </div>
 
       <div style={{ maxWidth:640, margin:"0 auto", padding:"20px 16px" }}>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:14 }}>
           <div style={{ fontWeight:600, fontSize:15 }}>Mis entregas de hoy</div>
-          {activos.length>0 && <span style={{ background:C.honey, color:C.white, borderRadius:99, padding:"3px 10px", fontSize:12, fontWeight:700 }}>{activos.length} pendientes</span>}
+          {activos.length>0 && (
+            <span style={{ background:C.honey, color:C.white, borderRadius:99, padding:"3px 10px", fontSize:12, fontWeight:700 }}>
+              {activos.length} pendientes
+            </span>
+          )}
         </div>
 
         {activos.length===0 && (
           <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:14, padding:32, textAlign:"center", color:C.gray, fontSize:13 }}>
-            No hay envíos activos. Rabbit debe despachar primero.
+            No hay envíos activos. Rabbit debe recibir en bodega y despachar primero.
           </div>
         )}
 
@@ -932,23 +1011,37 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
                 <div style={{ fontSize:12, color:C.gray }}>#{e.id} · Para: {e.cliente}</div>
                 <div style={{ fontSize:12, color:C.gray }}>📍 {e.destino}</div>
                 {e.telefono && (
-                  <a href={`tel:${e.telefono}`} style={{ display:"inline-flex", alignItems:"center", gap:5, marginTop:6, background:C.greenLight, color:C.green, border:`1px solid ${C.green}33`, borderRadius:8, padding:"5px 10px", textDecoration:"none", fontSize:12, fontWeight:600 }}>
-                    📞 Llamar — {e.telefono}
+                  <a href={`tel:${e.telefono}`}
+                    style={{ display:"inline-flex", alignItems:"center", gap:5, marginTop:6, background:C.greenLight, color:C.green, border:`1px solid ${C.green}33`, borderRadius:8, padding:"5px 10px", textDecoration:"none", fontSize:12, fontWeight:600 }}>
+                    📞 Llamar al cliente — {e.telefono}
                   </a>
                 )}
               </div>
             </div>
+
             <div style={{ display:"flex", gap:8, margin:"12px 0 10px", alignItems:"center", flexWrap:"wrap" }}>
               {e.estado==="EN_ALMACEN" && (
                 <>
-                  <button onClick={()=>avanzar(e.id)} style={{ background:`linear-gradient(135deg,${C.blue},${C.blueDark})`, color:C.white, border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer" }}>🚗 En RUTA</button>
-                  <button onClick={()=>marcarFallido(e.id)} style={{ background:`linear-gradient(135deg,${C.red},#B91C1C)`, color:C.white, border:"none", borderRadius:10, padding:"10px 12px", fontWeight:700, fontSize:13, cursor:"pointer" }}>❌ Fallido</button>
+                  <button onClick={()=>avanzar(e.id)}
+                    style={{ background:`linear-gradient(135deg,${C.blue},${C.blueDark})`, color:C.white, border:"none", borderRadius:10, padding:"10px 18px", fontWeight:700, fontSize:13, cursor:"pointer" }}>
+                    🚗 Marcar EN RUTA
+                  </button>
+                  <button onClick={()=>marcarFallido(e.id)}
+                    style={{ background:`linear-gradient(135deg,${C.red},#B91C1C)`, color:C.white, border:"none", borderRadius:10, padding:"10px 14px", fontWeight:700, fontSize:13, cursor:"pointer" }}>
+                    ❌ Fallido
+                  </button>
                 </>
               )}
               {e.estado==="EN_RUTA" && (
                 <>
-                  <button onClick={()=>avanzar(e.id)} style={{ background:`linear-gradient(135deg,${C.green},#15803D)`, color:C.white, border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer" }}>✅ Entregado</button>
-                  <button onClick={()=>marcarFallido(e.id)} style={{ background:`linear-gradient(135deg,${C.red},#B91C1C)`, color:C.white, border:"none", borderRadius:10, padding:"10px 12px", fontWeight:700, fontSize:13, cursor:"pointer" }}>❌ Fallido</button>
+                  <button onClick={()=>avanzar(e.id)}
+                    style={{ background:`linear-gradient(135deg,${C.green},#15803D)`, color:C.white, border:"none", borderRadius:10, padding:"10px 18px", fontWeight:700, fontSize:13, cursor:"pointer" }}>
+                    Marcar entregado ✅
+                  </button>
+                  <button onClick={()=>marcarFallido(e.id)}
+                    style={{ background:`linear-gradient(135deg,${C.red},#B91C1C)`, color:C.white, border:"none", borderRadius:10, padding:"10px 14px", fontWeight:700, fontSize:13, cursor:"pointer" }}>
+                    ❌ Fallido
+                  </button>
                   <label style={{ background:C.grayLight, color:C.gray, border:`1px solid ${C.border}`, borderRadius:10, padding:"10px 12px", fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:4 }}>
                     📷 Foto
                     <input type="file" accept="image/*" capture="environment" style={{ display:"none" }}
@@ -958,14 +1051,16 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
               )}
               <button onClick={()=>setMapaAbierto(mapaAbierto===e.id?null:e.id)}
                 style={{ background:C.blueLight, color:C.blue, border:`1px solid ${C.blue}33`, borderRadius:10, padding:"10px 12px", fontSize:13, cursor:"pointer", fontWeight:600 }}>
-                {mapaAbierto===e.id?"🗺 Ocultar":"🗺 Ver ruta"}
+                {mapaAbierto===e.id?"🗺 Ocultar ruta":"🗺 Ver ruta A→B"}
               </button>
             </div>
+
             {mapaAbierto===e.id && (
-              <div style={{ marginTop:12, borderRadius:10, overflow:"hidden", border:`1px solid ${C.border}`, height:260 }}>
+              <div style={{ marginTop:12, borderRadius:10, overflow:"hidden", border:`1px solid ${C.border}`, height:280 }}>
                 <MapaAB origen={e.origen||"Bodega central"} destino={e.destino}/>
               </div>
             )}
+
             {fotos[e.id] && (
               <div style={{ marginTop:10 }}>
                 <div style={{ fontSize:11, color:C.gray, marginBottom:4, fontWeight:600 }}>📷 Foto de entrega</div>
@@ -974,6 +1069,11 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
             )}
           </div>
         ))}
+
+        <div style={{ background:"#FFF7ED", border:"1px solid #FED7AA", borderRadius:12, padding:"12px 14px", marginTop:8, fontSize:12 }}>
+          <div style={{ fontWeight:600, color:"#C2410C", marginBottom:3 }}>⚠️ Regla del bosque</div>
+          <div style={{ color:"#92400E" }}>No puedes saltar estados. Si un paquete está en almacén, <strong>primero</strong> marcalo "en ruta" antes de "entregado".</div>
+        </div>
 
         {entregados.length>0 && (
           <>
@@ -989,11 +1089,30 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
             ))}
           </>
         )}
+
+        {envios.filter(e=>e.estado==="FALLIDO"&&(e.driver===miNombre||!miNombre.startsWith("Tigger-"))).length>0 && (
+          <>
+            <div style={{ fontWeight:600, fontSize:14, color:C.red, margin:"20px 0 10px" }}>❌ Fallidos</div>
+            {envios.filter(e=>e.estado==="FALLIDO"&&(e.driver===miNombre||!miNombre.startsWith("Tigger-"))).map(e=>(
+              <div key={e.id} style={{ background:C.redLight, border:`1px solid ${C.red}33`, borderRadius:12, padding:"12px 16px", marginBottom:8 }}>
+                <div style={{ display:"flex", justifyContent:"space-between" }}>
+                  <span style={{ fontFamily:"monospace", fontWeight:700, fontSize:13 }}>{e.id}</span>
+                  <span style={{ color:C.red, fontWeight:600, fontSize:13 }}>❌ Fallido</span>
+                </div>
+                <div style={{ fontSize:12, color:C.gray, marginTop:3 }}>{e.producto} · {e.destino}</div>
+                {e.hora?.FALLIDO && <div style={{ fontSize:11, color:C.red, marginTop:2 }}>Registrado: {e.hora.FALLIDO}</div>}
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
 }
 
+// ══════════════════════════════════════════════════════════════════════════════
+// APP ROOT
+// ══════════════════════════════════════════════════════════════════════════════
 export default function App() {
   const [role,     setRole]   = useState(null);
   const [userName, setUser]   = useState("");
