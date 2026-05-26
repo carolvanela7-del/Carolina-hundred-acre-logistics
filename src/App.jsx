@@ -1126,4 +1126,4 @@ export default function App() {
   if (role==="admin")  return <AdminView   envios={envios} setEnvios={setEnvios} userName={userName} onLogout={handleLogout}/>;
   if (role==="driver") return <DriverView  envios={envios} setEnvios={setEnvios} userName={userName} onLogout={handleLogout}/>;
   return null;
-} 
+}
