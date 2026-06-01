@@ -297,6 +297,7 @@ function UbicacionSelector({ label, accentColor, value, onChange }) {
   );
 }
 
+// LOGIN
 function LoginView({ onLogin }) {
   const [email, setEmail] = useState("");
   const [pass,  setPass]  = useState("");
@@ -350,6 +351,7 @@ function LoginView({ onLogin }) {
   );
 }
 
+// PIGLET VIEW
 function PigletView({ envios, onLogout }) {
   const [code,   setCode]   = useState("");
   const [result, setResult] = useState(null);
@@ -456,6 +458,7 @@ function PigletView({ envios, onLogout }) {
   );
 }
 
+// ADMIN VIEW — FULL RESPONSIVE con menú hamburguesa
 function AdminView({ envios, setEnvios, userName, onLogout }) {
   const [section,     setSection]     = useState("paquetes");
   const [driverSel,   setDriverSel]   = useState({});
@@ -508,18 +511,17 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
     ));
   };
 
-  // ── Números de stat cards: café claro / gris cálido ──
   const stats = [
-    {label:"Total hoy",  val:envios.length,                                  sub:"paquetes",      col:"#7C6355" },
-    {label:"En ruta",    val:envios.filter(e=>e.estado==="EN_RUTA").length,   sub:"con Tigger 🐯", col:"#8A7968" },
-    {label:"Entregados", val:envios.filter(e=>e.estado==="ENTREGADO").length, sub:"hoy",           col:"#6E7A6A" },
-    {label:"Fallidos",   val:0,                                               sub:"revisar",       col:"#9E8E82" },
+    {label:"Total hoy",  val:envios.length,                                  sub:"paquetes",      col:C.text },
+    {label:"En ruta",    val:envios.filter(e=>e.estado==="EN_RUTA").length,   sub:"con Tigger 🐯", col:C.blue },
+    {label:"Entregados", val:envios.filter(e=>e.estado==="ENTREGADO").length, sub:"hoy",           col:C.green},
+    {label:"Fallidos",   val:0,                                               sub:"revisar",       col:C.red  },
   ];
   const estadoStats = [
-    {label:"Creado",     val:envios.filter(e=>e.estado==="CREADO").length,     col:"#9E8E82" },
-    {label:"En almacén", val:envios.filter(e=>e.estado==="EN_ALMACEN").length, col:"#B8966E" },
-    {label:"En ruta",    val:envios.filter(e=>e.estado==="EN_RUTA").length,    col:"#8A7968" },
-    {label:"Entregado",  val:envios.filter(e=>e.estado==="ENTREGADO").length,  col:"#6E7A6A" },
+    {label:"Creado",     val:envios.filter(e=>e.estado==="CREADO").length,     col:C.gray },
+    {label:"En almacén", val:envios.filter(e=>e.estado==="EN_ALMACEN").length, col:C.honey},
+    {label:"En ruta",    val:envios.filter(e=>e.estado==="EN_RUTA").length,    col:C.blue },
+    {label:"Entregado",  val:envios.filter(e=>e.estado==="ENTREGADO").length,  col:C.green},
   ];
 
   const MENU = [
@@ -563,12 +565,14 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
 
   return (
     <div style={{ display:"flex", minHeight:"100vh", background:C.grayLight, fontFamily:"'Segoe UI',system-ui,sans-serif" }}>
+      {/* Sidebar desktop */}
       {!isMobile && (
         <aside style={{ width:220, background:C.sidebarBg, borderRight:`1px solid ${C.sidebarBorder}`, display:"flex", flexDirection:"column", flexShrink:0 }}>
           <SidebarContent/>
         </aside>
       )}
 
+      {/* Overlay mobile */}
       {isMobile && sidebarOpen && (
         <div style={{ position:"fixed", inset:0, zIndex:100, display:"flex" }}>
           <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.4)" }} onClick={()=>setSidebarOpen(false)}/>
@@ -580,6 +584,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
       )}
 
       <div style={{ flex:1, display:"flex", flexDirection:"column", overflow:"hidden", minWidth:0 }}>
+        {/* Header */}
         <div style={{ background:C.white, borderBottom:`1px solid ${C.border}`, padding:"0 16px", height:52, display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0, gap:8 }}>
           <div style={{ display:"flex", alignItems:"center", gap:10 }}>
             {isMobile && (
@@ -600,10 +605,13 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
           </div>
         </div>
 
+        {/* Content */}
         <div style={{ flex:1, overflow:"auto", padding:isMobile?"12px":"20px 24px" }}>
 
+          {/* PAQUETES */}
           {section==="paquetes" && (
             <>
+              {/* Stats grid: 2 cols en mobile, 4 en desktop */}
               <div style={{ display:"grid", gridTemplateColumns:isMobile?"1fr 1fr":"repeat(4,1fr)", gap:10, marginBottom:12 }}>
                 {stats.map(st=>(
                   <div key={st.label} style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:"12px 14px" }}>
@@ -614,6 +622,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                 ))}
               </div>
 
+              {/* Estado stats: 2 cols en mobile, 4 en desktop */}
               <div style={{ display:"grid", gridTemplateColumns:isMobile?"1fr 1fr":"repeat(4,1fr)", gap:8, marginBottom:16 }}>
                 {estadoStats.map(st=>(
                   <div key={st.label} style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:10, padding:"10px 12px", display:"flex", alignItems:"center", gap:8 }}>
@@ -626,6 +635,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                 ))}
               </div>
 
+              {/* Layout: columna en mobile, grid en desktop */}
               <div style={{ display:"grid", gridTemplateColumns:isMobile?"1fr":"1fr 360px", gap:16 }}>
                 <div>
                   <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10, gap:8 }}>
@@ -666,6 +676,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                   {activeEnvios.length===0 ? (
                     <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:32, textAlign:"center", color:C.gray, fontSize:13 }}>No hay paquetes activos.</div>
                   ) : isMobile ? (
+                    // MOBILE: tarjetas en vez de tabla
                     <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
                       {activeEnvios.map(e=>(
                         <div key={e.id} style={{ background:C.white, border:`1px solid ${C.border}`, borderLeft:`4px solid ${ESTADO_COLORS[e.estado]}`, borderRadius:12, padding:14 }}>
@@ -700,6 +711,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                       ))}
                     </div>
                   ) : (
+                    // DESKTOP: tabla
                     <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, overflow:"hidden" }}>
                       <div style={{ overflowX:"auto" }}>
                         <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
@@ -745,6 +757,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                   )}
                 </div>
 
+                {/* Mapa — solo en desktop dentro del grid, en mobile debajo */}
                 <div>
                   <div style={{ fontWeight:600, fontSize:15, marginBottom:6 }}>Mapa del bosque 🇸🇻</div>
                   {enRutaCount>0 && (
@@ -766,6 +779,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
             </>
           )}
 
+          {/* CONDUCTORES */}
           {section==="conductores" && (
             <div>
               <div style={{ fontWeight:600, fontSize:18, marginBottom:16 }}>🐯 Conductores</div>
@@ -785,6 +799,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
             </div>
           )}
 
+          {/* HISTORIAL */}
           {section==="historial" && (
             <div>
               <div style={{ fontWeight:600, fontSize:18, marginBottom:16 }}>📋 Historial completo</div>
@@ -835,6 +850,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
             </div>
           )}
 
+          {/* CONFIG */}
           {section==="config" && (
             <div style={{ maxWidth:400 }}>
               <div style={{ fontWeight:600, fontSize:18, marginBottom:16 }}>⚙️ Configuración</div>
@@ -857,6 +873,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
   );
 }
 
+// DRIVER VIEW
 function DriverView({ envios, setEnvios, userName, onLogout }) {
   const miNombre = userName || "";
   const activos  = envios.filter(e =>
