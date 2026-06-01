@@ -871,13 +871,8 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
 
 function DriverView({ envios, setEnvios, userName, onLogout }) {
   const miNombre = userName || "";
-  const activos  = envios.filter(e =>
-    DRIVER_ACTIVO.includes(e.estado) &&
-    (e.driver===miNombre || e.driver==="" || !miNombre.startsWith("Tigger-"))
-  );
-  const entregados = envios.filter(e =>
-    e.estado==="ENTREGADO" && (e.driver===miNombre || !miNombre.startsWith("Tigger-"))
-  );
+  const activos    = envios.filter(e => DRIVER_ACTIVO.includes(e.estado));
+  const entregados = envios.filter(e => e.estado==="ENTREGADO");
 
   const [mapaAbierto, setMapaAbierto] = useState(null);
   const [fotos,       setFotos]       = useState({});
