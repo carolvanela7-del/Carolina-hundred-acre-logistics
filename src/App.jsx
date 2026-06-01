@@ -90,7 +90,6 @@ function resolveCoords(name) {
   return null;
 }
 
-// ── Paleta principal ──────────────────────────────────────────────────────────
 const C = {
   honey:"#F0A500", honeyDark:"#C47F00", honeyLight:"#FFF8E7", honeyBg:"#FEF3D0",
   blue:"#2563EB", blueDark:"#1D4ED8", blueLight:"#EFF6FF",
@@ -100,29 +99,17 @@ const C = {
   red:"#DC2626", redLight:"#FEF2F2", white:"#FFFFFF",
   sidebarBg:"#FFFFFF", sidebarText:"#412402", sidebarMuted:"#855010",
   sidebarActive:"#633806", sidebarActiveBg:"rgba(196,127,0,0.10)", sidebarBorder:"#F5E6B4",
-
-  // ── Café claro (reemplaza rojo/verde/azul en botones y estados) ──
-  brown:"#A0785A",        // café claro principal
-  brownDark:"#7C5940",    // café oscuro (texto/borde)
-  brownLight:"#F5EDE6",   // fondo café muy claro
-  brownMid:"#C49A7A",     // café medio (bordes)
 };
 
-// ── Estados: todos con tonos café ─────────────────────────────────────────────
 const ESTADO_COLORS = {
-  CREADO:"#9CA3AF",
-  EN_ALMACEN:C.honey,
-  EN_RUTA:"#8A7968",      // café grisáceo (antes azul)
-  ENTREGADO:"#7C9A6A",    // verde oliva suave (antes verde brillante)
-  FALLIDO:"#A0785A",      // café claro (antes rojo)
+  CREADO:"#9CA3AF", EN_ALMACEN:C.honey, EN_RUTA:C.blue, ENTREGADO:C.green, FALLIDO:C.red,
 };
-
 const ESTADO_NEXT = {
   CREADO:"EN_ALMACEN", EN_ALMACEN:"EN_RUTA", EN_RUTA:"ENTREGADO", ENTREGADO:null, FALLIDO:null,
 };
 const DRIVER_ACTIVO = ["EN_ALMACEN","EN_RUTA"];
 const DRIVERS = Array.from({length:10},(_,i)=>`Tigger-${String(i+1).padStart(2,"0")}`);
-const ROUTE_COLORS = ["#A0785A","#7C9A6A","#8A7968","#C49A7A","#B8966E","#9E8E82","#7C6355","#855010","#6E7A6A","#633806"];
+const ROUTE_COLORS = ["#E24B4A","#1D9E75","#7F77DD","#EF9F27","#D4537E","#378ADD","#639922","#D85A30","#885EA6","#0F6E56"];
 
 const ENVIOS_INIT = [
   { id:"HAW001", cliente:"Piglet",  telefono:"7755-1001", producto:"Tarro de miel × 3",  origen:"Bodega central", destino:"San Miguel",   estado:"EN_RUTA",    driver:"Tigger-03", hora:{ CREADO:"08:15", EN_ALMACEN:"09:00", EN_RUTA:"10:30" } },
@@ -159,8 +146,8 @@ function MapaSV({ envios }) {
     if (instanceRef.current) { instanceRef.current.remove(); instanceRef.current = null; }
     const map = L.map(mapRef.current, { center:[13.794,-88.896], zoom:7, zoomControl:true, scrollWheelZoom:false });
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution:"© OpenStreetMap", maxZoom:18 }).addTo(map);
-    const greenIcon = L.divIcon({ html:'<div style="background:#7C9A6A;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:11px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">A</div>', className:"", iconSize:[22,22], iconAnchor:[11,11] });
-    const blueIcon  = L.divIcon({ html:'<div style="background:#8A7968;color:#fff;border-radius:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:11px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">B</div>', className:"", iconSize:[22,22], iconAnchor:[11,11] });
+    const greenIcon = L.divIcon({ html:'<div style="background:#16A34A;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:11px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">A</div>', className:"", iconSize:[22,22], iconAnchor:[11,11] });
+    const blueIcon  = L.divIcon({ html:'<div style="background:#2563EB;color:#fff;border-radius:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:11px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">B</div>', className:"", iconSize:[22,22], iconAnchor:[11,11] });
     enRuta.forEach((e, i) => {
       const color = ROUTE_COLORS[i % ROUTE_COLORS.length];
       const cA = resolveCoords(e.origen); const cB = resolveCoords(e.destino);
@@ -196,8 +183,8 @@ function MapaAB({ origen, destino }) {
     const map = L.map(mapRef.current, { center:[(coordA[0]+coordB[0])/2,(coordA[1]+coordB[1])/2], zoom:8, zoomControl:true, scrollWheelZoom:false });
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution:"© OpenStreetMap", maxZoom:18 }).addTo(map);
     L.polyline([coordA, coordB], { color:C.honey, weight:4, dashArray:"10 5", opacity:0.9 }).addTo(map);
-    const mkA = L.divIcon({ html:`<div style="background:#7C9A6A;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35)">A</div>`, className:"", iconSize:[28,28], iconAnchor:[14,14] });
-    const mkB = L.divIcon({ html:`<div style="background:#8A7968;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35)">B</div>`, className:"", iconSize:[28,28], iconAnchor:[14,14] });
+    const mkA = L.divIcon({ html:`<div style="background:#16A34A;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35)">A</div>`, className:"", iconSize:[28,28], iconAnchor:[14,14] });
+    const mkB = L.divIcon({ html:`<div style="background:#2563EB;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35)">B</div>`, className:"", iconSize:[28,28], iconAnchor:[14,14] });
     L.marker(coordA, { icon:mkA }).addTo(map).bindPopup(`<b>Origen</b><br>${origen}`).openPopup();
     L.marker(coordB, { icon:mkB }).addTo(map).bindPopup(`<b>Destino</b><br>${destino}`);
     map.fitBounds(L.latLngBounds([coordA, coordB]), { padding:[30,30] });
@@ -206,7 +193,7 @@ function MapaAB({ origen, destino }) {
   }, [leafletReady, origen, destino]);
 
   if (!coordA || !coordB) return (
-    <div style={{ width:"100%", height:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", background:C.brownLight, color:C.brownDark, fontSize:13, gap:8, padding:16, textAlign:"center" }}>
+    <div style={{ width:"100%", height:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", background:"#FEF2F2", color:C.red, fontSize:13, gap:8, padding:16, textAlign:"center" }}>
       <span style={{fontSize:22}}>⚠️</span>
       <span>No se pudo ubicar: <b>{!coordA ? origen : destino}</b></span>
     </div>
@@ -343,7 +330,7 @@ function LoginView({ onLogin }) {
               style={{ width:"100%", padding:"10px 12px", border:"1px solid #e8e8e8", borderRadius:8, fontSize:13, marginBottom:14, boxSizing:"border-box", outline:"none", background:"#f9fbff", color:"#333" }}/>
           </div>
         ))}
-        {err && <div style={{ background:C.brownLight, color:C.brownDark, borderRadius:8, padding:"8px 12px", fontSize:12, marginBottom:12 }}>{err}</div>}
+        {err && <div style={{ background:"#FEF2F2", color:"#DC2626", borderRadius:8, padding:"8px 12px", fontSize:12, marginBottom:12 }}>{err}</div>}
         <button onClick={login} style={{ width:"100%", padding:"12px", background:"#EF9F27", color:"#fff", border:"none", borderRadius:8, fontWeight:600, fontSize:14, cursor:"pointer" }}>
           Entrar al bosque 🌳
         </button>
@@ -403,7 +390,7 @@ function PigletView({ envios, onLogout }) {
             <button onClick={buscar} style={{ background:C.honey, color:C.white, border:"none", borderRadius:10, padding:"10px 18px", fontWeight:700, fontSize:14, cursor:"pointer" }}>Rastrear ↗</button>
           </div>
         </div>
-        {result==="notfound" && <div style={{ background:C.brownLight, color:C.brownDark, borderRadius:10, padding:"12px 16px", fontSize:13 }}>No se encontró el envío. Verificá el código.</div>}
+        {result==="notfound" && <div style={{ background:C.redLight, color:C.red, borderRadius:10, padding:"12px 16px", fontSize:13 }}>No se encontró el envío. Verificá el código.</div>}
         {result==="invisible" && <div style={{ background:C.honeyLight, color:C.honeyDark, border:`1px solid ${C.honey}66`, borderRadius:10, padding:"12px 16px", fontSize:13 }}>⏳ Tu paquete aún no ingresó a bodega. En breve podrás rastrearlo.</div>}
         {result && result!=="notfound" && result!=="invisible" && (
           <>
@@ -417,7 +404,7 @@ function PigletView({ envios, onLogout }) {
               </div>
               <Stepper estado={result.estado}/>
               {result.estado==="EN_RUTA" && result.telefono && (
-                <a href={`tel:${result.telefono}`} style={{ display:"flex", alignItems:"center", gap:8, marginTop:10, background:"#F0EDE8", color:C.brownDark, border:`1px solid ${C.brownMid}33`, borderRadius:10, padding:"10px 14px", textDecoration:"none", fontWeight:600, fontSize:13 }}>
+                <a href={`tel:${result.telefono}`} style={{ display:"flex", alignItems:"center", gap:8, marginTop:10, background:C.greenLight, color:C.green, border:`1px solid ${C.green}33`, borderRadius:10, padding:"10px 14px", textDecoration:"none", fontWeight:600, fontSize:13 }}>
                   📞 Contactar al conductor — {result.telefono}
                 </a>
               )}
@@ -427,12 +414,12 @@ function PigletView({ envios, onLogout }) {
                 <div style={{ fontWeight:600, fontSize:14, marginBottom:6 }}>📍 Ruta de tu paquete</div>
                 <div style={{ display:"flex", gap:10, fontSize:12, flexWrap:"wrap", alignItems:"center" }}>
                   <span style={{ display:"flex", alignItems:"center", gap:5 }}>
-                    <span style={{ background:"#7C9A6A", color:"#fff", borderRadius:"50%", width:18, height:18, display:"inline-flex", alignItems:"center", justifyContent:"center", fontWeight:800, fontSize:10 }}>A</span>
+                    <span style={{ background:"#16A34A", color:"#fff", borderRadius:"50%", width:18, height:18, display:"inline-flex", alignItems:"center", justifyContent:"center", fontWeight:800, fontSize:10 }}>A</span>
                     {result.origen}
                   </span>
                   <span style={{ color:C.honey, fontWeight:700, fontSize:16 }}>——→</span>
                   <span style={{ display:"flex", alignItems:"center", gap:5 }}>
-                    <span style={{ background:"#8A7968", color:"#fff", borderRadius:"50%", width:18, height:18, display:"inline-flex", alignItems:"center", justifyContent:"center", fontWeight:800, fontSize:10 }}>B</span>
+                    <span style={{ background:"#2563EB", color:"#fff", borderRadius:"50%", width:18, height:18, display:"inline-flex", alignItems:"center", justifyContent:"center", fontWeight:800, fontSize:10 }}>B</span>
                     {result.destino}
                   </span>
                 </div>
@@ -446,10 +433,10 @@ function PigletView({ envios, onLogout }) {
                 return (
                   <div key={st} style={{ display:"flex", gap:12, marginBottom:16, opacity:done?1:0.35 }}>
                     <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}>
-                      <div style={{ width:32, height:32, borderRadius:"50%", background:isCur?ESTADO_COLORS[st]:done?"#F0EDE8":C.grayLight, border:`2px solid ${done?(isCur?ESTADO_COLORS[st]:C.brownMid):C.border}`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, flexShrink:0 }}>
-                        {done ? (isCur ? <span style={{fontSize:15}}>{h.icon}</span> : <span style={{color:C.brownDark,fontSize:14}}>✓</span>) : <span style={{color:"#D1D5DB",fontSize:12}}>○</span>}
+                      <div style={{ width:32, height:32, borderRadius:"50%", background:isCur?ESTADO_COLORS[st]:done?C.greenLight:C.grayLight, border:`2px solid ${done?(isCur?ESTADO_COLORS[st]:C.green):C.border}`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, flexShrink:0 }}>
+                        {done ? (isCur ? <span style={{fontSize:15}}>{h.icon}</span> : <span style={{color:C.green,fontSize:14}}>✓</span>) : <span style={{color:"#D1D5DB",fontSize:12}}>○</span>}
                       </div>
-                      {i < STEPS.length-1 && <div style={{ width:2, flex:1, minHeight:14, background:done&&i<curIdx?C.brownMid:C.border, marginTop:2 }}/>}
+                      {i < STEPS.length-1 && <div style={{ width:2, flex:1, minHeight:14, background:done&&i<curIdx?C.green:C.border, marginTop:2 }}/>}
                     </div>
                     <div style={{ paddingBottom:8 }}>
                       <div style={{ fontWeight:600, fontSize:13, color:isCur?ESTADO_COLORS[st]:C.text }}>{h.label}</div>
@@ -521,11 +508,12 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
     ));
   };
 
+  // ── Números de stat cards: café claro / gris cálido ──
   const stats = [
     {label:"Total hoy",  val:envios.length,                                  sub:"paquetes",      col:"#7C6355" },
     {label:"En ruta",    val:envios.filter(e=>e.estado==="EN_RUTA").length,   sub:"con Tigger 🐯", col:"#8A7968" },
     {label:"Entregados", val:envios.filter(e=>e.estado==="ENTREGADO").length, sub:"hoy",           col:"#6E7A6A" },
-    {label:"Fallidos",   val:0,                                               sub:"revisar",       col:"#A0785A" },
+    {label:"Fallidos",   val:0,                                               sub:"revisar",       col:"#9E8E82" },
   ];
   const estadoStats = [
     {label:"Creado",     val:envios.filter(e=>e.estado==="CREADO").length,     col:"#9E8E82" },
@@ -567,7 +555,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
         })}
       </div>
       <div style={{ padding:"14px 18px", borderTop:`1px solid ${C.sidebarBorder}`, fontSize:11 }}>
-        <div style={{ color:"#7C9A6A", fontWeight:600 }}>● Tigger disponible</div>
+        <div style={{ color:C.green, fontWeight:600 }}>● Tigger disponible</div>
         <div style={{ color:C.sidebarMuted, marginTop:2 }}>{tiggersActivos} envíos en ruta</div>
       </div>
     </>
@@ -661,13 +649,13 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                         ))}
                       </div>
                       <div style={{ marginBottom:12 }}>
-                        <UbicacionSelector label="Origen" accentColor={C.brown} value={origenLoc} onChange={setOrigenLoc}/>
+                        <UbicacionSelector label="Origen" accentColor={C.green} value={origenLoc} onChange={setOrigenLoc}/>
                       </div>
                       <div style={{ borderTop:`1px solid ${C.border}`, margin:"12px 0" }}/>
                       <div style={{ marginBottom:14 }}>
-                        <UbicacionSelector label="Destino" accentColor={C.brownDark} value={destinoLoc} onChange={setDestinoLoc}/>
+                        <UbicacionSelector label="Destino" accentColor={C.blue} value={destinoLoc} onChange={setDestinoLoc}/>
                       </div>
-                      {formErr && <div style={{ background:C.brownLight, color:C.brownDark, borderRadius:6, padding:"6px 10px", fontSize:12, marginBottom:8 }}>{formErr}</div>}
+                      {formErr && <div style={{ background:C.redLight, color:C.red, borderRadius:6, padding:"6px 10px", fontSize:12, marginBottom:8 }}>{formErr}</div>}
                       <button onClick={crearPaquete}
                         style={{ background:C.honey, color:C.white, border:"none", borderRadius:8, padding:"8px 18px", fontWeight:600, fontSize:13, cursor:"pointer" }}>
                         ✓ Crear paquete
@@ -690,7 +678,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                             <EstadoBadge estado={e.estado}/>
                           </div>
                           <div style={{ fontSize:12, color:C.gray, marginBottom:8 }}>📍 {e.origen} → {e.destino}</div>
-                          {e.telefono && <a href={`tel:${e.telefono}`} style={{ fontSize:12, color:C.brownDark, fontWeight:600, display:"block", marginBottom:8 }}>📞 {e.telefono}</a>}
+                          {e.telefono && <a href={`tel:${e.telefono}`} style={{ fontSize:12, color:C.green, fontWeight:600, display:"block", marginBottom:8 }}>📞 {e.telefono}</a>}
                           {e.driver && <div style={{ fontSize:12, color:C.text, marginBottom:8 }}>🐯 {e.driver}</div>}
                           <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
                             {e.estado==="CREADO" && (
@@ -703,7 +691,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                                   <option value="">Driver…</option>
                                   {DRIVERS.map(d=><option key={d} value={d}>{d}</option>)}
                                 </select>
-                                <button onClick={()=>despachar(e.id)} style={{ background:C.brownLight, color:C.brownDark, border:`1px solid ${C.brownMid}44`, borderRadius:7, padding:"6px 12px", fontSize:12, fontWeight:600, cursor:"pointer" }}>🚗 Despachar</button>
+                                <button onClick={()=>despachar(e.id)} style={{ background:C.blueLight, color:C.blue, border:`1px solid ${C.blue}44`, borderRadius:7, padding:"6px 12px", fontSize:12, fontWeight:600, cursor:"pointer" }}>🚗 Despachar</button>
                               </>
                             )}
                             {e.estado==="EN_RUTA" && <span style={{ color:"#9CA3AF", fontSize:12, alignSelf:"center" }}>En camino…</span>}
@@ -728,7 +716,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                                 <td style={{ padding:"11px 12px", fontFamily:"monospace", fontWeight:700, fontSize:12 }}>{e.id}</td>
                                 <td style={{ padding:"11px 12px", fontSize:12 }}>{e.cliente}</td>
                                 <td style={{ padding:"11px 12px", fontSize:12 }}>
-                                  {e.telefono ? <a href={`tel:${e.telefono}`} style={{ color:C.brownDark, textDecoration:"none", fontWeight:600 }}>📞 {e.telefono}</a> : <span style={{color:"#9CA3AF"}}>—</span>}
+                                  {e.telefono ? <a href={`tel:${e.telefono}`} style={{ color:C.green, textDecoration:"none", fontWeight:600 }}>📞 {e.telefono}</a> : <span style={{color:"#9CA3AF"}}>—</span>}
                                 </td>
                                 <td style={{ padding:"11px 12px" }}><EstadoBadge estado={e.estado}/></td>
                                 <td style={{ padding:"11px 12px", fontSize:12, color:e.driver?C.text:"#9CA3AF" }}>{e.driver||"—"}</td>
@@ -743,7 +731,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                                         <option value="">Driver…</option>
                                         {DRIVERS.map(d=><option key={d} value={d}>{d}</option>)}
                                       </select>
-                                      <button onClick={()=>despachar(e.id)} style={{ background:C.brownLight, color:C.brownDark, border:`1px solid ${C.brownMid}44`, borderRadius:7, padding:"5px 10px", fontSize:12, fontWeight:600, cursor:"pointer" }}>🚗 Despachar</button>
+                                      <button onClick={()=>despachar(e.id)} style={{ background:C.blueLight, color:C.blue, border:`1px solid ${C.blue}44`, borderRadius:7, padding:"5px 10px", fontSize:12, fontWeight:600, cursor:"pointer" }}>🚗 Despachar</button>
                                     </div>
                                   )}
                                   {e.estado==="EN_RUTA" && <span style={{ color:"#9CA3AF", fontSize:12 }}>En camino…</span>}
@@ -788,7 +776,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                     <div key={d} style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:14 }}>
                       <div style={{ fontWeight:600, fontSize:13 }}>🐯 {d}</div>
                       <div style={{ fontSize:12, marginTop:4 }}>
-                        {asignado ? <span style={{color:C.brown,fontWeight:600}}>● En ruta · {asignado.id}</span> : <span style={{color:"#7C9A6A"}}>● Disponible</span>}
+                        {asignado ? <span style={{color:C.blue,fontWeight:600}}>● En ruta · {asignado.id}</span> : <span style={{color:C.green}}>● Disponible</span>}
                       </div>
                     </div>
                   );
@@ -813,7 +801,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                       </div>
                       <div style={{ fontSize:12, color:C.gray, marginBottom:4 }}>{e.producto}</div>
                       <div style={{ fontSize:12, color:C.gray, marginBottom:4 }}>📍 {e.destino}</div>
-                      {e.telefono && <a href={`tel:${e.telefono}`} style={{ fontSize:12, color:C.brownDark, fontWeight:600 }}>📞 {e.telefono}</a>}
+                      {e.telefono && <a href={`tel:${e.telefono}`} style={{ fontSize:12, color:C.green, fontWeight:600 }}>📞 {e.telefono}</a>}
                       {e.driver && <div style={{ fontSize:12, color:C.text, marginTop:4 }}>🐯 {e.driver}</div>}
                     </div>
                   ))}
@@ -831,7 +819,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                             <td style={{ padding:"10px 12px", fontFamily:"monospace", fontWeight:700, fontSize:12 }}>{e.id}</td>
                             <td style={{ padding:"10px 12px", fontSize:12 }}>{e.cliente}</td>
                             <td style={{ padding:"10px 12px", fontSize:12 }}>
-                              {e.telefono ? <a href={`tel:${e.telefono}`} style={{ color:C.brownDark, textDecoration:"none", fontWeight:600 }}>{e.telefono}</a> : <span style={{color:"#9CA3AF"}}>—</span>}
+                              {e.telefono ? <a href={`tel:${e.telefono}`} style={{ color:C.green, textDecoration:"none", fontWeight:600 }}>{e.telefono}</a> : <span style={{color:"#9CA3AF"}}>—</span>}
                             </td>
                             <td style={{ padding:"10px 12px", fontSize:12 }}>{e.producto}</td>
                             <td style={{ padding:"10px 12px", fontSize:12 }}>{e.destino}</td>
@@ -871,8 +859,13 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
 
 function DriverView({ envios, setEnvios, userName, onLogout }) {
   const miNombre = userName || "";
-  const activos    = envios.filter(e => DRIVER_ACTIVO.includes(e.estado));
-  const entregados = envios.filter(e => e.estado==="ENTREGADO");
+  const activos  = envios.filter(e =>
+    DRIVER_ACTIVO.includes(e.estado) &&
+    (e.driver===miNombre || e.driver==="" || !miNombre.startsWith("Tigger-"))
+  );
+  const entregados = envios.filter(e =>
+    e.estado==="ENTREGADO" && (e.driver===miNombre || !miNombre.startsWith("Tigger-"))
+  );
 
   const [mapaAbierto, setMapaAbierto] = useState(null);
   const [fotos,       setFotos]       = useState({});
@@ -888,44 +881,6 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
       ? {...e,estado:"FALLIDO",hora:{...e.hora,FALLIDO:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
       : e
   ));
-
-  // ── Estilos de botones del panel Tigger en café claro ──────────────────────
-  const btnEntregado = {
-    background:"#D4B896", color:"#4A2E18",
-    border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer",
-    display:"inline-flex", alignItems:"center", gap:6
-  };
-  const btnFallido = {
-    background:"#C9A882", color:"#3D2010",
-    border:"none", borderRadius:10, padding:"10px 12px", fontWeight:700, fontSize:13, cursor:"pointer",
-    display:"inline-flex", alignItems:"center", gap:6
-  };
-  const btnEnRuta = {
-    background:"#B8966E", color:"#2E1A08",
-    border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer",
-    display:"inline-flex", alignItems:"center", gap:6
-  };
-
-  const IconCheck = () => (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-      <circle cx="7.5" cy="7.5" r="7" fill="#7C5940" fillOpacity="0.35"/>
-      <path d="M4 7.5l2.5 2.5 4.5-4.5" stroke="#4A2E18" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  );
-  const IconX = () => (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-      <circle cx="7.5" cy="7.5" r="7" fill="#7C5940" fillOpacity="0.35"/>
-      <path d="M5 5l5 5M10 5l-5 5" stroke="#3D2010" strokeWidth="1.8" strokeLinecap="round"/>
-    </svg>
-  );
-  const IconTruck = () => (
-    <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
-      <rect x="0" y="3" width="10" height="8" rx="1.5" fill="#2E1A08" fillOpacity="0.5"/>
-      <path d="M10 5h2.5l2 3v2h-4.5V5z" fill="#2E1A08" fillOpacity="0.5"/>
-      <circle cx="3" cy="12" r="1.5" fill="#2E1A08"/>
-      <circle cx="12" cy="12" r="1.5" fill="#2E1A08"/>
-    </svg>
-  );
 
   return (
     <div style={{ minHeight:"100vh", background:C.grayLight, fontFamily:"'Segoe UI',system-ui,sans-serif" }}>
@@ -960,7 +915,7 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
                 <div style={{ fontSize:12, color:C.gray }}>#{e.id} · Para: {e.cliente}</div>
                 <div style={{ fontSize:12, color:C.gray }}>📍 {e.destino}</div>
                 {e.telefono && (
-                  <a href={`tel:${e.telefono}`} style={{ display:"inline-flex", alignItems:"center", gap:5, marginTop:6, background:"#F0EDE8", color:C.brownDark, border:`1px solid ${C.brownMid}33`, borderRadius:8, padding:"5px 10px", textDecoration:"none", fontSize:12, fontWeight:600 }}>
+                  <a href={`tel:${e.telefono}`} style={{ display:"inline-flex", alignItems:"center", gap:5, marginTop:6, background:C.greenLight, color:C.green, border:`1px solid ${C.green}33`, borderRadius:8, padding:"5px 10px", textDecoration:"none", fontSize:12, fontWeight:600 }}>
                     📞 Llamar — {e.telefono}
                   </a>
                 )}
@@ -969,14 +924,14 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
             <div style={{ display:"flex", gap:8, margin:"12px 0 10px", alignItems:"center", flexWrap:"wrap" }}>
               {e.estado==="EN_ALMACEN" && (
                 <>
-                  <button onClick={()=>avanzar(e.id)} style={btnEnRuta}><IconTruck/> En RUTA</button>
-                  <button onClick={()=>marcarFallido(e.id)} style={btnFallido}><IconX/> Fallido</button>
+                  <button onClick={()=>avanzar(e.id)} style={{ background:`linear-gradient(135deg,${C.blue},${C.blueDark})`, color:C.white, border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer" }}>🚗 En RUTA</button>
+                  <button onClick={()=>marcarFallido(e.id)} style={{ background:`linear-gradient(135deg,${C.red},#B91C1C)`, color:C.white, border:"none", borderRadius:10, padding:"10px 12px", fontWeight:700, fontSize:13, cursor:"pointer" }}>❌ Fallido</button>
                 </>
               )}
               {e.estado==="EN_RUTA" && (
                 <>
-                  <button onClick={()=>avanzar(e.id)} style={btnEntregado}><IconCheck/> Entregado</button>
-                  <button onClick={()=>marcarFallido(e.id)} style={btnFallido}><IconX/> Fallido</button>
+                  <button onClick={()=>avanzar(e.id)} style={{ background:`linear-gradient(135deg,${C.green},#15803D)`, color:C.white, border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer" }}>✅ Entregado</button>
+                  <button onClick={()=>marcarFallido(e.id)} style={{ background:`linear-gradient(135deg,${C.red},#B91C1C)`, color:C.white, border:"none", borderRadius:10, padding:"10px 12px", fontWeight:700, fontSize:13, cursor:"pointer" }}>❌ Fallido</button>
                   <label style={{ background:C.grayLight, color:C.gray, border:`1px solid ${C.border}`, borderRadius:10, padding:"10px 12px", fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:4 }}>
                     📷 Foto
                     <input type="file" accept="image/*" capture="environment" style={{ display:"none" }}
@@ -985,7 +940,7 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
                 </>
               )}
               <button onClick={()=>setMapaAbierto(mapaAbierto===e.id?null:e.id)}
-                style={{ background:C.brownLight, color:C.brownDark, border:`1px solid ${C.brownMid}33`, borderRadius:10, padding:"10px 12px", fontSize:13, cursor:"pointer", fontWeight:600 }}>
+                style={{ background:C.blueLight, color:C.blue, border:`1px solid ${C.blue}33`, borderRadius:10, padding:"10px 12px", fontSize:13, cursor:"pointer", fontWeight:600 }}>
                 {mapaAbierto===e.id?"🗺 Ocultar":"🗺 Ver ruta"}
               </button>
             </div>
@@ -1010,7 +965,7 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
               <div key={e.id} style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:"12px 16px", marginBottom:8, opacity:0.6 }}>
                 <div style={{ display:"flex", justifyContent:"space-between" }}>
                   <span style={{ fontFamily:"monospace", fontWeight:700, fontSize:13 }}>{e.id}</span>
-                  <span style={{ color:"#7C9A6A", fontWeight:600, fontSize:13 }}>✓ Entregado</span>
+                  <span style={{ color:C.green, fontWeight:600, fontSize:13 }}>✓ Entregado</span>
                 </div>
                 <div style={{ fontSize:12, color:C.gray, marginTop:3 }}>{e.destino}</div>
               </div>
