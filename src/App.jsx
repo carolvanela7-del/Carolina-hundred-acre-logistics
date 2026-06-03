@@ -581,7 +581,18 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
         <div style={{ position:"fixed", inset:0, zIndex:100, display:"flex" }}>
           <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.4)" }} onClick={()=>setSidebarOpen(false)}/>
           <aside style={{ position:"relative", width:260, background:C.sidebarBg, display:"flex", flexDirection:"column", boxShadow:"4px 0 20px rgba(0,0,0,0.15)", zIndex:101 }}>
-            <button onClick={()=>setSidebarOpen(false)} style={{ position:"absolute", top:12, right:12, background:"none", border:"none", fontSize:20, cursor:"pointer", color:C.gray }}>✕</button>
+            {/* ✅ FIX: botón X con área táctil grande para móvil */}
+            <button
+              onClick={()=>setSidebarOpen(false)}
+              style={{
+                position:"absolute", top:8, right:8, zIndex:110,
+                background:"rgba(0,0,0,0.08)", border:"none",
+                borderRadius:8, width:40, height:40,
+                display:"flex", alignItems:"center", justifyContent:"center",
+                fontSize:18, cursor:"pointer", color:C.gray,
+                touchAction:"manipulation", WebkitTapHighlightColor:"transparent",
+              }}
+            >✕</button>
             <SidebarContent/>
           </aside>
         </div>
@@ -878,11 +889,85 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
       : e
   ));
 
-  // ── Colores corregidos según imagen de referencia ──
-  const btnEntregado = { background:"#667351", color:"#fff", border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:6 };
-  const btnFallido   = { background:"#7A4040", color:"#fff", border:"none", borderRadius:10, padding:"10px 14px", fontWeight:700, fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:6 };
-  const btnEnRuta    = { background:"#1D4ED8", color:"#fff", border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:6 };
-  const btnSecondary = { background:C.grayLight, color:C.gray, border:`1px solid ${C.border}`, borderRadius:10, padding:"10px 12px", fontSize:13, cursor:"pointer", fontWeight:600, display:"inline-flex", alignItems:"center", gap:4 };
+  // ── Estilos de botones ──
+  // ENTREGADO: verde oscuro de fondo, cajita interna verde claro con check blanco
+  const btnEntregado = {
+    background:"#3D6B35",
+    color:"#fff",
+    border:"none",
+    borderRadius:10,
+    padding:"10px 16px",
+    fontWeight:700,
+    fontSize:13,
+    cursor:"pointer",
+    display:"inline-flex",
+    alignItems:"center",
+    gap:8,
+  };
+  // FALLIDO: café-ocre oscuro, X en rojo
+  const btnFallido = {
+    background:"#6B3A2A",
+    color:"#fff",
+    border:"none",
+    borderRadius:10,
+    padding:"10px 14px",
+    fontWeight:700,
+    fontSize:13,
+    cursor:"pointer",
+    display:"inline-flex",
+    alignItems:"center",
+    gap:8,
+  };
+  // EN RUTA: azul con flechita blanca en cajita semitransparente
+  const btnEnRuta = {
+    background:"#1D4ED8",
+    color:"#fff",
+    border:"none",
+    borderRadius:10,
+    padding:"10px 16px",
+    fontWeight:700,
+    fontSize:13,
+    cursor:"pointer",
+    display:"inline-flex",
+    alignItems:"center",
+    gap:8,
+  };
+  const btnSecondary = {
+    background:C.grayLight,
+    color:C.gray,
+    border:`1px solid ${C.border}`,
+    borderRadius:10,
+    padding:"10px 12px",
+    fontSize:13,
+    cursor:"pointer",
+    fontWeight:600,
+    display:"inline-flex",
+    alignItems:"center",
+    gap:4,
+  };
+
+  // Ícono cajita checkmark verde claro
+  const CheckIcon = () => (
+    <span style={{ background:"#7CB87A", borderRadius:5, width:20, height:20, display:"inline-flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </span>
+  );
+
+  // Ícono X roja
+  const XIcon = () => (
+    <span style={{ color:"#F87171", fontSize:16, fontWeight:900, lineHeight:1 }}>✕</span>
+  );
+
+  // Ícono flechita blanca en cajita semitransparente
+  const ArrowIcon = () => (
+    <span style={{ background:"rgba(255,255,255,0.20)", borderRadius:5, width:20, height:20, display:"inline-flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M2 6h8M7 3l3 3-3 3" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </span>
+  );
 
   return (
     <div style={{ minHeight:"100vh", background:C.grayLight, fontFamily:"'Segoe UI',system-ui,sans-serif" }}>
@@ -895,23 +980,32 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
           <button onClick={onLogout} style={{ background:"rgba(196,127,0,0.12)", color:"#633806", border:"1px solid rgba(196,127,0,0.35)", borderRadius:8, padding:"7px 14px", fontSize:12, cursor:"pointer", fontWeight:600 }}>Salir</button>
         </div>
       </div>
+
       <div style={{ maxWidth:640, margin:"0 auto", padding:"20px 16px" }}>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:14 }}>
           <div style={{ fontWeight:600, fontSize:15 }}>Mis entregas de hoy</div>
-          {activos.length>0 && <span style={{ background:C.honey, color:C.white, borderRadius:99, padding:"3px 10px", fontSize:12, fontWeight:700 }}>{activos.length} pendientes</span>}
+          {activos.length>0 && (
+            <span style={{ background:C.honey, color:C.white, borderRadius:99, padding:"3px 10px", fontSize:12, fontWeight:700 }}>
+              {activos.length} pendientes
+            </span>
+          )}
         </div>
+
         {activos.length===0 && (
           <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:14, padding:32, textAlign:"center", color:C.gray, fontSize:13 }}>
             No hay envíos activos. Rabbit debe despachar primero.
           </div>
         )}
+
         {activos.map(e=>(
           <div key={e.id} style={{ background:C.white, border:`1px solid ${C.border}`, borderLeft:`4px solid ${ESTADO_COLORS[e.estado]}`, borderRadius:14, padding:16, marginBottom:12 }}>
-            <div style={{ display:"flex", gap:10 }}>
-              <div style={{ fontSize:26 }}>🍯</div>
+
+            {/* ✅ Layout horizontal: emoji al lado de la info */}
+            <div style={{ display:"flex", gap:12, alignItems:"flex-start" }}>
+              <div style={{ fontSize:28, flexShrink:0, marginTop:2 }}>🍯</div>
               <div style={{ flex:1 }}>
                 <div style={{ fontWeight:700, fontSize:14 }}>{e.producto||"Paquete"}</div>
-                <div style={{ fontSize:12, color:C.gray }}>#{e.id} · Para: {e.cliente}</div>
+                <div style={{ fontSize:12, color:C.gray, marginTop:2 }}>#{e.id} · Para: {e.cliente}</div>
                 <div style={{ fontSize:12, color:C.gray }}>📍 {e.destino}</div>
                 {e.telefono && (
                   <a href={`tel:${e.telefono}`} style={{ display:"inline-flex", alignItems:"center", gap:5, marginTop:6, background:C.greenLight, color:C.green, border:`1px solid ${C.green}33`, borderRadius:8, padding:"5px 10px", textDecoration:"none", fontSize:12, fontWeight:600 }}>
@@ -920,17 +1014,27 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
                 )}
               </div>
             </div>
+
+            {/* Botones de acción */}
             <div style={{ display:"flex", gap:8, margin:"12px 0 10px", alignItems:"center", flexWrap:"wrap" }}>
               {e.estado==="EN_ALMACEN" && (
                 <>
-                  <button onClick={()=>avanzar(e.id)} style={btnEnRuta}>🚗 EN RUTA</button>
-                  <button onClick={()=>marcarFallido(e.id)} style={btnFallido}>✕ FALLIDO</button>
+                  <button onClick={()=>avanzar(e.id)} style={btnEnRuta}>
+                    <ArrowIcon/> EN RUTA
+                  </button>
+                  <button onClick={()=>marcarFallido(e.id)} style={btnFallido}>
+                    <XIcon/> FALLIDO
+                  </button>
                 </>
               )}
               {e.estado==="EN_RUTA" && (
                 <>
-                  <button onClick={()=>avanzar(e.id)} style={btnEntregado}>✓ ENTREGADO</button>
-                  <button onClick={()=>marcarFallido(e.id)} style={btnFallido}>✕ FALLIDO</button>
+                  <button onClick={()=>avanzar(e.id)} style={btnEntregado}>
+                    <CheckIcon/> ENTREGADO
+                  </button>
+                  <button onClick={()=>marcarFallido(e.id)} style={btnFallido}>
+                    <XIcon/> FALLIDO
+                  </button>
                   <label style={btnSecondary}>
                     📷 Foto
                     <input type="file" accept="image/*" capture="environment" style={{ display:"none" }}
@@ -942,6 +1046,7 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
                 {mapaAbierto===e.id?"🗺 Ocultar":"🗺 Ver ruta"}
               </button>
             </div>
+
             {mapaAbierto===e.id && (
               <div style={{ marginTop:12, borderRadius:10, overflow:"hidden", border:`1px solid ${C.border}`, height:260 }}>
                 <MapaAB origen={e.origen||"Bodega central"} destino={e.destino}/>
@@ -955,6 +1060,7 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
             )}
           </div>
         ))}
+
         {entregados.length>0 && (
           <>
             <div style={{ fontWeight:600, fontSize:14, color:C.gray, margin:"20px 0 10px" }}>Entregados hoy</div>
