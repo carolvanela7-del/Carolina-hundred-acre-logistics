@@ -101,6 +101,9 @@ const C = {
   sidebarActive:"#633806", sidebarActiveBg:"rgba(196,127,0,0.10)", sidebarBorder:"#F5E6B4",
 };
 
+const STEP_COLORS = {
+  CREADO:"#9CA3AF", EN_ALMACEN:"#F0A500", EN_RUTA:"#2563EB", ENTREGADO:"#16A34A",
+};
 const ESTADO_COLORS = {
   CREADO:"#9CA3AF", EN_ALMACEN:C.honey, EN_RUTA:C.blue, ENTREGADO:C.green, FALLIDO:C.red,
 };
@@ -117,6 +120,14 @@ const ENVIOS_INIT = [
   { id:"HAW003", cliente:"Eeyore",  telefono:"7755-1003", producto:"Globo azul × 1",     origen:"Bodega central", destino:"Sonsonate",    estado:"CREADO",     driver:"",          hora:{ CREADO:"10:00" } },
   { id:"HAW004", cliente:"Kanga",   telefono:"7755-1004", producto:"Miel de trébol × 5", origen:"Bodega central", destino:"La Libertad",  estado:"ENTREGADO",  driver:"Tigger-07", hora:{ CREADO:"07:00", EN_ALMACEN:"07:30", EN_RUTA:"08:00", ENTREGADO:"09:15" } },
 ];
+
+const SESSION_KEY = "haw_session";
+const ENVIOS_KEY  = "haw_envios";
+function saveSession(role, userName) { try { localStorage.setItem(SESSION_KEY, JSON.stringify({ role, userName })); } catch(_) {} }
+function loadSession() { try { const s = localStorage.getItem(SESSION_KEY); return s ? JSON.parse(s) : null; } catch(_) { return null; } }
+function clearSession() { try { localStorage.removeItem(SESSION_KEY); } catch(_) {} }
+function saveEnvios(envios) { try { localStorage.setItem(ENVIOS_KEY, JSON.stringify(envios)); } catch(_) {} }
+function loadEnvios() { try { const s = localStorage.getItem(ENVIOS_KEY); return s ? JSON.parse(s) : null; } catch(_) { return null; } }
 
 function useLeaflet() {
   const [ready, setReady] = useState(!!window.L);
@@ -139,7 +150,6 @@ function MapaSV({ envios }) {
   const mapRef = useRef(null);
   const instanceRef = useRef(null);
   const enRuta = envios.filter(e => e.estado === "EN_RUTA");
-
   useEffect(() => {
     if (!leafletReady || !mapRef.current) return;
     const L = window.L;
@@ -159,7 +169,6 @@ function MapaSV({ envios }) {
     instanceRef.current = map;
     return () => { if (instanceRef.current) { instanceRef.current.remove(); instanceRef.current = null; } };
   }, [leafletReady, JSON.stringify(enRuta.map(e=>e.id))]);
-
   return (
     <div style={{ width:"100%", height:"100%", position:"relative" }}>
       {!leafletReady && <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", background:"#f0f4f8", color:C.gray, fontSize:13 }}>Cargando mapa…</div>}
@@ -175,7 +184,6 @@ function MapaAB({ origen, destino }) {
   const instanceRef = useRef(null);
   const coordA = resolveCoords(origen);
   const coordB = resolveCoords(destino);
-
   useEffect(() => {
     if (!leafletReady || !mapRef.current || !coordA || !coordB) return;
     const L = window.L;
@@ -191,14 +199,12 @@ function MapaAB({ origen, destino }) {
     instanceRef.current = map;
     return () => { if (instanceRef.current) { instanceRef.current.remove(); instanceRef.current = null; } };
   }, [leafletReady, origen, destino]);
-
   if (!coordA || !coordB) return (
     <div style={{ width:"100%", height:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", background:"#FEF2F2", color:C.red, fontSize:13, gap:8, padding:16, textAlign:"center" }}>
       <span style={{fontSize:22}}>⚠️</span>
       <span>No se pudo ubicar: <b>{!coordA ? origen : destino}</b></span>
     </div>
   );
-
   return (
     <div style={{ width:"100%", height:"100%", position:"relative" }}>
       {!leafletReady && <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", background:"#f0f4f8", color:C.gray, fontSize:13, zIndex:1 }}>Cargando mapa…</div>}
@@ -236,17 +242,22 @@ function Stepper({ estado }) {
   return (
     <div style={{ display:"flex", alignItems:"flex-start", margin:"12px 0" }}>
       {steps.map((st, i) => {
-        const done = i<=cur; const isLast = i===steps.length-1;
+        const done   = i <= cur;
+        const isLast = i === steps.length - 1;
+        const col    = STEP_COLORS[st];
+        const leftLineDone  = i > 0 && done;
+        const leftLineColor = i > 0 ? STEP_COLORS[steps[i-1]] : "transparent";
+        const rightLineDone = !isLast && i < cur;
         return (
           <div key={st} style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center" }}>
             <div style={{ display:"flex", alignItems:"center", width:"100%" }}>
-              <div style={{ flex:i===0?"0 0 50%":1, height:3, background:i>0&&done?ESTADO_COLORS[estado]:i>0?"#E5E7EB":"transparent" }}/>
-              <div style={{ width:14, height:14, borderRadius:"50%", background:done?ESTADO_COLORS[estado]:"#E5E7EB", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
-                {done && <svg width="8" height="8" viewBox="0 0 8 8"><path d="M1 4l2 2 4-4" stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round"/></svg>}
+              <div style={{ flex: i === 0 ? "0 0 50%" : 1, height: 3, background: i > 0 && leftLineDone ? leftLineColor : i > 0 ? "#E5E7EB" : "transparent" }}/>
+              <div style={{ width:14, height:14, borderRadius:"50%", background: done ? col : "#E5E7EB", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center", border: done ? `2px solid ${col}` : "2px solid #E5E7EB", boxSizing:"border-box" }}>
+                {done && (<svg width="7" height="7" viewBox="0 0 8 8"><path d="M1 4l2 2 4-4" stroke="white" strokeWidth="1.8" fill="none" strokeLinecap="round"/></svg>)}
               </div>
-              <div style={{ flex:isLast?"0 0 50%":1, height:3, background:!isLast&&i<cur?ESTADO_COLORS[estado]:"#E5E7EB" }}/>
+              <div style={{ flex: isLast ? "0 0 50%" : 1, height: 3, background: !isLast && rightLineDone ? col : !isLast ? "#E5E7EB" : "transparent" }}/>
             </div>
-            <div style={{ fontSize:9, marginTop:4, color:done?ESTADO_COLORS[estado]:"#9CA3AF", fontWeight:600, textAlign:"center" }}>{labels[st]}</div>
+            <div style={{ fontSize:9, marginTop:4, color:done ? col : "#9CA3AF", fontWeight:600, textAlign:"center" }}>{labels[st]}</div>
           </div>
         );
       })}
@@ -297,24 +308,20 @@ function UbicacionSelector({ label, accentColor, value, onChange }) {
   );
 }
 
-// LOGIN
 function LoginView({ onLogin }) {
   const [email, setEmail] = useState("");
   const [pass,  setPass]  = useState("");
   const [err,   setErr]   = useState("");
-
   const USERS = {
     "rabbit@hundredacre.com": { pass:"honey123", role:"admin",  name:"Rabbit jefe de bodega" },
     "tigger@hundredacre.com": { pass:"honey123", role:"driver", name:"Tigger" },
   };
-
   const login = () => {
     const u = USERS[email.toLowerCase().trim()];
     if (!u)            return setErr("Email no encontrado.");
     if (u.pass!==pass) return setErr("Contraseña incorrecta.");
     setErr(""); onLogin(u.role, u.name);
   };
-
   return (
     <div style={{ minHeight:"100vh", background:"#FFF5E6", display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"'Helvetica Neue',Arial,sans-serif", padding:"16px" }}>
       <div style={{ background:"#fff", borderRadius:16, padding:"32px 28px", width:"100%", maxWidth:340, boxShadow:"0 4px 20px rgba(0,0,0,0.10)" }}>
@@ -351,18 +358,15 @@ function LoginView({ onLogin }) {
   );
 }
 
-// PIGLET VIEW
 function PigletView({ envios, onLogout }) {
   const [code,   setCode]   = useState("");
   const [result, setResult] = useState(null);
-
   const buscar = () => {
     const found = envios.find(e => e.id === code.toUpperCase().trim());
     if (!found)                    return setResult("notfound");
     if (found.estado === "CREADO") return setResult("invisible");
     setResult(found);
   };
-
   const HIST_LABELS = {
     CREADO:    { icon:"📦", label:"Paquete creado",   who:()=>"Bodega central" },
     EN_ALMACEN:{ icon:"🏭", label:"En almacén",        who:()=>"Rabbit lo recibió 🐰" },
@@ -371,7 +375,6 @@ function PigletView({ envios, onLogout }) {
   };
   const STEPS  = ["CREADO","EN_ALMACEN","EN_RUTA","ENTREGADO"];
   const curIdx = result && result!=="notfound" && result!=="invisible" ? STEPS.indexOf(result.estado) : -1;
-
   return (
     <div style={{ minHeight:"100vh", background:C.sidebarBg }}>
       <div style={{ background:"#FFF5E6", padding:"20px 24px 18px", position:"relative", borderBottom:`1px solid #F5E6B4` }}>
@@ -432,18 +435,19 @@ function PigletView({ envios, onLogout }) {
               <div style={{ fontWeight:600, fontSize:14, marginBottom:14 }}>Historial del paquete</div>
               {STEPS.map((st, i) => {
                 const done = i<=curIdx; const h = HIST_LABELS[st]; const hora = result.hora?.[st]; const isCur = i===curIdx;
+                const stepCol = STEP_COLORS[st];
                 return (
                   <div key={st} style={{ display:"flex", gap:12, marginBottom:16, opacity:done?1:0.35 }}>
                     <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}>
-                      <div style={{ width:32, height:32, borderRadius:"50%", background:isCur?ESTADO_COLORS[st]:done?C.greenLight:C.grayLight, border:`2px solid ${done?(isCur?ESTADO_COLORS[st]:C.green):C.border}`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, flexShrink:0 }}>
-                        {done ? (isCur ? <span style={{fontSize:15}}>{h.icon}</span> : <span style={{color:C.green,fontSize:14}}>✓</span>) : <span style={{color:"#D1D5DB",fontSize:12}}>○</span>}
+                      <div style={{ width:32, height:32, borderRadius:"50%", background:done?stepCol+"22":C.grayLight, border:`2px solid ${done?stepCol:C.border}`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, flexShrink:0 }}>
+                        {done ? (isCur ? <span style={{fontSize:15}}>{h.icon}</span> : <span style={{color:stepCol,fontSize:14}}>✓</span>) : <span style={{color:"#D1D5DB",fontSize:12}}>○</span>}
                       </div>
                       {i < STEPS.length-1 && <div style={{ width:2, flex:1, minHeight:14, background:done&&i<curIdx?C.green:C.border, marginTop:2 }}/>}
                     </div>
                     <div style={{ paddingBottom:8 }}>
-                      <div style={{ fontWeight:600, fontSize:13, color:isCur?ESTADO_COLORS[st]:C.text }}>{h.label}</div>
+                      <div style={{ fontWeight:600, fontSize:13, color:isCur?stepCol:C.text }}>{h.label}</div>
                       {hora && <div style={{ fontSize:12, color:C.gray, marginTop:2 }}>Hoy {hora} · {h.who(result).split("\n")[0]}</div>}
-                      {isCur && h.who(result).split("\n")[1] && <div style={{ fontSize:12, color:ESTADO_COLORS[st], marginTop:1 }}>{h.who(result).split("\n")[1]}</div>}
+                      {isCur && h.who(result).split("\n")[1] && <div style={{ fontSize:12, color:stepCol, marginTop:1 }}>{h.who(result).split("\n")[1]}</div>}
                       {!hora && !done && <div style={{ fontSize:12, color:"#9CA3AF" }}>Pendiente…</div>}
                     </div>
                   </div>
@@ -458,7 +462,6 @@ function PigletView({ envios, onLogout }) {
   );
 }
 
-// ADMIN VIEW — FULL RESPONSIVE con menú hamburguesa
 function AdminView({ envios, setEnvios, userName, onLogout }) {
   const [section,     setSection]     = useState("paquetes");
   const [driverSel,   setDriverSel]   = useState({});
@@ -565,14 +568,11 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
 
   return (
     <div style={{ display:"flex", minHeight:"100vh", background:C.grayLight, fontFamily:"'Segoe UI',system-ui,sans-serif" }}>
-      {/* Sidebar desktop */}
       {!isMobile && (
         <aside style={{ width:220, background:C.sidebarBg, borderRight:`1px solid ${C.sidebarBorder}`, display:"flex", flexDirection:"column", flexShrink:0 }}>
           <SidebarContent/>
         </aside>
       )}
-
-      {/* Overlay mobile */}
       {isMobile && sidebarOpen && (
         <div style={{ position:"fixed", inset:0, zIndex:100, display:"flex" }}>
           <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.4)" }} onClick={()=>setSidebarOpen(false)}/>
@@ -582,16 +582,11 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
           </aside>
         </div>
       )}
-
       <div style={{ flex:1, display:"flex", flexDirection:"column", overflow:"hidden", minWidth:0 }}>
-        {/* Header */}
         <div style={{ background:C.white, borderBottom:`1px solid ${C.border}`, padding:"0 16px", height:52, display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0, gap:8 }}>
           <div style={{ display:"flex", alignItems:"center", gap:10 }}>
             {isMobile && (
-              <button onClick={()=>setSidebarOpen(true)}
-                style={{ background:"none", border:`1px solid ${C.border}`, borderRadius:8, padding:"6px 10px", fontSize:18, cursor:"pointer", lineHeight:1 }}>
-                ☰
-              </button>
+              <button onClick={()=>setSidebarOpen(true)} style={{ background:"none", border:`1px solid ${C.border}`, borderRadius:8, padding:"6px 10px", fontSize:18, cursor:"pointer", lineHeight:1 }}>☰</button>
             )}
             <span style={{ fontSize:13, color:C.gray, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>
               {isMobile ? MENU.find(m=>m.id===section)?.label : "Panel de despacho — Owl Admin"}
@@ -604,14 +599,9 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
             </button>
           </div>
         </div>
-
-        {/* Content */}
         <div style={{ flex:1, overflow:"auto", padding:isMobile?"12px":"20px 24px" }}>
-
-          {/* PAQUETES */}
           {section==="paquetes" && (
             <>
-              {/* Stats grid: 2 cols en mobile, 4 en desktop */}
               <div style={{ display:"grid", gridTemplateColumns:isMobile?"1fr 1fr":"repeat(4,1fr)", gap:10, marginBottom:12 }}>
                 {stats.map(st=>(
                   <div key={st.label} style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:"12px 14px" }}>
@@ -621,8 +611,6 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                   </div>
                 ))}
               </div>
-
-              {/* Estado stats: 2 cols en mobile, 4 en desktop */}
               <div style={{ display:"grid", gridTemplateColumns:isMobile?"1fr 1fr":"repeat(4,1fr)", gap:8, marginBottom:16 }}>
                 {estadoStats.map(st=>(
                   <div key={st.label} style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:10, padding:"10px 12px", display:"flex", alignItems:"center", gap:8 }}>
@@ -634,18 +622,14 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                   </div>
                 ))}
               </div>
-
-              {/* Layout: columna en mobile, grid en desktop */}
               <div style={{ display:"grid", gridTemplateColumns:isMobile?"1fr":"1fr 360px", gap:16 }}>
                 <div>
                   <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10, gap:8 }}>
                     <div style={{ fontWeight:600, fontSize:15 }}>Paquetes activos</div>
-                    <button onClick={()=>setMostrarForm(v=>!v)}
-                      style={{ background:"transparent", color:C.honeyDark, border:`1.5px solid ${C.honeyDark}`, borderRadius:8, padding:"7px 12px", fontWeight:600, fontSize:12, cursor:"pointer", whiteSpace:"nowrap" }}>
+                    <button onClick={()=>setMostrarForm(v=>!v)} style={{ background:"transparent", color:C.honeyDark, border:`1.5px solid ${C.honeyDark}`, borderRadius:8, padding:"7px 12px", fontWeight:600, fontSize:12, cursor:"pointer", whiteSpace:"nowrap" }}>
                       {mostrarForm?"✕ Cancelar":"＋ Nuevo envío"}
                     </button>
                   </div>
-
                   {mostrarForm && (
                     <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:14, marginBottom:14, borderLeft:`4px solid ${C.honey}` }}>
                       <div style={{ fontWeight:600, fontSize:14, marginBottom:12 }}>📦 Registrar nuevo paquete</div>
@@ -666,17 +650,14 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                         <UbicacionSelector label="Destino" accentColor={C.blue} value={destinoLoc} onChange={setDestinoLoc}/>
                       </div>
                       {formErr && <div style={{ background:C.redLight, color:C.red, borderRadius:6, padding:"6px 10px", fontSize:12, marginBottom:8 }}>{formErr}</div>}
-                      <button onClick={crearPaquete}
-                        style={{ background:C.honey, color:C.white, border:"none", borderRadius:8, padding:"8px 18px", fontWeight:600, fontSize:13, cursor:"pointer" }}>
+                      <button onClick={crearPaquete} style={{ background:C.honey, color:C.white, border:"none", borderRadius:8, padding:"8px 18px", fontWeight:600, fontSize:13, cursor:"pointer" }}>
                         ✓ Crear paquete
                       </button>
                     </div>
                   )}
-
                   {activeEnvios.length===0 ? (
                     <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:32, textAlign:"center", color:C.gray, fontSize:13 }}>No hay paquetes activos.</div>
                   ) : isMobile ? (
-                    // MOBILE: tarjetas en vez de tabla
                     <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
                       {activeEnvios.map(e=>(
                         <div key={e.id} style={{ background:C.white, border:`1px solid ${C.border}`, borderLeft:`4px solid ${ESTADO_COLORS[e.estado]}`, borderRadius:12, padding:14 }}>
@@ -711,7 +692,6 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                       ))}
                     </div>
                   ) : (
-                    // DESKTOP: tabla
                     <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, overflow:"hidden" }}>
                       <div style={{ overflowX:"auto" }}>
                         <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
@@ -756,8 +736,6 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
                     </div>
                   )}
                 </div>
-
-                {/* Mapa — solo en desktop dentro del grid, en mobile debajo */}
                 <div>
                   <div style={{ fontWeight:600, fontSize:15, marginBottom:6 }}>Mapa del bosque 🇸🇻</div>
                   {enRutaCount>0 && (
@@ -778,8 +756,6 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
               </div>
             </>
           )}
-
-          {/* CONDUCTORES */}
           {section==="conductores" && (
             <div>
               <div style={{ fontWeight:600, fontSize:18, marginBottom:16 }}>🐯 Conductores</div>
@@ -798,8 +774,6 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
               </div>
             </div>
           )}
-
-          {/* HISTORIAL */}
           {section==="historial" && (
             <div>
               <div style={{ fontWeight:600, fontSize:18, marginBottom:16 }}>📋 Historial completo</div>
@@ -849,20 +823,24 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
               )}
             </div>
           )}
-
-          {/* CONFIG */}
           {section==="config" && (
             <div style={{ maxWidth:400 }}>
               <div style={{ fontWeight:600, fontSize:18, marginBottom:16 }}>⚙️ Configuración</div>
               <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:12, padding:20 }}>
                 <div style={{ fontWeight:600, marginBottom:4 }}>Sistema</div>
-                <div style={{ fontSize:13, color:C.gray }}>Hundred Acre Wood Logistics v3.0</div>
+                <div style={{ fontSize:13, color:C.gray }}>Hundred Acre Wood Logistics v3.1</div>
                 <div style={{ fontSize:13, color:C.gray, marginTop:2 }}>Mapa real Leaflet + OpenStreetMap</div>
                 <hr style={{ border:"none", borderTop:`1px solid ${C.border}`, margin:"14px 0" }}/>
                 <div style={{ fontSize:12, color:C.gray, fontWeight:600, marginBottom:6 }}>Mapa</div>
                 <div style={{ fontSize:11, color:C.gray, lineHeight:1.8 }}>
                   Usando OpenStreetMap vía Leaflet 1.9.4.<br/>
                   14 departamentos · municipios y colonias de El Salvador precargados.
+                </div>
+                <hr style={{ border:"none", borderTop:`1px solid ${C.border}`, margin:"14px 0" }}/>
+                <div style={{ fontSize:12, color:C.gray, fontWeight:600, marginBottom:6 }}>Sesión</div>
+                <div style={{ fontSize:11, color:C.gray, lineHeight:1.8 }}>
+                  La sesión y los envíos se guardan en localStorage.<br/>
+                  Al refrescar la página se mantiene el login activo.
                 </div>
               </div>
             </div>
@@ -873,7 +851,6 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
   );
 }
 
-// DRIVER VIEW
 function DriverView({ envios, setEnvios, userName, onLogout }) {
   const miNombre = userName || "";
   const activos  = envios.filter(e =>
@@ -883,7 +860,6 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
   const entregados = envios.filter(e =>
     e.estado==="ENTREGADO" && (e.driver===miNombre || !miNombre.startsWith("Tigger-"))
   );
-
   const [mapaAbierto, setMapaAbierto] = useState(null);
   const [fotos,       setFotos]       = useState({});
 
@@ -892,12 +868,16 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
       ? {...e,estado:ESTADO_NEXT[e.estado],hora:{...e.hora,[ESTADO_NEXT[e.estado]]:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
       : e
   ));
-
   const marcarFallido = id => setEnvios(p=>p.map(e=>
     e.id===id&&(e.estado==="EN_RUTA"||e.estado==="EN_ALMACEN")
       ? {...e,estado:"FALLIDO",hora:{...e.hora,FALLIDO:new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}}
       : e
   ));
+
+  const btnEntregado = { background:"#1B6B3A", color:"#fff", border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:6 };
+  const btnFallido   = { background:"#B91C1C", color:"#fff", border:"none", borderRadius:10, padding:"10px 14px", fontWeight:700, fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:6 };
+  const btnEnRuta    = { background:"#1D4ED8", color:"#fff", border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:6 };
+  const btnSecondary = { background:C.grayLight, color:C.gray, border:`1px solid ${C.border}`, borderRadius:10, padding:"10px 12px", fontSize:13, cursor:"pointer", fontWeight:600, display:"inline-flex", alignItems:"center", gap:4 };
 
   return (
     <div style={{ minHeight:"100vh", background:C.grayLight, fontFamily:"'Segoe UI',system-ui,sans-serif" }}>
@@ -910,19 +890,16 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
           <button onClick={onLogout} style={{ background:"rgba(196,127,0,0.12)", color:"#633806", border:"1px solid rgba(196,127,0,0.35)", borderRadius:8, padding:"7px 14px", fontSize:12, cursor:"pointer", fontWeight:600 }}>Salir</button>
         </div>
       </div>
-
       <div style={{ maxWidth:640, margin:"0 auto", padding:"20px 16px" }}>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:14 }}>
           <div style={{ fontWeight:600, fontSize:15 }}>Mis entregas de hoy</div>
           {activos.length>0 && <span style={{ background:C.honey, color:C.white, borderRadius:99, padding:"3px 10px", fontSize:12, fontWeight:700 }}>{activos.length} pendientes</span>}
         </div>
-
         {activos.length===0 && (
           <div style={{ background:C.white, border:`1px solid ${C.border}`, borderRadius:14, padding:32, textAlign:"center", color:C.gray, fontSize:13 }}>
             No hay envíos activos. Rabbit debe despachar primero.
           </div>
         )}
-
         {activos.map(e=>(
           <div key={e.id} style={{ background:C.white, border:`1px solid ${C.border}`, borderLeft:`4px solid ${ESTADO_COLORS[e.estado]}`, borderRadius:14, padding:16, marginBottom:12 }}>
             <div style={{ display:"flex", gap:10 }}>
@@ -941,23 +918,22 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
             <div style={{ display:"flex", gap:8, margin:"12px 0 10px", alignItems:"center", flexWrap:"wrap" }}>
               {e.estado==="EN_ALMACEN" && (
                 <>
-                  <button onClick={()=>avanzar(e.id)} style={{ background:`linear-gradient(135deg,${C.blue},${C.blueDark})`, color:C.white, border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer" }}>🚗 En RUTA</button>
-                  <button onClick={()=>marcarFallido(e.id)} style={{ background:`linear-gradient(135deg,${C.red},#B91C1C)`, color:C.white, border:"none", borderRadius:10, padding:"10px 12px", fontWeight:700, fontSize:13, cursor:"pointer" }}>❌ Fallido</button>
+                  <button onClick={()=>avanzar(e.id)} style={btnEnRuta}>🚗 En RUTA</button>
+                  <button onClick={()=>marcarFallido(e.id)} style={btnFallido}>✕ Fallido</button>
                 </>
               )}
               {e.estado==="EN_RUTA" && (
                 <>
-                  <button onClick={()=>avanzar(e.id)} style={{ background:`linear-gradient(135deg,${C.green},#15803D)`, color:C.white, border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer" }}>✅ Entregado</button>
-                  <button onClick={()=>marcarFallido(e.id)} style={{ background:`linear-gradient(135deg,${C.red},#B91C1C)`, color:C.white, border:"none", borderRadius:10, padding:"10px 12px", fontWeight:700, fontSize:13, cursor:"pointer" }}>❌ Fallido</button>
-                  <label style={{ background:C.grayLight, color:C.gray, border:`1px solid ${C.border}`, borderRadius:10, padding:"10px 12px", fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:4 }}>
+                  <button onClick={()=>avanzar(e.id)} style={btnEntregado}>✓ Entregado</button>
+                  <button onClick={()=>marcarFallido(e.id)} style={btnFallido}>✕ Fallido</button>
+                  <label style={btnSecondary}>
                     📷 Foto
                     <input type="file" accept="image/*" capture="environment" style={{ display:"none" }}
                       onChange={ev=>{ const file=ev.target.files?.[0]; if(!file)return; const url=URL.createObjectURL(file); setFotos(p=>({...p,[e.id]:url})); ev.target.value=""; }}/>
                   </label>
                 </>
               )}
-              <button onClick={()=>setMapaAbierto(mapaAbierto===e.id?null:e.id)}
-                style={{ background:C.blueLight, color:C.blue, border:`1px solid ${C.blue}33`, borderRadius:10, padding:"10px 12px", fontSize:13, cursor:"pointer", fontWeight:600 }}>
+              <button onClick={()=>setMapaAbierto(mapaAbierto===e.id?null:e.id)} style={btnSecondary}>
                 {mapaAbierto===e.id?"🗺 Ocultar":"🗺 Ver ruta"}
               </button>
             </div>
@@ -974,7 +950,6 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
             )}
           </div>
         ))}
-
         {entregados.length>0 && (
           <>
             <div style={{ fontWeight:600, fontSize:14, color:C.gray, margin:"20px 0 10px" }}>Entregados hoy</div>
@@ -995,13 +970,14 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
 }
 
 export default function App() {
-  const [role,     setRole]   = useState(null);
-  const [userName, setUser]   = useState("");
-  const [envios,   setEnvios] = useState(ENVIOS_INIT);
-
-  const handleLogin  = (r, name) => { setRole(r); setUser(name); };
-  const handleLogout = ()        => { setRole(null); setUser(""); };
-
+  const savedSession = loadSession();
+  const savedEnvios  = loadEnvios();
+  const [role,     setRole]   = useState(savedSession?.role     || null);
+  const [userName, setUser]   = useState(savedSession?.userName || "");
+  const [envios,   setEnvios] = useState(savedEnvios || ENVIOS_INIT);
+  useEffect(() => { saveEnvios(envios); }, [envios]);
+  const handleLogin  = (r, name) => { setRole(r); setUser(name); saveSession(r, name); };
+  const handleLogout = () => { setRole(null); setUser(""); clearSession(); };
   if (!role)           return <LoginView onLogin={handleLogin}/>;
   if (role==="piglet") return <PigletView  envios={envios} onLogout={handleLogout}/>;
   if (role==="admin")  return <AdminView   envios={envios} setEnvios={setEnvios} userName={userName} onLogout={handleLogout}/>;
