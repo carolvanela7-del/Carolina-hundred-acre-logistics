@@ -123,11 +123,15 @@ const ENVIOS_INIT = [
 
 const SESSION_KEY = "haw_session";
 const ENVIOS_KEY  = "haw_envios";
+const SECTION_KEY = "haw_section";
+
 function saveSession(role, userName) { try { localStorage.setItem(SESSION_KEY, JSON.stringify({ role, userName })); } catch(_) {} }
 function loadSession() { try { const s = localStorage.getItem(SESSION_KEY); return s ? JSON.parse(s) : null; } catch(_) { return null; } }
 function clearSession() { try { localStorage.removeItem(SESSION_KEY); } catch(_) {} }
 function saveEnvios(envios) { try { localStorage.setItem(ENVIOS_KEY, JSON.stringify(envios)); } catch(_) {} }
 function loadEnvios() { try { const s = localStorage.getItem(ENVIOS_KEY); return s ? JSON.parse(s) : null; } catch(_) { return null; } }
+function saveSection(s) { try { localStorage.setItem(SECTION_KEY, s); } catch(_) {} }
+function loadSection() { try { return localStorage.getItem(SECTION_KEY) || "paquetes"; } catch(_) { return "paquetes"; } }
 
 function useLeaflet() {
   const [ready, setReady] = useState(!!window.L);
@@ -463,7 +467,7 @@ function PigletView({ envios, onLogout }) {
 }
 
 function AdminView({ envios, setEnvios, userName, onLogout }) {
-  const [section,     setSection]     = useState("paquetes");
+  const [section,     setSection]     = useState(loadSection);
   const [driverSel,   setDriverSel]   = useState({});
   const [mostrarForm, setMostrarForm] = useState(false);
   const [form,        setForm]        = useState({ cliente:"", telefono:"", producto:"" });
@@ -538,7 +542,7 @@ function AdminView({ envios, setEnvios, userName, onLogout }) {
   const tiggersActivos = DRIVERS.filter(d=>envios.some(e=>e.driver===d&&e.estado==="EN_RUTA")).length;
   const enRutaCount    = envios.filter(e=>e.estado==="EN_RUTA").length;
 
-  const navTo = (id) => { setSection(id); setSidebarOpen(false); };
+  const navTo = (id) => { setSection(id); saveSection(id); setSidebarOpen(false); };
 
   const SidebarContent = () => (
     <>
@@ -874,8 +878,9 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
       : e
   ));
 
-  const btnEntregado = { background:"#1B6B3A", color:"#fff", border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:6 };
-  const btnFallido   = { background:"#B91C1C", color:"#fff", border:"none", borderRadius:10, padding:"10px 14px", fontWeight:700, fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:6 };
+  // ── Colores corregidos según imagen de referencia ──
+  const btnEntregado = { background:"#667351", color:"#fff", border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:6 };
+  const btnFallido   = { background:"#7A4040", color:"#fff", border:"none", borderRadius:10, padding:"10px 14px", fontWeight:700, fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:6 };
   const btnEnRuta    = { background:"#1D4ED8", color:"#fff", border:"none", borderRadius:10, padding:"10px 16px", fontWeight:700, fontSize:13, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:6 };
   const btnSecondary = { background:C.grayLight, color:C.gray, border:`1px solid ${C.border}`, borderRadius:10, padding:"10px 12px", fontSize:13, cursor:"pointer", fontWeight:600, display:"inline-flex", alignItems:"center", gap:4 };
 
@@ -918,14 +923,14 @@ function DriverView({ envios, setEnvios, userName, onLogout }) {
             <div style={{ display:"flex", gap:8, margin:"12px 0 10px", alignItems:"center", flexWrap:"wrap" }}>
               {e.estado==="EN_ALMACEN" && (
                 <>
-                  <button onClick={()=>avanzar(e.id)} style={btnEnRuta}>🚗 En RUTA</button>
-                  <button onClick={()=>marcarFallido(e.id)} style={btnFallido}>✕ Fallido</button>
+                  <button onClick={()=>avanzar(e.id)} style={btnEnRuta}>🚗 EN RUTA</button>
+                  <button onClick={()=>marcarFallido(e.id)} style={btnFallido}>✕ FALLIDO</button>
                 </>
               )}
               {e.estado==="EN_RUTA" && (
                 <>
-                  <button onClick={()=>avanzar(e.id)} style={btnEntregado}>✓ Entregado</button>
-                  <button onClick={()=>marcarFallido(e.id)} style={btnFallido}>✕ Fallido</button>
+                  <button onClick={()=>avanzar(e.id)} style={btnEntregado}>✓ ENTREGADO</button>
+                  <button onClick={()=>marcarFallido(e.id)} style={btnFallido}>✕ FALLIDO</button>
                   <label style={btnSecondary}>
                     📷 Foto
                     <input type="file" accept="image/*" capture="environment" style={{ display:"none" }}
